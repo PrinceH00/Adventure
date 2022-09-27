@@ -12,16 +12,19 @@ public class UserInterface {
         scanner = new Scanner(System.in).useLocale(Locale.US);
     }
 
+    // TODO: 27/09/2022 lav eventuelt en print intro og en hjælpe menu i tilfælde af man vil have fat i "hjælp" 
     public void startAdventure() {
         System.out.println("\nWelcome to the Escape Room KIDS!! " + "\nYou are in " + adventure.getPlayer().getCurrentRoom());
         adventure.createMap();
         usercomand();
     }
     public void usercomand(){
+        // TODO: 27/09/2022 find en måde udenom while "true" 
         while (true) {
             String input = scanner.nextLine();
             input.toLowerCase();
             String[] commands = input.split(" ");
+            
             switch (commands[0]) {
                 case "go" -> {
                     if (commands.length > 1) {

@@ -11,6 +11,7 @@ public class Adventure {
 
     //Metode som opretter og håndtere kortet(Spillebrædtet)
     public void createMap(){
+        // TODO: 27/09/2022 Ret følgende rum
         //Optetter objekter af klassen Room og tildeler parametrerne for kontroktøreren
         Room emptyRoom = new Room("The Empty room", "The room is dark with no lights in sight, but u are not alone.\nTry looking around");
         Room redForest = new Room("Red Forest", "Vegitations that should green, and a bad smell of iron.");
