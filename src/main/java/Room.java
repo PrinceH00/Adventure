@@ -1,64 +1,50 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Room {
-    private ArrayList<Item> itemsInRoom = new ArrayList<>();
-    private String roomName;
-    private String description;
+    //Private objekter
+    private ArrayList<Item> itemsInRoom;
     private Room north;
     private Room east;
     private Room south;
     private Room west;
 
-    public Room(){}
+    //Private atributter.
+    private String roomName;
+    private String description;
 
-    public Room(String roomName,String description) {
+    //Konstroktør uden paraperte
+    public Room() {
+        itemsInRoom = new ArrayList<>();
+    }
+
+    //Kontroktør med 2 Parametrere.
+    public Room(String roomName, String description) {
         this.roomName = roomName;
         this.description = description;
     }
 
-    public Room getNorth() {
-        return north;
-    }
+    //Get metoder
+    public Room getNorth() { return north; }
+    public Room getEast() { return east; }
+    public Room getSouth() { return south; }
+    public Room getWest() { return west; }
 
-    public void setNorth(Room northRoom){
-        north = northRoom;
-    }
+    public String getDescription() { return description; }
+    public String getRoomName() { return roomName; }
 
-    public Room getEast() {
-        return east;
-    }
+    //Set metoder
+    public void setNorth(Room northRoom) { north = northRoom; }
+    public void setEast(Room eastRoom) { east = eastRoom; }
+    public void setSouth(Room southRoom) { south = southRoom; }
+    public void setWest(Room westRoom) { west = westRoom; }
 
-    public void setEast(Room eastRoom){
-        east = eastRoom;
-    }
+    // Tosting til print layoutet
+    public String toString() { return String.format("%s: %s", roomName, description); }
 
-    public Room getSouth() {
-        return south;
-    }
-
-    public void setSouth(Room southRoom){
-        south = southRoom;
-    }
-
-    public Room getWest() {
-        return west;
-    }
-
-    public void setWest(Room westRoom){
-        west = westRoom;
-    }
-
-    public String getDescription(){
-        return description;
-    }
-    public String getRoomName() {
-        return roomName;
-    }
-
+    /*
     public String getItemsInRoom() {
         String items = "";
-        for (Item item: itemsInRoom) {
+        for (Item item : itemsInRoom) {
             items += item.getName();
         }
         return items;
@@ -67,8 +53,5 @@ public class Room {
     public void addItemsInRoom(Item item) {
         itemsInRoom.add(item);
     }
-
-    public String toString() {
-        return String.format("%s: %s", roomName,description);
-    }
+     */
 }

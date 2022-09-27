@@ -29,7 +29,6 @@ public class UserInterface {
                                 } else {
                                     System.out.println("There is no exit in this room to the north.");
                                 }
-                                break;
                             }
                             case "east", "e" -> {
                                 if (adventure.getPlayer().moveEast()) {
@@ -38,7 +37,6 @@ public class UserInterface {
                                 } else {
                                     System.out.println("There is no exit in this room to the east.");
                                 }
-                                break;
                             }
                             case "south", "s" -> {
                                 if (adventure.getPlayer().moveSouth()) {
@@ -47,7 +45,6 @@ public class UserInterface {
                                 } else {
                                     System.out.println("There is no exit in this room to the south.");
                                 }
-                                break;
                             }
                             case "west", "w" -> {
                                 if (adventure.getPlayer().moveWest()) {
@@ -56,11 +53,9 @@ public class UserInterface {
                                 } else {
                                     System.out.println("There is no exit in this room to the west.");
                                 }
-                                break;
                             }
                             default -> {
                                 System.out.println("There is no way such as: " + commands[1]);
-                                break;
                             }
                         }
                     } else {
@@ -69,14 +64,12 @@ public class UserInterface {
                 }
                 case "pickup" -> {
                     System.out.println("This has not yet been implemented.");
-                    break;
                 }
                 case "look" -> {
                     System.out.println(adventure.getPlayer().getCurrentRoom().getDescription());
                     if (adventure.getPlayer().getCurrentRoom().getRoomName().equals("The Empty room")) {
-                        System.out.println("you see two paths where lights enter the room: south and east");
+                        System.out.println("you see two paths where lights enter the room: d");
                     }
-                    break;
                 }
                 case "help" -> {
                     System.out.print("""
