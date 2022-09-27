@@ -12,8 +12,12 @@ public class UserInterface {
         scanner = new Scanner(System.in).useLocale(Locale.US);
     }
 
-    public void runAdventure() {
+    public void startAdventure() {
         System.out.println("\nWelcome to the Escape Room KIDS!! " + "\nYou are in " + adventure.getPlayer().getCurrentRoom());
+        adventure.createMap();
+        usercomand();
+    }
+    public void usercomand(){
         while (true) {
             String input = scanner.nextLine();
             input.toLowerCase();
