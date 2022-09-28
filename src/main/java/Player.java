@@ -2,7 +2,9 @@ public class Player {
     private int health;
     private Room currentRoom;
 
-    //Kontroktør som tager liv som parametre.
+    public Player(){}
+
+    //Constructor with lives as parameters.
     public Player(int health) {
         this.health = health;
     }
@@ -45,4 +47,21 @@ public class Player {
             return false;
     }
 
+    //Giving a description of the room, depending on what the player "knows"
+    public String look(){
+        if (currentRoom != null) {
+            if (!currentRoom.getDark()) {
+                if (currentRoom.getVisited()) {
+                    return currentRoom.getDescription();
+                } else {
+                    return String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription());
+                }
+            } else {
+                return "the room is pitch black you see nothing but the entrance you came in from. ";
+            }
+        } else {
+            System.exit(0);
+            return "";
+        }
+    }
 }

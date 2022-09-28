@@ -12,14 +12,13 @@ public class UserInterface {
         scanner = new Scanner(System.in).useLocale(Locale.US);
     }
 
-    // TODO: 27/09/2022 lav eventuelt en print intro og en hjælpe menu i tilfælde af man vil have fat i "hjælp" 
     public void startAdventure() {
-        System.out.println("\nWelcome to the Escape Room KIDS!! " + "\nYou are in " + adventure.getPlayer().getCurrentRoom());
         adventure.createMap();
+        printIntro();
         usercomand();
     }
     public void usercomand(){
-        // TODO: 27/09/2022 find en måde udenom while "true" 
+        // TODO: 27/09/2022 find en måde udenom while "true" Optinal
         while (true) {
             String input = scanner.nextLine();
             input.toLowerCase();
@@ -73,10 +72,7 @@ public class UserInterface {
                     System.out.println("This has not yet been implemented.");
                 }
                 case "look" -> {
-                    System.out.println(adventure.getPlayer().getCurrentRoom().getDescription());
-                    if (adventure.getPlayer().getCurrentRoom().getRoomName().equals("The Empty room")) {
-                        System.out.println("you see two paths where lights enter the room: d");
-                    }
+                    System.out.println(adventure.getPlayer().look());
                 }
                 case "help" -> {
                     System.out.print("""
@@ -86,15 +82,35 @@ public class UserInterface {
                             exit: exits the labyrinth. LIKE A COWARD!!! \n
                             """);
                 }
-                case "exit" -> {
+                case "exit", "quit" -> {
                     System.out.println("You have given up!");
                     System.exit(0);
-                    break;
                 }
                 default -> {
                     System.out.println("This was not a valid command, enter a new one.");
                 }
             }
         }
+    }
+    public void printIntro(){
+        System.out.println("\nWelcome to the Escape Room KIDS!! "
+                + "\nYou are in " + adventure.getPlayer().getCurrentRoom());
+        System.out.println();
+        System.out.println("""
+                Find your way out before... its..t o tt tooo lateeeeeeeeeeeee.
+                You are lucky enough to be assistet by typing "Help"
+                Good luck u may indeed need it. 
+                """);
+    }
+
+
+
+    public String help(){
+        return ("""
+                    Type "go" + the cardinal direction: attempts to go in the designated direction. \n
+                    Look: Gets the description on the room u are in. \n
+                    pickup + item name: attempts to pick up the designated item. \n
+                    exit: exits the labyrinth. LIKE A COWARD!!! \n
+                    """);
     }
 }

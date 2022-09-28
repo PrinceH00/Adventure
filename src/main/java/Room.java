@@ -11,6 +11,9 @@ public class Room {
     //Private atributter.
     private String roomName;
     private String description;
+    private boolean visited;
+    private boolean canBeDark;
+    private boolean dark;
 
     //Konstroktør uden paraperte
     public Room() {
@@ -28,7 +31,6 @@ public class Room {
     public Room getEast() { return east; }
     public Room getSouth() { return south; }
     public Room getWest() { return west; }
-
     public String getDescription() { return description; }
     public String getRoomName() { return roomName; }
 

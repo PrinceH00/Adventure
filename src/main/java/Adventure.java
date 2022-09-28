@@ -3,7 +3,7 @@ public class Adventure {
     private Player player;
     private Item item;
 
-    //konstroktør uden parapenrete
+    //Constructor without parameters
     public Adventure() {
         player = new Player(10);
         item = new Item();
@@ -11,28 +11,27 @@ public class Adventure {
 
     //Metode som opretter og håndtere kortet(Spillebrædtet)
     public void createMap(){
-        // TODO: 27/09/2022 Ret følgende rum
-        //Optetter objekter af klassen Room og tildeler parametrerne for kontroktøreren
-        Room emptyRoom = new Room("The Empty room", "The room is dark with no lights in sight, but u are not alone.\nTry looking around");
-        Room redForest = new Room("Red Forest", "Vegitations that should green, and a bad smell of iron.");
-        Room room3 = new Room("rum 3", "rummet er rum 3");
-        Room room4 = new Room("rum 4", "rummet er rum 4");
-        Room room5 = new Room("rum 5", "rummet er rum 5");
-        Room room6 = new Room("rum 6", "rummet er rum 6");
-        Room room7 = new Room("rum 7", "rummet er rum 7");
-        Room room8 = new Room("rum 8", "rummet er rum 8");
-        Room room9 = new Room("rum 9", "rummet er rum 9");
+        //Creating objects of the Class Room with parameters.
+        Room emptyRoom = new Room("The Empty room", "The room is dark with no lights in sight, but u are not alone.", true);
+        Room redForest = new Room("Red Forest", "vegetation that should green, and a bad smell of iron.", false);
+        Room lab = new Room("Lab", "Blood? and is that parts of a ...., guess someone is experimenting here", false);
+        Room kitchen = new Room("kitchen", "seems normal enough, except its not food that is being prepared here <3 ", true);
+        Room bedroom = new Room("Bedroom", "comfy room i may even take a nap", false);
+        Room cry = new Room("Cry", "There is a Baby crying blood and staring at you when u walk around", false);
+        Room happyHand = new Room("Happy hand", "Relieving hand sticking out of the wall for all your business", false);
+        Room secretPassage = new Room("Secret passage", "What a strange passage. Where does it lead?", false);
+        Room teleporter = new Room("Hidden teleporter", "What is this wired code, and is that a Red Button!!!", false);
 
-        //Tilføjer udgange til de forskællige rum.
-        setExit(emptyRoom, null, redForest, room4, null);
-        setExit(redForest, null, room3, null, emptyRoom);
-        setExit(room3, null, null, room6, redForest);
-        setExit(room4, emptyRoom, null, room7, null);
-        setExit(room5, null, null, room8, null);
-        setExit(room6, room3, null, room9, null);
-        setExit(room7, room4, room8, null, null);
-        setExit(room8, room5, room9, null, room7);
-        setExit(room9, room6, null, null, room8);
+        //Adding exits to the Rooms.
+        createRoomLink(emptyRoom, redForest, "east");
+        createRoomLink(emptyRoom, kitchen, "south");
+        createRoomLink(redForest, lab, "east");
+        createRoomLink(lab, cry, "south");
+        createRoomLink(kitchen, happyHand, "south");
+        createRoomLink(bedroom, secretPassage, "south");
+        createRoomLink(cry, teleporter, "south");
+        createRoomLink(happyHand, secretPassage, "east");
+        createRoomLink(secretPassage, teleporter, "east");
 
         //Sætter spillerens start rum til EmptyRoom
         player.setCurrentRoom(emptyRoom);
@@ -49,5 +48,15 @@ public class Adventure {
     //Get metode.
     public Player getPlayer() {
         return player;
+    }
+
+    //Connecting two Rooms to each other with connecting exits.
+    public void createRoomLink(Room firstRoom, Room secondRoom, String cardinalDirection) {
+        switch (cardinalDirection.toLowerCase()) {
+            case "north": firstRoom.setNorth(secondRoom);
+            case "east": firstRoom.setEast(secondRoom);
+            case "south": firstRoom.setSouth(secondRoom);
+            case "west": firstRoom.setWest(secondRoom);
+        }
     }
 }

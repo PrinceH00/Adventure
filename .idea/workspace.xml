@@ -4,14 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="UI: Små rettelser &#10;Room: Kommenteret kode og opdeling i læsbart layout.">
+    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
     </list>
-    <list id="bf8473e6-455c-48bb-9082-a52d1a782c5c" name="Changes by jeper" comment="Changes by jeper" />
+    <list id="bf8473e6-455c-48bb-9082-a52d1a782c5c" name="Changes by jeper" comment="Changes by jeper">
+      <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,6 +31,66 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/Adventure.java">
+      <ranges>
+        <range start1="1" end1="2" start2="1" end2="2" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="5" end1="6" start2="5" end2="6" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="11" end1="12" start2="11" end2="12" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="13" end1="24" start2="13" end2="23" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="25" end1="35" start2="24" end2="34" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="36" end1="37" start2="35" end2="36" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="40" end1="49" start2="39" end2="40" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="52" end1="52" start2="43" end2="53" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/Player.java">
+      <ranges>
+        <range start1="4" end1="5" start2="4" end2="7" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="9" end1="10" start2="11" end2="12" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="13" end1="14" start2="15" end2="16" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="18" end1="19" start2="20" end2="21" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="20" end1="21" start2="22" end2="24" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="27" end1="28" start2="30" end2="32" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="34" end1="35" start2="38" end2="40" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="41" end1="42" start2="46" end2="48" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="47" end1="47" start2="53" end2="70" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/UserInterface.java">
+      <ranges>
+        <range start1="4" end1="5" start2="4" end2="5" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="6" end1="7" start2="6" end2="6" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="10" end1="11" start2="9" end2="9" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="14" end1="15" start2="12" end2="12" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="16" end1="17" start2="13" end2="13" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="18" end1="18" start2="14" end2="15" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="21" end1="22" start2="18" end2="19" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="26" end1="27" start2="23" end2="23" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="71" end1="71" start2="67" end2="79" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="72" end1="73" start2="80" end2="85" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="75" end1="79" start2="87" end2="88" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="81" end1="87" start2="90" end2="91" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="88" end1="89" start2="92" end2="93" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="91" end1="92" start2="95" end2="95" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="99" end1="99" start2="102" end2="123" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+      </ranges>
+    </file>
+    <file path="$PROJECT_DIR$/src/main/java/Room.java">
+      <ranges>
+        <range start1="3" end1="4" start2="3" end2="4" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="10" end1="11" start2="10" end2="11" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="13" end1="13" start2="13" end2="16" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="14" end1="15" start2="17" end2="18" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="19" end1="21" start2="22" end2="24" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="23" end1="23" start2="26" end2="28" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="25" end1="26" start2="30" end2="31" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="30" end1="31" start2="35" end2="35" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="34" end1="39" start2="38" end2="67" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+        <range start1="40" end1="41" start2="68" end2="86" changelist="bf8473e6-455c-48bb-9082-a52d1a782c5c" />
+      </ranges>
+    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -55,7 +120,8 @@
       <option name="presentableId" value="Default" />
       <updated>1664275987843</updated>
       <workItem from="1664275989310" duration="9510000" />
-      <workItem from="1664298568568" duration="4911000" />
+      <workItem from="1664298568568" duration="6490000" />
+      <workItem from="1664353374760" duration="10378000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <created>1664276073202</created>
@@ -78,7 +144,21 @@
       <option name="project" value="LOCAL" />
       <updated>1664301542738</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Item:Opretter kontroktør uden parametre.&#10;&#10;Adventure:Ændre navngivningen og opdeler metodernde med passende ansvarsfordeling og kommentar til koden. Tilføjet Todo.&#10;&#10;UI: sepereret metoder og tilføjet usercomand - ansvarsfordeling og lidt mere læsbarhed.&#10;&#10;Main:Navngivning Ændret">
+      <created>1664304802938</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1664304802938</updated>
+    </task>
+    <task id="LOCAL-00005" summary="kommentere Player klassen og rykker rundt på metodernde.">
+      <created>1664305522449</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1664305522449</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -100,6 +180,8 @@
     <MESSAGE value="First Commit" />
     <MESSAGE value="Second Commit" />
     <MESSAGE value="UI: Små rettelser &#10;Room: Kommenteret kode og opdeling i læsbart layout." />
-    <option name="LAST_COMMIT_MESSAGE" value="UI: Små rettelser &#10;Room: Kommenteret kode og opdeling i læsbart layout." />
+    <MESSAGE value="Item:Opretter kontroktør uden parametre.&#10;&#10;Adventure:Ændre navngivningen og opdeler metodernde med passende ansvarsfordeling og kommentar til koden. Tilføjet Todo.&#10;&#10;UI: sepereret metoder og tilføjet usercomand - ansvarsfordeling og lidt mere læsbarhed.&#10;&#10;Main:Navngivning Ændret" />
+    <MESSAGE value="kommentere Player klassen og rykker rundt på metodernde." />
+    <option name="LAST_COMMIT_MESSAGE" value="kommentere Player klassen og rykker rundt på metodernde." />
   </component>
 </project>
