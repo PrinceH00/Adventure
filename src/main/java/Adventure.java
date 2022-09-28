@@ -1,5 +1,5 @@
 public class Adventure {
-    //Private objeter af klassen player og item
+    //Private objects of the player og item class
     private Player player;
     private Item item;
 
@@ -9,7 +9,7 @@ public class Adventure {
         item = new Item();
     }
 
-    //Metode som opretter og håndtere kortet(Spillebrædtet)
+    //Methode creating and handling the map.
     public void createMap(){
         //Creating objects of the Class Room with parameters.
         Room emptyRoom = new Room("The Empty room", "The room is dark with no lights in sight, but u are not alone.", true);
@@ -33,19 +33,11 @@ public class Adventure {
         createRoomLink(happyHand, secretPassage, "east");
         createRoomLink(secretPassage, teleporter, "east");
 
-        //Sætter spillerens start rum til EmptyRoom
+        //Placing the player at the start of the game.
         player.setCurrentRoom(emptyRoom);
     }
 
-    //Metode som tag E,N,S,Ø,W som parametre med datatypen Room
-    public void setExit(Room exit, Room north, Room east, Room south, Room west){
-        exit.setNorth(north);
-        exit.setEast(east);
-        exit.setSouth(south);
-        exit.setWest(west);
-    }
-
-    //Get metode.
+    //Get methode.
     public Player getPlayer() {
         return player;
     }

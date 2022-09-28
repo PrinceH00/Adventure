@@ -9,39 +9,43 @@ public class Player {
         this.health = health;
     }
 
-    //Get metoder.
+    //Get methods.
     public Room getCurrentRoom() { return currentRoom; }
     public int getHealth() { return health; }
 
-    //Sæt metoder.
+    //Set methods.
     public void setCurrentRoom(Room selectedRoom) { currentRoom = selectedRoom; }
     public void setHealth(int health) { this.health = health; }
 
 
-    //boolean som bevæger spilleren N,S,Ø,W hvis den er forskællig fra null
+    //booleans moving the player N,S,E,W If it is not null.
     public boolean moveNorth() {
-        if (currentRoom.getNorth() != null) {
+        if (currentRoom.getNorth() != null && !currentRoom.getDark()) {
+            currentRoom.setVisited(true);
             return true;
         } else
             return false;
     }
 
     public boolean moveEast() {
-        if (currentRoom.getEast() != null) {
+        if (currentRoom.getEast() != null && !currentRoom.getDark()) {
+            currentRoom.setVisited(true);
             return true;
         } else
             return false;
     }
 
     public boolean moveSouth() {
-        if (currentRoom.getSouth() != null) {
+        if (currentRoom.getSouth() != null && !currentRoom.getDark()) {
+            currentRoom.setVisited(true);
             return true;
         } else
             return false;
     }
 
     public boolean moveWest() {
-        if (currentRoom.getWest() != null) {
+        if (currentRoom.getWest() != null && !currentRoom.getDark()) {
+            currentRoom.setVisited(true);
             return true;
         } else
             return false;

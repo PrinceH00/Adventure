@@ -2,13 +2,11 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class UserInterface {
-    private Scanner scanner;
+    private final Scanner scanner;
     private Adventure adventure;
-    private Room room;
 
     public UserInterface() {
         adventure = new Adventure();
-        room = new Room();
         scanner = new Scanner(System.in).useLocale(Locale.US);
     }
 
@@ -23,7 +21,6 @@ public class UserInterface {
             String input = scanner.nextLine();
             input.toLowerCase();
             String[] commands = input.split(" ");
-            
             switch (commands[0]) {
                 case "go" -> {
                     if (commands.length > 1) {
@@ -68,19 +65,30 @@ public class UserInterface {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
                 }
+                case "turn" -> {
+                    if (commands.length > 1 && adventure.getPlayer().getCurrentRoom().getCanBeDark()) {
+                        switch (commands[1]) {
+                            case "on" -> {
+                                adventure.getPlayer().getCurrentRoom().setDark(false);
+                            }
+                            case "off" -> {
+                                adventure.getPlayer().getCurrentRoom().setDark(true);
+                            }
+                        }
+                    }
+                }
                 case "pickup" -> {
-                    System.out.println("This has not yet been implemented.");
+                    if (commands.length > 1) {
+                        System.out.println("This has not yet been implemented.");
+                    } else {
+                        System.out.println("You did not enter a valid action, please try again.");
+                    }
                 }
                 case "look" -> {
                     System.out.println(adventure.getPlayer().look());
                 }
                 case "help" -> {
-                    System.out.print("""
-                            go + cardinal direction: attempts to go in the designated direction. \n
-                            Look: Gets the description on the room u are in. \n
-                            pickup + item name: attempts to pick up the designated item. \n
-                            exit: exits the labyrinth. LIKE A COWARD!!! \n
-                            """);
+                    System.out.println(help());
                 }
                 case "exit", "quit" -> {
                     System.out.println("You have given up!");
