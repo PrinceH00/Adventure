@@ -9,8 +9,6 @@ public class Map {
     private Room secretPassage;
     private Room teleporter;
 
-
-
     public Map() {
         createMap();
     }

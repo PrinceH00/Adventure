@@ -8,6 +8,7 @@ public class Player {
     //Constructor with lives as parameters.
     public Player(int health) {
         this.health = health;
+        inventory = new ArrayList<Item>();
     }
 
     //Get methods.
@@ -39,16 +40,39 @@ public class Player {
         }
     }
 
-    public void removeItemFromInventory(Item item) {
-        inventory.remove(item);
+    public String dropItem(String itemName) {
+        Item itemToDrop = checkInventory(itemName);
+        if (itemToDrop != null) {
+            inventory.remove(itemToDrop);
+            currentRoom.addItem(itemToDrop);
+            return String.format("%s has been dropped successfully.", itemName);
+        } else {
+            return String.format("There is no such item in the %s", currentRoom.getRoomName());
+        }
+    }
+
+    public String useItem(String itemName) {
+        Item itemToUse = checkInventory(itemName);
+        if (itemToUse != null && itemToUse.getUseAble()) {
+            inventory.remove(itemToUse);
+            return String.format("%s has been used and disappeared.", itemName);
+        } else if (itemToUse == null) {
+            return String.format("There is no such item in the %s", currentRoom.getRoomName());
+        } else {
+            return String.format("%s ", currentRoom.getRoomName());
+        }
     }
 
     public String inventoryToString() {
-        String inventoryString = "";
-        for (Item item:inventory) {
-            inventoryString += item;
+        if (!inventory.isEmpty()) {
+            String inventoryString = "";
+            for (Item item : inventory) {
+                inventoryString += item + "\n";
+            }
+            return String.format("%s\nThere is %s items in the inventory.", inventoryString,inventory.size());
+        } else {
+            return "The inventory is empty.";
         }
-        return inventoryString;
     }
 
     //booleans moving the player N,S,E,W If it is not null.
@@ -56,16 +80,18 @@ public class Player {
         if (currentRoom.getNorth() != null && !currentRoom.getDark()) {
             currentRoom.setVisited(true);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public boolean moveEast() {
         if (currentRoom.getEast() != null && !currentRoom.getDark()) {
             currentRoom.setVisited(true);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     public boolean moveSouth() {
@@ -89,12 +115,12 @@ public class Player {
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {
-                    return currentRoom.getDescription();
+                    return String.format("%s. %s", currentRoom.getDescription(), currentRoom.listItemsInRoom());
                 } else {
                     return String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription());
                 }
             } else {
-                return "the room is pitch black you see nothing but the entrance you came in from. ";
+                return "The room is pitch black you see nothing but the entrance you came in from. ";
             }
         } else {
             System.exit(0);

@@ -15,17 +15,13 @@ public class Room {
     private boolean canBeDark;
     private boolean dark;
 
-    //Constructor without parameters
-    public Room() {
-        itemsInRoom = new ArrayList<>();
-    }
-
     //Constructor with 2 parameters
     public Room(String roomName, String description, boolean canBeDark) {
         this.roomName = roomName;
         this.description = description;
         this.canBeDark = canBeDark;
         dark = canBeDark;
+        itemsInRoom = new ArrayList<Item>();
     }
 
     //Get methods
@@ -83,11 +79,18 @@ public class Room {
     }
 
     public String listItemsInRoom() {
-        String roomItems = "";
-        for (Item item:itemsInRoom) {
-            roomItems += item;
+        return itemsInRoom.toString();
+    }
+
+    public ArrayList<Item> getItemsInRoom() { return itemsInRoom; }
+
+    public Item checkItems(String itemName) {
+        for (Item item : itemsInRoom) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return item;
+            }
         }
-        return roomItems;
+        return null;
     }
 
     public String toString() { return String.format("%s: %s", roomName, description); }
