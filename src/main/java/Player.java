@@ -1,11 +1,15 @@
+import java.util.ArrayList;
+
 public class Player {
     private int health;
     private Room currentRoom;
+    private ArrayList<Item> inventory;
 
     public Player(){}
 
     //Constructor with lives as parameters.
     public Player(int health) {
+        inventory = new ArrayList<Item>();
         this.health = health;
     }
 
@@ -17,6 +21,25 @@ public class Player {
     public void setCurrentRoom(Room selectedRoom) { currentRoom = selectedRoom; }
     public void setHealth(int health) { this.health = health; }
 
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    public void addItemToInventory(Item item) {
+        inventory.add(item);
+    }
+
+    public void removeItemFromInventory(Item item) {
+        inventory.remove(item);
+    }
+
+    public String inventoryToString() {
+        String inventoryString = "";
+        for (Item item:inventory) {
+            inventoryString += item;
+        }
+        return inventoryString;
+    }
 
     //booleans moving the player N,S,E,W If it is not null.
     public boolean moveNorth() {

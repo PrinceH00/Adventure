@@ -13,4 +13,7 @@ public class Item {
         return name;
     }
 
+    public String toString() {
+        return String.format("%s: %s", name, description);
+    }
 }

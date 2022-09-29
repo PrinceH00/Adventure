@@ -18,8 +18,7 @@ public class UserInterface {
     public void usercomand(){
         // TODO: 27/09/2022 find en måde udenom while "true" Optinal
         while (true) {
-            String input = scanner.nextLine();
-            input.toLowerCase();
+            String input = scanner.nextLine().toLowerCase();
             String[] commands = input.split(" ");
             switch (commands[0]) {
                 case "go" -> {
@@ -77,9 +76,16 @@ public class UserInterface {
                         }
                     }
                 }
-                case "pickup" -> {
+                case "take" -> {
                     if (commands.length > 1) {
                         System.out.println("This has not yet been implemented.");
+                    } else {
+                        System.out.println("You did not enter a valid action, please try again.");
+                    }
+                }
+                case "drop" -> {
+                    if (commands.length > 1) {
+                        System.out.println("This has not yet been implemented.1");
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }

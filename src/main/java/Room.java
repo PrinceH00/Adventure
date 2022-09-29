@@ -84,6 +84,22 @@ public class Room {
         return canBeDark;
     }
 
+    public void addItem(Item item) {
+        itemsInRoom.add(item);
+    }
+
+    public void removeItem(Item item) {
+        itemsInRoom.remove(item);
+    }
+
+    public String listItemsInRoom() {
+        String roomItems = "";
+        for (Item item:itemsInRoom) {
+            roomItems += item;
+        }
+        return roomItems;
+    }
+
     public String toString() { return String.format("%s: %s", roomName, description); }
 
     /*
