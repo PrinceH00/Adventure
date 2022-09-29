@@ -35,6 +35,10 @@ public class Room {
     public Room getWest() { return west; }
     public String getDescription() { return description; }
     public String getRoomName() { return roomName; }
+    public boolean getDark() { return dark; }
+    public boolean getCanBeDark() { return canBeDark; }
+    public boolean getVisited() { return visited; }
+
 
     //Set methods
     public void setNorth(Room northRoom) {
@@ -62,26 +66,12 @@ public class Room {
         }
     }
 
-    public void setVisited(boolean visited) {
-        this.visited = visited;
-    }
-
-    public boolean getVisited() {
-        return visited;
-    }
+    public void setVisited(boolean visited) { this.visited = visited; }
 
     public void setDark(boolean dark) {
         if (canBeDark) {
             this.dark = dark;
         }
-    }
-
-    public boolean getDark() {
-        return dark;
-    }
-
-    public boolean getCanBeDark() {
-        return canBeDark;
     }
 
     public void addItem(Item item) {
@@ -101,18 +91,4 @@ public class Room {
     }
 
     public String toString() { return String.format("%s: %s", roomName, description); }
-
-    /*
-    public String getItemsInRoom() {
-        String items = "";
-        for (Item item : itemsInRoom) {
-            items += item.getName();
-        }
-        return items;
-    }
-
-    public void addItemsInRoom(Item item) {
-        itemsInRoom.add(item);
-    }
-     */
 }

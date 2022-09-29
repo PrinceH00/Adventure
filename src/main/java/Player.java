@@ -5,15 +5,13 @@ public class Player {
     private Room currentRoom;
     private ArrayList<Item> inventory;
 
-    public Player(){}
-
     //Constructor with lives as parameters.
     public Player(int health) {
-        inventory = new ArrayList<Item>();
         this.health = health;
     }
 
     //Get methods.
+    public ArrayList<Item> getInventory() { return inventory; }
     public Room getCurrentRoom() { return currentRoom; }
     public int getHealth() { return health; }
 
@@ -21,12 +19,24 @@ public class Player {
     public void setCurrentRoom(Room selectedRoom) { currentRoom = selectedRoom; }
     public void setHealth(int health) { this.health = health; }
 
-    public ArrayList<Item> getInventory() {
-        return inventory;
+    public Item checkInventory(String itemName) {
+        for (Item item : inventory) {
+            if (item.getName().equalsIgnoreCase(itemName)) {
+                return item;
+            }
+        }
+        return null;
     }
 
-    public void addItemToInventory(Item item) {
-        inventory.add(item);
+    public String takeItem(String itemName) {
+        Item itemToTake = currentRoom.checkItems(itemName);
+        if (itemToTake != null) {
+            currentRoom.removeItem(itemToTake);
+            inventory.add(itemToTake);
+            return String.format("%s has been picked up successfully.", itemName);
+        } else {
+            return String.format("There is no such item in the %s", currentRoom.getRoomName());
+        }
     }
 
     public void removeItemFromInventory(Item item) {
