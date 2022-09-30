@@ -19,7 +19,7 @@ public class UserInterface {
         // TODO: 27/09/2022 Find a way without while "true" Optional
         while (true) {
             String input = scanner.nextLine().toLowerCase();
-            String[] commands = input.split(" ");
+            String[] commands = input.split(" ", 3);
             switch (commands[0]) {
                 case "go" -> {
                     if (commands.length > 1) {
@@ -120,15 +120,35 @@ public class UserInterface {
                 }
                 case "equip" -> {
                     if (commands.length > 1) {
-                        if (adventure.getPlayer().getEquippedWeapon() == null) {
-                            System.out.println(adventure.getPlayer().equipWeapon(commands[1]));
-                        } else {
-                            System.out.println(adventure.getPlayer().swapWeapon(commands[1]));
+                        switch (commands[1]) {
+                            case "weapon", "w" -> {
+                                if (adventure.getPlayer().getEquippedWeapon() == null) {
+                                    System.out.println(adventure.getPlayer().equipItem(commands[2]));
+                                } else {
+                                    System.out.println(adventure.getPlayer().swapItem(commands[2], commands[1]));
+                                }
+                            }
+                            case "armor", "a" -> {
+                                if (adventure.getPlayer().getEquippedArmor() == null) {
+                                    System.out.println(adventure.getPlayer().equipItem(commands[2]));
+                                } else {
+                                    System.out.println(adventure.getPlayer().swapItem(commands[2], commands[1]));
+                                }
+                            }
                         }
                     }
                 }
                 case "stash" -> {
-                    System.out.println(adventure.getPlayer().stashWeapon());
+                    if (commands.length > 1) {
+                        switch (commands[1]) {
+                            case "weapon", "w" -> {
+                                System.out.println(adventure.getPlayer().stashItem(Weapon.class));
+                            }
+                            case "armor", "a" -> {
+                                System.out.println(adventure.getPlayer().stashItem(Armor.class));
+                            }
+                        }
+                    }
                 }
                 case "exits" -> {
                     boolean north = false;
@@ -198,19 +218,19 @@ public class UserInterface {
     }
 
     public String help(){
-        return ("""
-                    Go + a cardinal direction: attempts to go in the designated direction. \n
-                    Look: Gets the description on the room u are in. \n
-                    Pickup + item name: attempts to pick up the designated item. \n
-                    Exit: exits the labyrinth. LIKE A COWARD!!! \n
-                    Turn + on/off: turns off the light if it is dark. \n
-                    Take + item name: picks up the item and adds it to the player's inventory, but only works when the light is on.\n
-                    Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room. \n
-                    Inventory/Inv/Bag: Shows the content of the player's inventory. \n
-                    Eat + item name: Eats the item, if it is eatable and if you are not on full health. \n
-                    Equip + item name: Equips the item as a weapon if it is possible. \n
-                    Stash + item name: Stashes your weapon into your inventory. \n  
-                    Exits: Shows the adjacent rooms that the player has already explored. \n 
-                    """);
+        StringBuilder helpInfo = new StringBuilder();
+        helpInfo.append("Go + a cardinal direction: attempts to go in the designated direction. \n");
+        helpInfo.append("Look: Gets the description on the room u are in. \n");
+        helpInfo.append("Pickup + item name: attempts to pick up the designated item. \n");
+        helpInfo.append("Exit: exits the labyrinth. LIKE A COWARD!!! \n");
+        helpInfo.append("Turn + on/off: turns off the light if it is dark. \n");
+        helpInfo.append("Take + item name: picks up the item and adds it to the player's inventory, but only works when the light is on.\n");
+        helpInfo.append("Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room. \n");
+        helpInfo.append("Inventory/Inv/Bag: Shows the content of the player's inventory. \n");
+        helpInfo.append("Eat + item name: Eats the item, if it is eatable and if you are not on full health. \n");
+        helpInfo.append("Equip Weapon/Armor + item name: Equips the item as a weapon if it is possible. \n");
+        helpInfo.append("Stash + item name: Stashes your weapon into your inventory. \n");
+        helpInfo.append("Exits: Shows the adjacent rooms that the player has already explored. \n");
+        return helpInfo.toString();
     }
 }

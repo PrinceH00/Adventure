@@ -8,25 +8,41 @@ public class Player {
     private Room currentRoom;
     private ArrayList<Item> inventory;
     private Weapon equippedWeapon;
+    private Armor equippedArmor;
 
     //Constructor with lives as parameters.
     public Player(int health) {
         this.health = health;
         inventory = new ArrayList<Item>();
         inventory.add(new Food("apple", "tastes nice", 1, 2));
+        inventory.add(new Weapon("Battle Axe", "Smacks hard", 5, 10));
+        inventory.add(new Weapon("Leather Tunic", "Protects a little", 5, 5));
         checkInventoryWeight();
     }
 
     //Get methods.
-    public Room getCurrentRoom() { return currentRoom; }
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
 
-    public Weapon getEquippedWeapon() { return equippedWeapon; }
+    public Weapon getEquippedWeapon() {
+        return equippedWeapon;
+    }
+
+    public Armor getEquippedArmor() {
+        return equippedArmor;
+    }
 
     //Set methods.
-    public void setCurrentRoom(Room selectedRoom) { currentRoom = selectedRoom; }
-    public void setHealth(int health) { this.health = health; }
+    public void setCurrentRoom(Room selectedRoom) {
+        currentRoom = selectedRoom;
+    }
 
-    public String playerStats(){
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public String playerStats() {
         StringBuilder stats = new StringBuilder();
         stats.append(String.format("The player has %s/%s health left.\n",
                 health, MAX_HEALTH));
@@ -37,8 +53,9 @@ public class Player {
     }
 
     public Item checkInventoryForItem(String itemName) {
+        itemName.toLowerCase();
         for (Item item : inventory) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            if (item.getName().toLowerCase().contains(itemName)) {
                 return item;
             }
         }
@@ -58,7 +75,7 @@ public class Player {
             inventory.add(itemToTake);
             weight += itemToTake.getWeight();
             return String.format("%s has been picked up successfully.", itemName);
-        } else if (itemToTake == null){
+        } else if (itemToTake == null) {
             return String.format("There is no such item in the %s", currentRoom.getRoomName());
         } else {
             return String.format("You can't carry that, it's too heavy.");
@@ -79,7 +96,7 @@ public class Player {
     public String eatFood(String itemName) {
         Item itemToUse = checkInventoryForItem(itemName);
         if (itemToUse != null && itemToUse.getClass() == Food.class) {
-            if (health + ((Food) itemToUse).getHealthRecovery() <= MAX_HEALTH){
+            if (health + ((Food) itemToUse).getHealthRecovery() <= MAX_HEALTH) {
                 inventory.remove(itemToUse);
                 health += ((Food) itemToUse).getHealthRecovery();
                 return String.format("%s has been eaten.", itemName);
@@ -94,43 +111,69 @@ public class Player {
         } else if (itemToUse == null) {
             return String.format("There is no such item in the inventory");
         } else {
-            return String.format("%s is not food, you can't eat it." ,itemName);
+            return String.format("%s is not food, you can't eat it.", itemName);
         }
     }
 
-    public String equipWeapon(String itemName) {
-        if (equippedWeapon == null) {
-            Item itemToEquip = checkInventoryForItem(itemName);
-            if (itemToEquip != null && itemToEquip.getClass() == Weapon.class) {
-                inventory.remove(itemToEquip);
-                equippedWeapon = (Weapon) itemToEquip;
-                return String.format("%s has been equipped.", itemName);
-            } else if (itemToEquip.getClass() != Weapon.class) {
-                return String.format("%s is not a weapon.", itemName);
+    public String equipItem(String itemName) {
+        Item itemToEquip = checkInventoryForItem(itemName);
+        if (itemToEquip != null && itemToEquip.getClass() == Weapon.class) {
+            stashItem(Weapon.class);
+            inventory.remove(itemToEquip);
+            equippedWeapon = (Weapon) itemToEquip;
+            return String.format("%s has been equipped.", itemToEquip.getName());
+        } else if (itemToEquip != null && itemToEquip.getClass() == Armor.class) {
+            stashItem(Armor.class);
+            inventory.remove(itemToEquip);
+            equippedArmor = (Armor) itemToEquip;
+            return String.format("%s has been equipped.", itemToEquip.getName());
+        } else if (itemToEquip == null) {
+            return String.format("There is no such item in the inventory");
+        } else {
+            return String.format("%s is not a weapon or armor piece.", itemName);
+        }
+    }
+
+    public String stashItem(Class armorOrWeapon) {
+        if (armorOrWeapon == Weapon.class) {
+            if (equippedWeapon != null) {
+                String formerWeapon = equippedWeapon.getName();
+                inventory.add(equippedWeapon);
+                equippedWeapon = null;
+                return String.format("You have stashed %s", formerWeapon);
             } else {
-                return String.format("There is no such item in the inventory");
+                return "There was no weapon to stash.";
+            }
+        } else if (armorOrWeapon == Armor.class) {
+            if (equippedArmor != null) {
+                String formerArmor = equippedWeapon.getName();
+                inventory.add(equippedArmor);
+                equippedArmor = null;
+                return String.format("You have stashed %s", formerArmor);
+            } else {
+                return "There was no armor to stash.";
             }
         } else {
-            return String.format("You already have %s equipped.", equippedWeapon);
+            return "Illegal statement";
         }
     }
 
-    public String stashWeapon() {
-        if (equippedWeapon != null) {
-            inventory.add(equippedWeapon);
-            equippedWeapon = null;
-            return String.format("You have stashed %s away in your inventory", equippedWeapon.getName());
+    public String swapItem(String itemName, String armorOrWeapon) {
+        if (armorOrWeapon.toLowerCase().equals("weapon") || armorOrWeapon.equals("w")) {
+            String formerWeapon = equippedWeapon.getName();
+            stashItem(Weapon.class);
+            equipItem(itemName);
+            return String.format("You have swapped your weapon from %s, to %s",
+                    formerWeapon, equippedWeapon.getName());
+        } else if (armorOrWeapon.equals("armor") || armorOrWeapon.equals("a")) {
+            String formerWeapon = equippedArmor.getName();
+            stashItem(Armor.class);
+            equipItem(itemName);
+            return String.format("You have swapped your weapon from %s, to %s",
+                    formerWeapon, equippedArmor.getName());
         } else {
-            return "You have no weapon equipped";
+            return "Illegal statement";
         }
-    }
-
-    public String swapWeapon(String itemName) {
-        String formerWeapon = equippedWeapon.getName();
-        stashWeapon();
-        equipWeapon(itemName);
-        return String.format("You have swapped your weapon from %s, to %s",
-                formerWeapon, equippedWeapon.getName());
     }
 
     public String inventoryToString() {
@@ -139,7 +182,7 @@ public class Player {
             for (Item item : inventory) {
                 inventoryString.append(item).append("\n");
             }
-            return String.format("%s\nThere is %s items in the inventory.", inventoryString,inventory.size());
+            return String.format("%s\nThere is %s items in the inventory.", inventoryString, inventory.size());
         } else {
             return "The inventory is empty.";
         }
@@ -181,7 +224,7 @@ public class Player {
     }
 
     //Giving a description of the room, depending on what the player "knows"
-    public String look(){
+    public String look() {
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {

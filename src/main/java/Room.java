@@ -35,7 +35,6 @@ public class Room {
     public boolean getCanBeDark() { return canBeDark; }
     public boolean getVisited() { return visited; }
 
-
     //Set methods
     public void setNorth(Room northRoom) {
         north = northRoom;

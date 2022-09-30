@@ -18,7 +18,7 @@ public class Map {
     public void createMap() {
         //Creating objects of the Class Room with parameters.
         emptyRoom = new Room("The Empty room", "You find yourself in an empty room..", true);
-        redForest = new Room("Red Forest", "Vegetation that should smell of plants, and a bad smell of iron.", false);
+        redForest = new Room("Red Forest", "Vegetation that should smell plants, and a bad smell of iron.", false);
         lab = new Room("Lab", "Blood? and is that parts of a ...., guess someone is experimenting here", false);
         kitchen = new Room("kitchen", "seems normal enough, except its not food that is being prepared here <3 ", true);
         bedRoom = new Room("Bedroom", "comfy room i may even take a nap", false);
