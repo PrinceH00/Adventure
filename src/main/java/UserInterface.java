@@ -97,9 +97,10 @@ public class UserInterface {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
                 }
-                case "use" -> {
+                case "eat" -> {
                     if (commands.length > 1) {
-                        System.out.println("This part has not yet been implemented");
+                        adventure.getPlayer().eatFood(commands[1]);
+                        System.out.printf("You have eaten %s\n", commands[1]);
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
@@ -116,6 +117,18 @@ public class UserInterface {
                 }
                 case "inventory", "bag", "invent", "inv" -> {
                     System.out.println(adventure.getPlayer().inventoryToString());
+                }
+                case "equip" -> {
+                    if (commands.length > 1) {
+                        if (adventure.getPlayer().getEquippedWeapon() == null) {
+                            System.out.println(adventure.getPlayer().equipWeapon(commands[1]));
+                        } else {
+                            System.out.println(adventure.getPlayer().swapWeapon(commands[1]));
+                        }
+                    }
+                }
+                case "stash" -> {
+                    System.out.println(adventure.getPlayer().stashWeapon());
                 }
                 case "exits" -> {
                     boolean north = false;
@@ -163,6 +176,9 @@ public class UserInterface {
                     System.out.println("You have given up!");
                     System.exit(0);
                 }
+                case "status", "stat" -> {
+                    System.out.println(adventure.getPlayer().playerStats());
+                }
                 default -> {
                     System.out.println("This was not a valid command, enter a new one.");
                 }
@@ -191,6 +207,9 @@ public class UserInterface {
                     Take + item name: picks up the item and adds it to the player's inventory, but only works when the light is on.\n
                     Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room. \n
                     Inventory/Inv/Bag: Shows the content of the player's inventory. \n
+                    Eat + item name: Eats the item, if it is eatable and if you are not on full health. \n
+                    Equip + item name: Equips the item as a weapon if it is possible. \n
+                    Stash + item name: Stashes your weapon into your inventory. \n  
                     Exits: Shows the adjacent rooms that the player has already explored. \n 
                     """);
     }

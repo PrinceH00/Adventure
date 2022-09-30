@@ -1,7 +1,7 @@
 public class Adventure {
     //Private objects of the player og item class
-    private Player player;
-    private Map map;
+    private final Player player;
+    private final Map map;
 
     //Constructor without parameters
     public Adventure() {

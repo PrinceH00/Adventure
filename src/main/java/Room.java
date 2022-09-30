@@ -9,7 +9,7 @@ public class Room {
     private Room west;
 
     //Private attributes.
-    private String roomName;
+    private final String roomName;
     private String description;
     private boolean visited;
     private boolean canBeDark;
@@ -49,12 +49,14 @@ public class Room {
             eastRoom.setWest(this);
         }
     }
+
     public void setSouth(Room southRoom) {
         south = southRoom;
         if (southRoom.getNorth() != this) {
             southRoom.setNorth(this);
         }
     }
+
     public void setWest(Room westRoom) {
         west = westRoom;
         if (westRoom.getEast() != this) {
