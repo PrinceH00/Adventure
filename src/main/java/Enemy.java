@@ -21,7 +21,5 @@ public class Enemy {
     public int getMAX_HEALTH() { return MAX_HEALTH; }
 
     public ArrayList<Item> getLoot() { return loot; }
-    public void addLoot(Item itemToAdd) {
-        loot.add(itemToAdd);
-    }
+    public void addLoot(Item itemToAdd) { loot.add(itemToAdd); }
 }

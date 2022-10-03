@@ -39,13 +39,13 @@ public class Player {
                 health, MAX_HEALTH));
         stats.append(String.format("The player is carrying %s/%s kg.\n",
                 weight, MAX_WEIGHT));
-        stats.append(String.format("Weapon: %s.\n", equippedWeapon));
+        stats.append(String.format("Weapon: %s. %s damage\n", equippedWeapon, equippedWeapon.getDamage()));
         return stats.toString();
     }
 
-    public Enemy currentEnemy() {
-        return currentRoom.getEnemy();
-    }
+    public boolean isDark() { return currentRoom.getDark(); }
+
+    public Enemy currentEnemy() { return currentRoom.getEnemy(); }
 
     public Item checkInventoryForItem(String itemName) {
         for (Item item : inventory) {
@@ -255,10 +255,7 @@ public class Player {
                 } else {
                     return String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription());
                 }
-                stringBuilder.append(currentRoom.getNorth());
-                stringBuilder.append(currentRoom.getEast());
-                stringBuilder.append(currentRoom.getSouth());
-                stringBuilder.append(currentRoom.getWest());
+                stringBuilder.append(currentRoom.exits());
                 return stringBuilder.toString();
             } else {
                 return "The room is pitch black you see nothing but the entrance you came in from. ";

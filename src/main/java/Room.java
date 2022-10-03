@@ -87,6 +87,38 @@ public class Room {
         }
     }
 
+    public String exits() {
+        StringBuilder stringBuilder = new StringBuilder();
+        int exits = 0;
+        if (north != null && north.getVisited()) {
+            exits++;
+            stringBuilder.append("North: " + north.getRoomName());
+        } else {
+            stringBuilder.append("North: null");
+        }
+        if (east != null && east.getVisited()) {
+            exits++;
+            stringBuilder.append("East: " + north.getRoomName());
+        } else {
+            stringBuilder.append("East: null");
+        }
+        if (south != null && south.getVisited()) {
+            exits++;
+            stringBuilder.append("South: " + north.getRoomName());
+        } else {
+            stringBuilder.append("South: null");
+        }
+        if (west != null && west.getVisited()) {
+            exits++;
+            stringBuilder.append("West: " + west.getRoomName());
+        } else {
+            stringBuilder.append("West: null");
+        }
+        stringBuilder.append(String.format("There are %s exits.\n%s\n%s\n%s\n%s", exits, north.getRoomName(), east.getRoomName(),
+                south.getRoomName(), west.getRoomName()));
+        return stringBuilder.toString();
+    }
+
     public void addItem(Item item) {
         itemsInRoom.add(item);
     }
