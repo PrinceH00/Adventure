@@ -32,6 +32,9 @@ public class Map {
         kitchen.addItem(new Item("foot", "Someones foot may come in handy", 4));
         redForest.addItem(new Item("red leaves", "Mashed red leaves can be smoked", 0.5));
 
+        //creating and adding enemy to rooms.
+        emptyRoom.setEnemy(new Enemy("Ogre", 24, 24, 3));
+
         //Adding exits to the Rooms.
         createRoomLink(emptyRoom, redForest, "east");
         createRoomLink(emptyRoom, kitchen, "south");

@@ -4,17 +4,24 @@ public class Enemy {
     private String name;
     private int MAX_HEALTH;
     private int health;
-    private Room currentRoom;
     private ArrayList<Item> loot;
+    private int damage;
 
-    public Enemy(String name, int health, int MAX_HEALTH, Room currentRoom) {
+    public Enemy(String name, int health, int MAX_HEALTH, int damage) {
         this.name = name;
         this.health = health;
         this.MAX_HEALTH = MAX_HEALTH;
-        this.currentRoom = currentRoom;
+        this.damage = damage;
     }
 
-    //TODO make attack action.
-    public void attack(Player player) {
+    public void setHealth(int health) { this.health = health; }
+    public int getHealth() { return health; }
+    public int getDamage() { return damage; }
+    public String getName() { return name; }
+    public int getMAX_HEALTH() { return MAX_HEALTH; }
+
+    public ArrayList<Item> getLoot() { return loot; }
+    public void addLoot(Item itemToAdd) {
+        loot.add(itemToAdd);
     }
 }

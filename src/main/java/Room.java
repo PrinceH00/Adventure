@@ -7,6 +7,7 @@ public class Room {
     private Room east;
     private Room south;
     private Room west;
+    private Enemy enemy;
 
     //Private attributes.
     private final String roomName;
@@ -14,6 +15,7 @@ public class Room {
     private boolean visited;
     private boolean canBeDark;
     private boolean dark;
+    private boolean hasEnemy;
 
     //Constructor with 2 parameters
     public Room(String roomName, String description, boolean canBeDark) {
@@ -34,6 +36,20 @@ public class Room {
     public boolean getDark() { return dark; }
     public boolean getCanBeDark() { return canBeDark; }
     public boolean getVisited() { return visited; }
+    public boolean getHasEnemy() { return hasEnemy; }
+
+    public Enemy getEnemy() {
+        if (enemy != null) {
+            return enemy;
+        } else {
+            return null;
+        }
+    }
+
+    public void setEnemy(Enemy enemy) {
+        hasEnemy = true;
+        this.enemy = enemy;
+    }
 
     //Set methods
     public void setNorth(Room northRoom) {
@@ -63,7 +79,7 @@ public class Room {
         }
     }
 
-    public void setVisited(boolean visited) { this.visited = visited; }
+    public void setVisited() { this.visited = true; }
 
     public void setDark(boolean dark) {
         if (canBeDark) {
@@ -87,7 +103,7 @@ public class Room {
 
     public Item checkItems(String itemName) {
         for (Item item : itemsInRoom) {
-            if (item.getName().equalsIgnoreCase(itemName)) {
+            if (item.getName().toLowerCase().contains(itemName)) {
                 return item;
             }
         }

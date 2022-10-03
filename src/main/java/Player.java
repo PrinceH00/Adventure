@@ -2,13 +2,12 @@ import java.util.ArrayList;
 
 public class Player {
     private final int MAX_HEALTH = 20;
-    private final double MAX_WEIGHT = 15.0;
+    private final double MAX_WEIGHT = 30.0;
     private int health;
     private double weight;
     private Room currentRoom;
     private ArrayList<Item> inventory;
     private Weapon equippedWeapon;
-    private Armor equippedArmor;
 
     //Constructor with lives as parameters.
     public Player(int health) {
@@ -21,26 +20,18 @@ public class Player {
     }
 
     //Get methods.
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
+    public Room getCurrentRoom() { return currentRoom; }
 
-    public Weapon getEquippedWeapon() {
-        return equippedWeapon;
-    }
-
-    public Armor getEquippedArmor() {
-        return equippedArmor;
-    }
+    public Weapon getEquippedWeapon() { return equippedWeapon; }
 
     //Set methods.
-    public void setCurrentRoom(Room selectedRoom) {
-        currentRoom = selectedRoom;
-    }
+    public void setCurrentRoom(Room selectedRoom) { currentRoom = selectedRoom; }
 
-    public void setHealth(int health) {
-        this.health = health;
-    }
+    public void setHealth(int health) { this.health = health; }
+
+    public int getHealth() { return health; }
+
+    public int getMAX_HEALTH() { return MAX_HEALTH; }
 
     public String playerStats() {
         StringBuilder stats = new StringBuilder();
@@ -52,8 +43,11 @@ public class Player {
         return stats.toString();
     }
 
+    public Enemy currentEnemy() {
+        return currentRoom.getEnemy();
+    }
+
     public Item checkInventoryForItem(String itemName) {
-        itemName.toLowerCase();
         for (Item item : inventory) {
             if (item.getName().toLowerCase().contains(itemName)) {
                 return item;
@@ -99,7 +93,7 @@ public class Player {
             if (health + ((Food) itemToUse).getHealthRecovery() <= MAX_HEALTH) {
                 inventory.remove(itemToUse);
                 health += ((Food) itemToUse).getHealthRecovery();
-                return String.format("%s has been eaten.", itemName);
+                return String.format("%s has been eaten and you have regained %s health", itemName, ((Food) itemToUse).getHealthRecovery());
             } else if (health < MAX_HEALTH) {
                 inventory.remove(itemToUse);
                 health = MAX_HEALTH;
@@ -118,14 +112,11 @@ public class Player {
     public String equipItem(String itemName) {
         Item itemToEquip = checkInventoryForItem(itemName);
         if (itemToEquip != null && itemToEquip.getClass() == Weapon.class) {
-            stashItem(Weapon.class);
+            if (equippedWeapon != null) {
+                stashItem(Weapon.class);
+            }
             inventory.remove(itemToEquip);
             equippedWeapon = (Weapon) itemToEquip;
-            return String.format("%s has been equipped.", itemToEquip.getName());
-        } else if (itemToEquip != null && itemToEquip.getClass() == Armor.class) {
-            stashItem(Armor.class);
-            inventory.remove(itemToEquip);
-            equippedArmor = (Armor) itemToEquip;
             return String.format("%s has been equipped.", itemToEquip.getName());
         } else if (itemToEquip == null) {
             return String.format("There is no such item in the inventory");
@@ -144,33 +135,6 @@ public class Player {
             } else {
                 return "There was no weapon to stash.";
             }
-        } else if (armorOrWeapon == Armor.class) {
-            if (equippedArmor != null) {
-                String formerArmor = equippedWeapon.getName();
-                inventory.add(equippedArmor);
-                equippedArmor = null;
-                return String.format("You have stashed %s", formerArmor);
-            } else {
-                return "There was no armor to stash.";
-            }
-        } else {
-            return "Illegal statement";
-        }
-    }
-
-    public String swapItem(String itemName, String armorOrWeapon) {
-        if (armorOrWeapon.toLowerCase().equals("weapon") || armorOrWeapon.equals("w")) {
-            String formerWeapon = equippedWeapon.getName();
-            stashItem(Weapon.class);
-            equipItem(itemName);
-            return String.format("You have swapped your weapon from %s, to %s",
-                    formerWeapon, equippedWeapon.getName());
-        } else if (armorOrWeapon.equals("armor") || armorOrWeapon.equals("a")) {
-            String formerWeapon = equippedArmor.getName();
-            stashItem(Armor.class);
-            equipItem(itemName);
-            return String.format("You have swapped your weapon from %s, to %s",
-                    formerWeapon, equippedArmor.getName());
         } else {
             return "Illegal statement";
         }
@@ -188,10 +152,68 @@ public class Player {
         }
     }
 
+    public String turnLight (String state) {
+        switch (state) {
+            case "on" -> {
+                getCurrentRoom().setDark(false);
+                getCurrentRoom().setVisited();
+                return "The light gives off a blinding light, but your eyes quickly adjusts.";
+            }
+            case "off" -> {
+                getCurrentRoom().setDark(true);
+                return "The darkness consumes you, but your eyes quickly adjusts.";
+            }
+            default -> {
+                return String.format("%s is not a valid state for the light.", state);
+            }
+        }
+    }
+
+    //Moves the player while checking the if it is a legal move.
+    public String move(String direction) {
+        switch (direction) {
+            case "north", "n" -> {
+                if (moveNorth()) {
+                    setCurrentRoom(getCurrentRoom().getNorth());
+                    return currentRoom.toString();
+                } else {
+                    return "There is no exit in this room to the north.";
+                }
+            }
+            case "east", "e" -> {
+                if (moveEast()) {
+                    setCurrentRoom(getCurrentRoom().getEast());
+                    return getCurrentRoom().toString();
+                } else {
+                    return "There is no exit in this room to the east.";
+                }
+            }
+            case "south", "s" -> {
+                if (moveSouth()) {
+                    setCurrentRoom(getCurrentRoom().getSouth());
+                    return getCurrentRoom().toString();
+                } else {
+                    return "There is no exit in this room to the south.";
+                }
+            }
+            case "west", "w" -> {
+                if (moveWest()) {
+                    setCurrentRoom(getCurrentRoom().getWest());
+                    return getCurrentRoom().toString();
+                } else {
+                    return "There is no exit in this room to the west.";
+                }
+            }
+            default -> {
+                return "There is no way such as: " + direction;
+            }
+        }
+    }
+
     //booleans moving the player N,S,E,W If it is not null.
     public boolean moveNorth() {
         if (currentRoom.getNorth() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited(true);
+            currentRoom.setVisited();
             return true;
         } else {
             return false;
@@ -200,7 +222,7 @@ public class Player {
 
     public boolean moveEast() {
         if (currentRoom.getEast() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited(true);
+            currentRoom.setVisited();
             return true;
         } else {
             return false;
@@ -209,7 +231,7 @@ public class Player {
 
     public boolean moveSouth() {
         if (currentRoom.getSouth() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited(true);
+            currentRoom.setVisited();
             return true;
         } else
             return false;
@@ -217,7 +239,7 @@ public class Player {
 
     public boolean moveWest() {
         if (currentRoom.getWest() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited(true);
+            currentRoom.setVisited();
             return true;
         } else
             return false;
@@ -225,13 +247,19 @@ public class Player {
 
     //Giving a description of the room, depending on what the player "knows"
     public String look() {
+        StringBuilder stringBuilder = new StringBuilder();
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {
-                    return String.format("%s. %s", currentRoom.getDescription(), currentRoom.listItemsInRoom());
+                    stringBuilder.append(String.format("%s. %s", currentRoom.getDescription(), currentRoom.listItemsInRoom()));
                 } else {
                     return String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription());
                 }
+                stringBuilder.append(currentRoom.getNorth());
+                stringBuilder.append(currentRoom.getEast());
+                stringBuilder.append(currentRoom.getSouth());
+                stringBuilder.append(currentRoom.getWest());
+                return stringBuilder.toString();
             } else {
                 return "The room is pitch black you see nothing but the entrance you came in from. ";
             }

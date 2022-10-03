@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class UserInterface {
     private final Scanner scanner;
-    private Adventure adventure;
+    private final Adventure adventure;
 
     public UserInterface() {
         adventure = new Adventure();
@@ -23,60 +23,14 @@ public class UserInterface {
             switch (commands[0]) {
                 case "go" -> {
                     if (commands.length > 1) {
-                        switch (commands[1]) {
-                            case "north", "n" -> {
-                                if (adventure.getPlayer().moveNorth()) {
-                                    adventure.getPlayer().setCurrentRoom(adventure.getPlayer().getCurrentRoom().getNorth());
-                                    System.out.println(adventure.getPlayer().getCurrentRoom());
-                                } else {
-                                    System.out.println("There is no exit in this room to the north.");
-                                }
-                            }
-                            case "east", "e" -> {
-                                if (adventure.getPlayer().moveEast()) {
-                                    adventure.getPlayer().setCurrentRoom(adventure.getPlayer().getCurrentRoom().getEast());
-                                    System.out.println(adventure.getPlayer().getCurrentRoom());
-                                } else {
-                                    System.out.println("There is no exit in this room to the east.");
-                                }
-                            }
-                            case "south", "s" -> {
-                                if (adventure.getPlayer().moveSouth()) {
-                                    adventure.getPlayer().setCurrentRoom(adventure.getPlayer().getCurrentRoom().getSouth());
-                                    System.out.println(adventure.getPlayer().getCurrentRoom());
-                                } else {
-                                    System.out.println("There is no exit in this room to the south.");
-                                }
-                            }
-                            case "west", "w" -> {
-                                if (adventure.getPlayer().moveWest()) {
-                                    adventure.getPlayer().setCurrentRoom(adventure.getPlayer().getCurrentRoom().getWest());
-                                    System.out.println(adventure.getPlayer().getCurrentRoom());
-                                } else {
-                                    System.out.println("There is no exit in this room to the west.");
-                                }
-                            }
-                            default -> {
-                                System.out.println("There is no way such as: " + commands[1]);
-                            }
-                        }
+                        System.out.println(adventure.movePlayer(commands[1]));
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
                 }
                 case "turn" -> {
                     if (commands.length > 1 && adventure.getPlayer().getCurrentRoom().getCanBeDark()) {
-                        switch (commands[1]) {
-                            case "on" -> {
-                                adventure.getPlayer().getCurrentRoom().setDark(false);
-                                adventure.getPlayer().getCurrentRoom().setVisited(true);
-                                System.out.println("The light gives off a blinding light, but your eyes quickly adjusts.");
-                            }
-                            case "off" -> {
-                                adventure.getPlayer().getCurrentRoom().setDark(true);
-                                System.out.println("The darkness consumes you, but your eyes quickly adjusts.");
-                            }
-                        }
+                        System.out.println(adventure.playerTurnLight(commands[1]));
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
@@ -92,25 +46,20 @@ public class UserInterface {
                 }
                 case "drop" -> {
                     if (commands.length > 1) {
-                        System.out.println(adventure.getPlayer().dropItem(commands[1]));
+                        System.out.println(adventure.dropItem(commands[1]));
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
                 }
                 case "eat" -> {
                     if (commands.length > 1) {
-                        adventure.getPlayer().eatFood(commands[1]);
-                        System.out.printf("You have eaten %s\n", commands[1]);
+                        System.out.println(adventure.playerEat(commands[1]));
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
                 }
                 case "look" -> {
-                    System.out.println(adventure.getPlayer().look());
-                    System.out.println(adventure.getPlayer().getCurrentRoom().getNorth());
-                    System.out.println(adventure.getPlayer().getCurrentRoom().getEast());
-                    System.out.println(adventure.getPlayer().getCurrentRoom().getSouth());
-                    System.out.println(adventure.getPlayer().getCurrentRoom().getWest());
+                    adventure.playerLook();
                 }
                 case "help" -> {
                     System.out.println(help());
@@ -120,36 +69,15 @@ public class UserInterface {
                 }
                 case "equip" -> {
                     if (commands.length > 1) {
-                        switch (commands[1]) {
-                            case "weapon", "w" -> {
-                                if (adventure.getPlayer().getEquippedWeapon() == null) {
-                                    System.out.println(adventure.getPlayer().equipItem(commands[2]));
-                                } else {
-                                    System.out.println(adventure.getPlayer().swapItem(commands[2], commands[1]));
-                                }
-                            }
-                            case "armor", "a" -> {
-                                if (adventure.getPlayer().getEquippedArmor() == null) {
-                                    System.out.println(adventure.getPlayer().equipItem(commands[2]));
-                                } else {
-                                    System.out.println(adventure.getPlayer().swapItem(commands[2], commands[1]));
-                                }
-                            }
-                        }
+                        System.out.println(adventure.equipWeapon(commands[1]));
                     }
                 }
                 case "stash" -> {
                     if (commands.length > 1) {
-                        switch (commands[1]) {
-                            case "weapon", "w" -> {
-                                System.out.println(adventure.getPlayer().stashItem(Weapon.class));
-                            }
-                            case "armor", "a" -> {
-                                System.out.println(adventure.getPlayer().stashItem(Armor.class));
-                            }
-                        }
+                        System.out.println(adventure.stashWeapon(Weapon.class));
                     }
                 }
+                //TODO refactor exits and attack.
                 case "exits" -> {
                     boolean north = false;
                     boolean east = false;
@@ -192,12 +120,31 @@ public class UserInterface {
                         System.out.printf("There are %s exits.\n%s\n%s\n%s\n%s",exits,northName,eastName,southName,westName);
                     }
                 }
+                case "attack", "att" -> {
+                    if (adventure.getPlayer().getCurrentRoom().getHasEnemy() && adventure.getPlayer().getEquippedWeapon() != null) {
+                        adventure.getCombat().attackEnemy();
+                        System.out.printf("You have attacked %s and dealt %s damage. \n",
+                                adventure.getPlayer().getCurrentRoom().getEnemy().getName(),
+                                adventure.getPlayer().getEquippedWeapon().getDamage());
+                        adventure.getCombat().attackPlayer();
+                        System.out.printf("You have been attacked and have taken %s damage. \n",
+                                adventure.getPlayer().getCurrentRoom().getEnemy().getDamage());
+                        System.out.printf("Player: %s/%s health\n", adventure.getPlayer().getHealth(), adventure.getPlayer().getMAX_HEALTH());
+                        System.out.printf("%s: %s/%s health\n", adventure.getPlayer().getCurrentRoom().getEnemy().getName(),
+                                adventure.getPlayer().getCurrentRoom().getEnemy().getHealth(),
+                                adventure.getPlayer().getCurrentRoom().getEnemy().getMAX_HEALTH());
+                    } else if (!adventure.getPlayer().getCurrentRoom().getHasEnemy()) {
+                        System.out.println("There is no enemy enemy in this room.");
+                    } else {
+                        System.out.println("You have no weapon equipped.");
+                    }
+                }
                 case "exit", "quit" -> {
                     System.out.println("You have given up!");
                     System.exit(0);
                 }
                 case "status", "stat" -> {
-                    System.out.println(adventure.getPlayer().playerStats());
+                    System.out.println(adventure.stats());
                 }
                 default -> {
                     System.out.println("This was not a valid command, enter a new one.");
@@ -222,15 +169,16 @@ public class UserInterface {
         helpInfo.append("Go + a cardinal direction: attempts to go in the designated direction. \n");
         helpInfo.append("Look: Gets the description on the room u are in. \n");
         helpInfo.append("Pickup + item name: attempts to pick up the designated item. \n");
-        helpInfo.append("Exit: exits the labyrinth. LIKE A COWARD!!! \n");
         helpInfo.append("Turn + on/off: turns off the light if it is dark. \n");
         helpInfo.append("Take + item name: picks up the item and adds it to the player's inventory, but only works when the light is on.\n");
         helpInfo.append("Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room. \n");
         helpInfo.append("Inventory/Inv/Bag: Shows the content of the player's inventory. \n");
         helpInfo.append("Eat + item name: Eats the item, if it is eatable and if you are not on full health. \n");
-        helpInfo.append("Equip Weapon/Armor + item name: Equips the item as a weapon if it is possible. \n");
+        helpInfo.append("Equip Weapon + item name: Equips the item as a weapon if it is possible. \n");
         helpInfo.append("Stash + item name: Stashes your weapon into your inventory. \n");
+        helpInfo.append("Attack: attacks the enemy in the room, if there is any. \n");
         helpInfo.append("Exits: Shows the adjacent rooms that the player has already explored. \n");
+        helpInfo.append("Exit: exits the labyrinth. LIKE A COWARD!!! \n");
         return helpInfo.toString();
     }
 }
