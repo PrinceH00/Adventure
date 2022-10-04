@@ -89,8 +89,14 @@ public class UserInterface {
                     System.out.println(adventure.attack());
                 }
                 case "exit", "quit" -> {
-                    System.out.println("You have given up!");
-                    System.exit(0);
+                    if (adventure.hasWon()) {
+                        System.out.print("Congratulations you have beaten the game and may leave with ");
+                        System.out.print("what most likely is your first archivement");
+                        System.exit(0);
+                    } else {
+                        System.out.println("You have given up!");
+                        System.exit(0);
+                    }
                 }
                 case "status", "stat" -> {
                     System.out.println(adventure.stats());
@@ -102,18 +108,18 @@ public class UserInterface {
         }
     }
 
-    public void printIntro(){
-        System.out.println("\nWelcome to the Escape Room KIDS!! "
-                + "\nYou are in " + adventure.currentRoom());
-        System.out.println();
-        System.out.println("""
-                Find your way out before... its..t o tt tooo lateeeeeeeeeeeee.
-                You are lucky enough to be assisted by typing "Help"
-                Good luck u may indeed need it. 
-                """);
+    public void printIntro() {
+        StringBuilder intro = new StringBuilder();
+        intro.append("\nWelcome to the Escape Room KIDS!! ");
+        intro.append("\nYou are in ");
+        intro.append(adventure.currentRoom()).append("\n");
+        intro.append("Find your way out before... its..t o tt tooo lateeeeeeeeeeeee.").append("\n");
+        intro.append("You are lucky enough to be assisted by typing \"Help\"").append("\n");
+        intro.append("Good luck u may indeed need it.").append("\n");
+        System.out.println(intro.toString());
     }
 
-    public String help(){
+    public String help() {
         StringBuilder helpInfo = new StringBuilder();
         helpInfo.append("Go + a cardinal direction: attempts to go in the designated direction. \n");
         helpInfo.append("Look: Gets the description on the room u are in. \n");

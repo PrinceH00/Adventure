@@ -28,9 +28,10 @@ public class Map {
         teleporter = new Room("Hidden teleporter", "What is this wired code, and is that a Red Button!!!", false);
 
         //Creating and adding items to rooms.
-        emptyRoom.addItem(new Item("F", "Can satisfy... something.", 2));
+        emptyRoom.addItem(new Item("Fleshlight", "Can satisfy... something.", 2));
         kitchen.addItem(new Item("foot", "Someones foot may come in handy", 4));
         redForest.addItem(new Item("red leaves", "Mashed red leaves can be smoked", 0.5));
+
 
         //creating and adding enemy to rooms.
         emptyRoom.setEnemy(new Enemy("Ogre", 24, 3));

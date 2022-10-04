@@ -17,25 +17,23 @@ public class Player {
         inventory.add(new Food("apple", "tastes nice", 1, 2));
         inventory.add(new Weapon("Battle Axe", "Smacks hard", 5, 10));
         inventory.add(new Armor("Leather Tunic", "Protects a little", 5, 5));
+        inventory.add(new Food("pill","Glowing pill that wispers someting",0.1,-1000));
         checkInventoryWeight();
     }
 
     //Get methods.
     public Room getCurrentRoom() { return currentRoom; }
-
     public Weapon getEquippedWeapon() { return equippedWeapon; }
     public Armor getEquippedArmor() { return equippedArmor; }
+    public double getHealth() { return health; }
+    public int getMAX_HEALTH() { return MAX_HEALTH; }
+
 
     //Set methods.
     public void setCurrentRoom(Room selectedRoom) {
         currentRoom = selectedRoom;
     }
-
     public void setHealth(double health) { this.health = health; }
-
-    public double getHealth() { return health; }
-
-    public int getMAX_HEALTH() { return MAX_HEALTH; }
 
     public String playerStats() {
         StringBuilder stats = new StringBuilder();
