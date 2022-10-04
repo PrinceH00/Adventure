@@ -1,12 +1,6 @@
-public class Food extends Item {
-    private final int healthRecovery;
+public class Food extends Consumable {
 
     public Food(String name, String description, double weight, int healthRecovery) {
-        super(name, description, weight);
-        this.healthRecovery = healthRecovery;
-    }
-
-    public int getHealthRecovery() {
-        return healthRecovery;
+        super(name, description, weight, healthRecovery);
     }
 }

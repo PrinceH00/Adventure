@@ -1,4 +1,4 @@
-public class Weapon extends Item {
+public class Weapon extends Equipment {
     private final int damage;
 
     public Weapon(String name, String description, double weight, int damage) {

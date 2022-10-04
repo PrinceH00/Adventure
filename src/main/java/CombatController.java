@@ -7,12 +7,13 @@ public class CombatController {
 
 
 
-    public int attackPlayer() {
-        player.setHealth(player.getHealth() - player.currentEnemy().getDamage());
+    public double attackPlayer() {
+        player.setHealth((player.getHealth() - player.currentEnemy().getDamage())*
+                1-(player.getEquippedArmor().getArmorClass()/10));
         return player.currentEnemy().getDamage();
     }
 
-    public int attackEnemy() {
+    public double attackEnemy() {
         player.currentEnemy().setHealth(player.currentEnemy().getHealth() - player.getEquippedWeapon().getDamage());
         return player.getEquippedWeapon().getDamage();
     }

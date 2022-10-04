@@ -58,6 +58,13 @@ public class UserInterface {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
                 }
+                case "drink" -> {
+                    if (commands.length > 1) {
+                        System.out.println(adventure.playerDrink(commands[1]));
+                    } else {
+                        System.out.println("You did not enter a valid action, please try again.");
+                    }
+                }
                 case "look" -> {
                     adventure.playerLook();
                 }
@@ -65,11 +72,12 @@ public class UserInterface {
                     System.out.println(help());
                 }
                 case "inventory", "bag", "invent", "inv" -> {
+
                     System.out.println(adventure.getInventory());
                 }
                 case "equip" -> {
                     if (commands.length > 1) {
-                        System.out.println(adventure.equipWeapon(commands[1]));
+                        System.out.println(adventure.equipWeapon(commands[1], commands[2]));
                     }
                 }
                 case "stash" -> {
@@ -115,7 +123,7 @@ public class UserInterface {
         helpInfo.append("Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room. \n");
         helpInfo.append("Inventory/Inv/Bag: Shows the content of the player's inventory. \n");
         helpInfo.append("Eat + item name: Eats the item, if it is eatable and if you are not on full health. \n");
-        helpInfo.append("Equip Weapon + item name: Equips the item as a weapon if it is possible. \n");
+        helpInfo.append("Equip weapon/armor  + item name: Equips the item if it is possible. \n");
         helpInfo.append("Stash + item name: Stashes your weapon into your inventory. \n");
         helpInfo.append("Attack: attacks the enemy in the room, if there is any. \n");
         helpInfo.append("Exit: exits the labyrinth. LIKE A COWARD!!! \n");

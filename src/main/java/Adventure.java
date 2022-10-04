@@ -22,9 +22,10 @@ public class Adventure {
     public boolean isDark() { return player.isDark(); }
     public String playerTurnLight(String state) { return player.turnLight(state); }
     public String dropItem(String itemToDrop) { return player.dropItem(itemToDrop); }
-    public String playerEat(String itemToEat) { return player.eatFood((itemToEat)); }
+    public String playerEat(String itemToEat) { return player.eat((itemToEat)); }
+    public String playerDrink(String itemToDrink) { return player.drink((itemToDrink)); }
     public String  playerLook() { return player.look(); }
-    public String equipWeapon(String itemToEquip) { return player.equipItem(itemToEquip); }
+    public String equipWeapon(String itemToEquip, String weaponOrArmor) { return player.equipItem(itemToEquip, weaponOrArmor); }
     public String stashWeapon(Class weapon) { return player.stashItem(weapon); }
     public String stats() { return player.playerStats(); }
     public String attack() { return combat.attack(); }
