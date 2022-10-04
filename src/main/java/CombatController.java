@@ -6,7 +6,6 @@ public class CombatController {
     }
 
 
-
     public double attackPlayer() {
         player.setHealth((player.getHealth() - player.currentEnemy().getDamage())*
                 1-(player.getEquippedArmor().getArmorClass()/10));
@@ -22,6 +21,7 @@ public class CombatController {
         StringBuilder stringBuilder = new StringBuilder();
         if (player.getCurrentRoom().getHasEnemy() && player.getEquippedWeapon() != null) {
             attackEnemy();
+            player.getCurrentRoom().getHasEnemy();
             stringBuilder.append(String.format("You have attacked %s and dealt %s damage. \n",
                     player.getCurrentRoom().getEnemy().getName(),
                     player.getEquippedWeapon().getDamage()));
@@ -39,5 +39,4 @@ public class CombatController {
         }
         return stringBuilder.toString();
     }
-
 }

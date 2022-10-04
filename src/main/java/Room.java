@@ -36,7 +36,13 @@ public class Room {
     public boolean getDark() { return dark; }
     public boolean getCanBeDark() { return canBeDark; }
     public boolean getVisited() { return visited; }
-    public boolean getHasEnemy() { return hasEnemy; }
+    public boolean getHasEnemy() {
+        if (enemy.isAlive()) {
+            return hasEnemy;
+        } else {
+            return hasEnemy = false;
+        }
+    }
 
     public Enemy getEnemy() {
         if (enemy != null) {

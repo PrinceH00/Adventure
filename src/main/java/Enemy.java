@@ -22,4 +22,11 @@ public class Enemy {
 
     public ArrayList<Item> getLoot() { return loot; }
     public void addLoot(Item itemToAdd) { loot.add(itemToAdd); }
+    public boolean isAlive() {
+        if (health > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

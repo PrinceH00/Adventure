@@ -9,6 +9,8 @@ public class Player {
     private ArrayList<Item> inventory;
     private Weapon equippedWeapon;
     private Armor equippedArmor;
+    private String healthDescription;
+
 
     //Constructor with lives as parameters.
     public Player(int health) {
@@ -17,35 +19,49 @@ public class Player {
         inventory.add(new Food("apple", "tastes nice", 1, 2));
         inventory.add(new Weapon("Battle Axe", "Smacks hard", 5, 10));
         inventory.add(new Armor("Leather Tunic", "Protects a little", 5, 5));
+        inventory.add(new Food("pill","Glowing pill that wispers someting",0.1,-1000));
         checkInventoryWeight();
+        setHealthDescription();
     }
 
     //Get methods.
     public Room getCurrentRoom() { return currentRoom; }
-
     public Weapon getEquippedWeapon() { return equippedWeapon; }
     public Armor getEquippedArmor() { return equippedArmor; }
+    public double getHealth() { return health; }
+    public int getMAX_HEALTH() { return MAX_HEALTH; }
+
 
     //Set methods.
     public void setCurrentRoom(Room selectedRoom) {
         currentRoom = selectedRoom;
     }
-
     public void setHealth(double health) { this.health = health; }
 
-    public double getHealth() { return health; }
-
-    public int getMAX_HEALTH() { return MAX_HEALTH; }
-
     public String playerStats() {
+        setHealthDescription();
         StringBuilder stats = new StringBuilder();
-        stats.append(String.format("The player has %s/%s health left.\n",
-                health, MAX_HEALTH));
+        stats.append(String.format("The player has %s/%s health left.\n %s \n",
+                health, MAX_HEALTH, healthDescription));
         stats.append(String.format("The player is carrying %s/%s kg.\n",
                 weight, MAX_WEIGHT));
         stats.append(String.format("Weapon: %s. %s damage\n", equippedWeapon, equippedWeapon.getDamage()));
         stats.append(String.format("Armor: %s. %s armor\n", equippedArmor, equippedArmor.getArmorClass()));
         return stats.toString();
+    }
+
+    public void setHealthDescription() {
+        if (health == 20) {
+            healthDescription = "You are perfectly healthy go slay those fakkers.";
+        } else if (health >= 15) {
+            healthDescription = "You are a little hurt, but tis just a flesh wound.";
+        } else if (health >= 10) {
+            healthDescription = "It hurts but you can still walk.";
+        }else if (health >= 5 ) {
+            healthDescription = "Okay, maybe you should be a little cautious.";
+        } else {
+            healthDescription = "You are basically dead be careful.";
+        }
     }
 
     public boolean isDark() { return currentRoom.getDark(); }
@@ -91,30 +107,54 @@ public class Player {
             return String.format("There is no such item in the inventory");
         }
     }
-
+    //@TODO Make ENUMS
     public String eat(String itemName) {
         Item itemToUse = checkInventoryForItem(itemName);
         if (itemToUse != null && itemToUse.getClass() == Food.class) {
             Food food = (Food) itemToUse;
-            if (health + food.getHealthRecovery() <= MAX_HEALTH) {
+            if (health + food.getHealthRecovery() <= MAX_HEALTH && health + food.getHealthRecovery() >= 1) {
                 inventory.remove(food);
                 health += food.getHealthRecovery();
                 return String.format("%s has been eaten and you have regained %s health", food,
                         food.getHealthRecovery());
-            } else if (health < MAX_HEALTH) {
+            } else if (health + food.getHealthRecovery() >= MAX_HEALTH) {
                 inventory.remove(food);
                 health = MAX_HEALTH;
                 double overHeal = (health + food.getHealthRecovery()) - MAX_HEALTH;
                 return String.format("%s has been eaten, with %s over healing.", food, overHeal);
+            } else if (true) {
+                return "";
             } else {
                 return "You can't eat anymore, your health is full and so is your stomach.";
             }
         } else if (itemToUse.getClass() != Food.class){
             return String.format("%s is not food, you can't eat it.", itemName);
         } else {
-        return String.format("There is no such item in the inventory");
+            return String.format("There is no such item in the inventory");
         }
     }
+    /*public ReturnMessage eat(String itemName) {
+        Item itemToUse = checkInventoryForItem(itemName);
+        if (itemToUse != null && itemToUse.getClass() == Food.class) {
+            Food food = (Food) itemToUse;
+            if (health + food.getHealthRecovery() <= MAX_HEALTH && health + food.getHealthRecovery() >= 1) {
+                inventory.remove(food);
+                health += food.getHealthRecovery();
+                return ReturnMessage.CAN;
+            } else if (health + food.getHealthRecovery() >= MAX_HEALTH) {
+                inventory.remove(food);
+                health = MAX_HEALTH;
+                double overHeal = (health + food.getHealthRecovery()) - MAX_HEALTH;
+                return ReturnMessage.CAN;
+            } else {
+                return ReturnMessage.CANT;
+            }
+        } else if (itemToUse.getClass() != Food.class){
+            return ReturnMessage.CANT;
+        } else {
+            return String.format("There is no such item in the inventory");
+        }
+    }*/
 
     public String drink(String itemName) {
         Item itemToUse = checkInventoryForItem(itemName);
@@ -125,7 +165,7 @@ public class Player {
                 health += liquid.getHealthRecovery();
                 return String.format("%s has been drunk and you have regained %s health", liquid,
                         liquid.getHealthRecovery());
-            } else if (health < MAX_HEALTH) {
+            } else if (health + liquid.getHealthRecovery() >= MAX_HEALTH) {
                 inventory.remove(liquid);
                 health = MAX_HEALTH;
                 double overHeal = (health + liquid.getHealthRecovery()) - MAX_HEALTH;
@@ -142,7 +182,7 @@ public class Player {
 
     public String equipItem(String itemName, String weaponOrArmor) {
         Item itemToEquip = checkInventoryForItem(itemName);
-        if (itemToEquip != null) {
+        if (itemToEquip != null && itemToEquip.getClass() == Equipment.class) {
             if ((weaponOrArmor.equals("w") || weaponOrArmor.equals("weapon"))
                     && itemToEquip.getClass() == Weapon.class) {
                 if (equippedWeapon != null) {
@@ -285,6 +325,57 @@ public class Player {
             return true;
         } else
             return false;
+    }
+
+    //Attack methods.
+    public double attackPlayer() {
+        health = (health - (currentEnemy().getDamage()*(
+                1-(equippedArmor.getArmorClass()/10))));
+        return currentEnemy().getDamage();
+    }
+
+    public double attackEnemy() {
+        currentEnemy().setHealth(currentEnemy().getHealth() - equippedWeapon.getDamage());
+        return equippedWeapon.getDamage();
+    }
+
+    public String attack() {
+        StringBuilder combatInfo = new StringBuilder();
+        if (currentRoom.getHasEnemy() && equippedWeapon != null) {
+            attackEnemy();
+            combatInfo.append(String.format("You have attacked %s and dealt %s damage. \n",
+                        currentRoom.getEnemy().getName(),
+                        equippedWeapon.getDamage()));
+            if (currentRoom.getHasEnemy()) {
+                attackPlayer();
+                combatInfo.append(String.format("You have been attacked and have taken %s damage. \n",
+                        currentEnemy().getDamage()));
+                if (isAlive()) {
+                combatInfo.append(String.format("Player: %s/%s health\n", health, MAX_HEALTH));
+                combatInfo.append(String.format("%s: %s/%s health\n", currentRoom.getEnemy().getName(),
+                        currentRoom.getEnemy().getHealth(),
+                        currentRoom.getEnemy().getMAX_HEALTH()));
+                } else {
+                    return String.format("You have died. Restarting....");
+                }
+            } else {
+                return String.format("%s, has been slain and you get %s", currentEnemy().getName(),
+                        currentEnemy().getLoot());
+            }
+        } else if (!currentRoom.getHasEnemy()) {
+            combatInfo.append("There is no enemy enemy in this room.");
+        } else {
+            combatInfo.append("You have no weapon equipped.");
+        }
+        return combatInfo.toString();
+    }
+
+    public boolean isAlive() {
+        if (health > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     //Giving a description of the room, depending on what the player "knows"

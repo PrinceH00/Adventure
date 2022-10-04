@@ -2,13 +2,13 @@ public class Adventure {
     //Private objects of the player og item class
     private final Player player;
     private final Map map;
-    private final CombatController combat;
+    private boolean hasWon = false;
+    private boolean hasLost = false;
 
     //Constructor without parameters
     public Adventure() {
         player = new Player(10);
         map = new Map();
-        combat = new CombatController(player);
         player.setCurrentRoom(map.getEmptyRoom());
         player.getCurrentRoom().setVisited();
     }
@@ -16,7 +16,6 @@ public class Adventure {
     //Get methode.
     public Player getPlayer() { return player; }
     public Map getMap() { return map; }
-    public CombatController getCombat() { return combat; }
 
     public String movePlayer(String direction) { return player.move(direction); }
     public boolean isDark() { return player.isDark(); }
@@ -28,9 +27,14 @@ public class Adventure {
     public String equipWeapon(String itemToEquip, String weaponOrArmor) { return player.equipItem(itemToEquip, weaponOrArmor); }
     public String stashWeapon(Class weapon) { return player.stashItem(weapon); }
     public String stats() { return player.playerStats(); }
-    public String attack() { return combat.attack(); }
+    public String attack() { return player.attack(); }
     public String takeItem(String itemToTake) { return player.takeItem(itemToTake); }
     public String getInventory() { return player.inventoryToString(); }
 
     public Room currentRoom() { return player.getCurrentRoom(); }
+
+    public boolean hasWon() { return hasWon; }
+    public void victory() { hasWon = true; }
+    public boolean hasLost() {return hasLost; }
+    public void lost() { hasLost = true; }
 }

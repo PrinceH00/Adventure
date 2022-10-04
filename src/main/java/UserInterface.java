@@ -15,9 +15,8 @@ public class UserInterface {
         userCommand();
     }
 
-    public void userCommand(){
-        // TODO: 27/09/2022 Find a way without while "true" Optional
-        while (true) {
+    public void userCommand() {
+        while (!adventure.hasWon() && !adventure.hasLost()) {
             String input = scanner.nextLine().toLowerCase();
             String[] commands = input.split(" ", 3);
             switch (commands[0]) {
@@ -31,6 +30,8 @@ public class UserInterface {
                 case "turn" -> {
                     if (commands.length > 1 && adventure.getPlayer().getCurrentRoom().getCanBeDark()) {
                         System.out.println(adventure.playerTurnLight(commands[1]));
+                    } else if (!adventure.getPlayer().getCurrentRoom().getCanBeDark()) {
+                        System.out.println("This room can't be turned on/off.");
                     } else {
                         System.out.println("You did not enter a valid action, please try again.");
                     }
@@ -86,13 +87,28 @@ public class UserInterface {
                     }
                 }
                 case "attack", "att" -> {
-                    System.out.println(adventure.attack());
+                    if (!adventure.attack().equals("You have died. Restarting....")) {
+                        System.out.println(adventure.attack());
+                    } else {
+                        adventure.lost();
+                    }
                 }
                 case "exit", "quit" -> {
-                    System.out.println("You have given up!");
-                    System.exit(0);
+                    if (adventure.hasWon()) {
+                        System.out.print("Congratulations you have beaten the game and may leave with ");
+                        System.out.print("what most likely is your first archivement");
+                        System.exit(0);
+                    } else {
+                        System.out.println("You have given up!");
+                        System.exit(0);
+                    }
                 }
-                case "status", "stat" -> {
+                case "victory", "v", "end" -> {
+                    System.out.print("Congratulations you have beaten the game and may leave with a penis");
+                    System.out.print("what most likely is your first archivement");
+                    adventure.victory();
+                }
+                case "status", "stat", "health" -> {
                     System.out.println(adventure.stats());
                 }
                 default -> {
@@ -102,18 +118,18 @@ public class UserInterface {
         }
     }
 
-    public void printIntro(){
-        System.out.println("\nWelcome to the Escape Room KIDS!! "
-                + "\nYou are in " + adventure.currentRoom());
-        System.out.println();
-        System.out.println("""
-                Find your way out before... its..t o tt tooo lateeeeeeeeeeeee.
-                You are lucky enough to be assisted by typing "Help"
-                Good luck u may indeed need it. 
-                """);
+    public void printIntro() {
+        StringBuilder intro = new StringBuilder();
+        intro.append("\nWelcome to the Escape Room KIDS!! ");
+        intro.append("\nYou are in ");
+        intro.append(adventure.currentRoom()).append("\n");
+        intro.append("Find your way out before... its..t o tt tooo lateeeeeeeeeeeee.").append("\n");
+        intro.append("You are lucky enough to be assisted by typing \"Help\"").append("\n");
+        intro.append("Good luck u may indeed need it.").append("\n");
+        System.out.println(intro.toString());
     }
 
-    public String help(){
+    public String help() {
         StringBuilder helpInfo = new StringBuilder();
         helpInfo.append("Go + a cardinal direction: attempts to go in the designated direction. \n");
         helpInfo.append("Look: Gets the description on the room u are in. \n");
