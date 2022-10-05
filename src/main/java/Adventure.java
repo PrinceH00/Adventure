@@ -1,3 +1,9 @@
+import Enums.Direction;
+import Enums.ReturnMessage;
+import Items.Food;
+import Items.Item;
+import Items.Liquid;
+
 public class Adventure {
     //Private objects of the player og item class
     private final Player player;
@@ -8,7 +14,7 @@ public class Adventure {
 
     //Constructor without parameters
     public Adventure() {
-        player = new Player(10);
+        player = new Player();
         map = new Map();
         player.setCurrentRoom(map.getEmptyRoom());
         player.getCurrentRoom().setVisited();
@@ -18,9 +24,46 @@ public class Adventure {
     public Player getPlayer() { return player; }
     public Map getMap() { return map; }
 
-    public String movePlayer(String direction) { return player.move(direction); }
-    public boolean isDark() { return player.isDark(); }
-    public String playerTurnLight(String state) { return player.turnLight(state); }
+    public String movePlayer(String direction) {
+        Direction moveDirection = player.move(direction);
+        switch (moveDirection) {
+            case NORTH, EAST, SOUTH, WEST -> {
+                return player.getCurrentRoom().toString();
+            }
+            case NULL -> {
+                return String.format("There is no exit in this room to the %s.", direction);
+            }
+            case NOT_FOUND -> {
+                return "There is no way such as: " + direction;
+            }
+            default -> {
+                return "Something went wrong.";
+            }
+        }
+    }
+
+    public boolean isDark() {
+        return player.isDark();
+    }
+
+    public String playerTurnLight(String state) {
+        result = player.turnLight(state);
+        switch (result) {
+            case CAN -> {
+                return "The light gives off a blinding light, but your eyes quickly adjusts.";
+            }
+            case CANT -> {
+                return "The darkness consumes you, but your eyes quickly adjusts.";
+            }
+            case NOT_FOUND -> {
+                return String.format("%s is not a valid state for the light.", state);
+            }
+            default -> {
+                return "Something went wrong.";
+            }
+        }
+    }
+
     public String playerEat(String itemToEat) {
         Item item = player.checkInventoryForItem(itemToEat);
         Food food = (Food) item;

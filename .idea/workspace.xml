@@ -4,15 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Added Food.java, Weapon.java and functionality to eat Food and equip a weapon.">
+    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Moved String functionality to adventure and enum return values to player.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Direction.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/CombatController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Armor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Consumable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Consumable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enemy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Equipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Food.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Liquid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Liquid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ReturnMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ReturnMessage.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" afterDir="false" />
+    </list>
+    <list id="6957ed3e-080f-436d-9318-a16437305920" name="Changes by hamza" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
     </list>
     <list id="bf8473e6-455c-48bb-9082-a52d1a782c5c" name="Changes by jeper" comment="Changes by jeper" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,6 +41,25 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/Adventure.java">
+      <ranges>
+        <range start1="0" end1="0" start2="0" end2="4" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="10" end1="11" start2="14" end2="15" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="17" end1="19" start2="21" end2="28" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="20" end1="23" start2="29" end2="70" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
+        <range start1="50" end1="50" start2="97" end2="98" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="77" end1="78" start2="125" end2="130" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="97" end1="99" start2="149" end2="158" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="130" end1="131" start2="189" end2="190" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="137" end1="137" start2="196" end2="197" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="154" end1="154" start2="214" end2="215" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="168" end1="169" start2="229" end2="241" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="170" end1="171" start2="242" end2="245" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+        <range start1="172" end1="176" start2="246" end2="253" changelist="6957ed3e-080f-436d-9318-a16437305920" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -42,16 +71,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeper/Documents/Programming/Adventure&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/Users/jeper/Documents/Programming/Adventure",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -116,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1664459917556</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Moved String functionality to adventure and enum return values to player.">
+      <created>1664960484513</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1664960484513</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -142,17 +181,7 @@
     <MESSAGE value="kommentere Player klassen og rykker rundt på metodernde." />
     <MESSAGE value="." />
     <MESSAGE value="Add and remove items" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add and remove items" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Adventure.java</url>
-          <line>81</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Moved String functionality to adventure and enum return values to player." />
+    <option name="LAST_COMMIT_MESSAGE" value="Moved String functionality to adventure and enum return values to player." />
   </component>
 </project>

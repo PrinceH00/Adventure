@@ -1,3 +1,6 @@
+import Enums.Direction;
+import Enums.ReturnMessage;
+import Items.*;
 import java.util.ArrayList;
 
 public class Player {
@@ -13,8 +16,8 @@ public class Player {
 
 
     //Constructor with lives as parameters.
-    public Player(int health) {
-        this.health = health;
+    public Player() {
+        health = MAX_HEALTH;
         inventory = new ArrayList<Item>();
         inventory.add(new Food("apple", "tastes nice", 1, 2));
         inventory.add(new Weapon("Battle Axe", "Smacks hard", 5, 10));
@@ -44,8 +47,8 @@ public class Player {
                 health, MAX_HEALTH, healthDescription));
         stats.append(String.format("The player is carrying %s/%s kg.\n",
                 weight, MAX_WEIGHT));
-        stats.append(String.format("Weapon: %s. %s damage\n", equippedWeapon, equippedWeapon.getDamage()));
-        stats.append(String.format("Armor: %s. %s armor\n", equippedArmor, equippedArmor.getArmorClass()));
+        stats.append(String.format("Items.Weapon: %s. %s damage\n", equippedWeapon, equippedWeapon.getDamage()));
+        stats.append(String.format("Items.Armor: %s. %s armor\n", equippedArmor, equippedArmor.getArmorClass()));
         return stats.toString();
     }
 
@@ -225,60 +228,60 @@ public class Player {
         }
     }
 
-    public String turnLight(String state) {
+    public ReturnMessage turnLight(String state) {
         switch (state) {
             case "on" -> {
                 getCurrentRoom().setDark(false);
                 getCurrentRoom().setVisited();
-                return "The light gives off a blinding light, but your eyes quickly adjusts.";
+                return ReturnMessage.CAN;
             }
             case "off" -> {
                 getCurrentRoom().setDark(true);
-                return "The darkness consumes you, but your eyes quickly adjusts.";
+                return ReturnMessage.CANT;
             }
             default -> {
-                return String.format("%s is not a valid state for the light.", state);
+                return ReturnMessage.NOT_FOUND;
             }
         }
     }
 
     //Moves the player while checking the if it is a legal move.
-    public String move(String direction) {
+    public Direction move(String direction) {
         switch (direction) {
             case "north", "n" -> {
                 if (moveNorth()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
-                    return currentRoom.toString();
+                    return Direction.NORTH;
                 } else {
-                    return "There is no exit in this room to the north.";
+                    return Direction.NULL;
                 }
             }
             case "east", "e" -> {
                 if (moveEast()) {
                     setCurrentRoom(getCurrentRoom().getEast());
-                    return getCurrentRoom().toString();
+                    return Direction.EAST;
                 } else {
-                    return "There is no exit in this room to the east.";
+                    return Direction.NULL;
                 }
             }
             case "south", "s" -> {
                 if (moveSouth()) {
                     setCurrentRoom(getCurrentRoom().getSouth());
-                    return getCurrentRoom().toString();
+                    return Direction.SOUTH;
                 } else {
-                    return "There is no exit in this room to the south.";
+                    return Direction.NULL;
                 }
             }
             case "west", "w" -> {
                 if (moveWest()) {
                     setCurrentRoom(getCurrentRoom().getWest());
-                    return getCurrentRoom().toString();
+                    return Direction.WEST;
                 } else {
-                    return "There is no exit in this room to the west.";
+                    return Direction.NULL;
                 }
             }
             default -> {
-                return "There is no way such as: " + direction;
+                return Direction.NOT_FOUND;
             }
         }
     }
@@ -397,7 +400,7 @@ public class Player {
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {
-                    stringBuilder.append(String.format("%s. %s \n", currentRoom.getDescription(), currentRoom.listItemsInRoom())).append("\n");
+                    stringBuilder.append(String.format("%s.\n%s \n", currentRoom.getDescription(), currentRoom.listItemsInRoom())).append("\n");
                 } else {
                     stringBuilder.append(String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription())).append("\n");
                 }

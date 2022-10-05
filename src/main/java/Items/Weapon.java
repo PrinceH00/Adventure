@@ -1,3 +1,7 @@
+package Items;
+
+import Items.Equipment;
+
 public class Weapon extends Equipment {
     private final int damage;
 
