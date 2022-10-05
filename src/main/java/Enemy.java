@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Enemy {
     private String name;
     private int MAX_HEALTH;
-    private double health;
+    private int health;
     private ArrayList<Item> loot;
     private int damage;
 
@@ -14,8 +14,8 @@ public class Enemy {
         this.damage = damage;
     }
 
-    public void setHealth(double health) { this.health = health; }
-    public double getHealth() { return health; }
+    public void setHealth(int health) { this.health = health; }
+    public int getHealth() { return health; }
     public int getDamage() { return damage; }
     public String getName() { return name; }
     public int getMAX_HEALTH() { return MAX_HEALTH; }

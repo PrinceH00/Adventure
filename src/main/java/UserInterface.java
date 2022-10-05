@@ -67,7 +67,7 @@ public class UserInterface {
                     }
                 }
                 case "look" -> {
-                    adventure.playerLook();
+                    System.out.println(adventure.playerLook());
                 }
                 case "help" -> {
                     System.out.println(help());
@@ -78,7 +78,7 @@ public class UserInterface {
                 }
                 case "equip" -> {
                     if (commands.length > 1) {
-                        System.out.println(adventure.equipWeapon(commands[1], commands[2]));
+                        System.out.println(adventure.equipWeapon(commands[2], commands[1]));
                     }
                 }
                 case "stash" -> {

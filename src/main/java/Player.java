@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Player {
     private final int MAX_HEALTH = 20;
     private final double MAX_WEIGHT = 30.0;
-    private double health;
+    private int health;
     private double weight;
     private Room currentRoom;
     private ArrayList<Item> inventory;
@@ -19,7 +19,7 @@ public class Player {
         inventory.add(new Food("apple", "tastes nice", 1, 2));
         inventory.add(new Weapon("Battle Axe", "Smacks hard", 5, 10));
         inventory.add(new Armor("Leather Tunic", "Protects a little", 5, 5));
-        inventory.add(new Food("pill","Glowing pill that wispers someting",0.1,-1000));
+        inventory.add(new Food("pill","Glowing pill that whispers something",0.1,-1000));
         checkInventoryWeight();
         setHealthDescription();
     }
@@ -28,7 +28,7 @@ public class Player {
     public Room getCurrentRoom() { return currentRoom; }
     public Weapon getEquippedWeapon() { return equippedWeapon; }
     public Armor getEquippedArmor() { return equippedArmor; }
-    public double getHealth() { return health; }
+    public int getHealth() { return health; }
     public int getMAX_HEALTH() { return MAX_HEALTH; }
 
 
@@ -36,7 +36,6 @@ public class Player {
     public void setCurrentRoom(Room selectedRoom) {
         currentRoom = selectedRoom;
     }
-    public void setHealth(double health) { this.health = health; }
 
     public String playerStats() {
         setHealthDescription();
@@ -83,128 +82,120 @@ public class Player {
         }
     }
 
-    public String takeItem(String itemName) {
+    public ReturnMessage takeItem(String itemName) {
         Item itemToTake = currentRoom.checkItems(itemName);
         if (itemToTake != null && (weight + itemToTake.getWeight()) <= MAX_WEIGHT) {
             currentRoom.removeItem(itemToTake);
             inventory.add(itemToTake);
             weight += itemToTake.getWeight();
-            return String.format("%s has been picked up successfully.", itemName);
+            return ReturnMessage.CAN;
         } else if (itemToTake == null) {
-            return String.format("There is no such item in the %s", currentRoom.getRoomName());
+            return ReturnMessage.CANT;
         } else {
-            return String.format("You can't carry that, it's too heavy.");
+            return ReturnMessage.NOT_FOUND;
         }
     }
 
-    public String dropItem(String itemName) {
+    public ReturnMessage dropItem(String itemName) {
         Item itemToDrop = checkInventoryForItem(itemName);
         if (itemToDrop != null) {
             inventory.remove(itemToDrop);
             currentRoom.addItem(itemToDrop);
-            return String.format("%s has been dropped successfully.", itemName);
+            return ReturnMessage.CAN;
         } else {
-            return String.format("There is no such item in the inventory");
+            return ReturnMessage.NOT_FOUND;
         }
     }
-    //@TODO Make ENUMS
-    public String eat(String itemName) {
+
+    public ReturnMessage eat(String itemName) {
         Item itemToUse = checkInventoryForItem(itemName);
         if (itemToUse != null && itemToUse.getClass() == Food.class) {
             Food food = (Food) itemToUse;
-            if (health + food.getHealthRecovery() <= MAX_HEALTH && health + food.getHealthRecovery() >= 1) {
-                inventory.remove(food);
-                health += food.getHealthRecovery();
-                return String.format("%s has been eaten and you have regained %s health", food,
-                        food.getHealthRecovery());
-            } else if (health + food.getHealthRecovery() >= MAX_HEALTH) {
-                inventory.remove(food);
-                health = MAX_HEALTH;
-                double overHeal = (health + food.getHealthRecovery()) - MAX_HEALTH;
-                return String.format("%s has been eaten, with %s over healing.", food, overHeal);
-            } else if (true) {
-                return "";
-            } else {
-                return "You can't eat anymore, your health is full and so is your stomach.";
-            }
-        } else if (itemToUse.getClass() != Food.class){
-            return String.format("%s is not food, you can't eat it.", itemName);
-        } else {
-            return String.format("There is no such item in the inventory");
-        }
-    }
-    /*public ReturnMessage eat(String itemName) {
-        Item itemToUse = checkInventoryForItem(itemName);
-        if (itemToUse != null && itemToUse.getClass() == Food.class) {
-            Food food = (Food) itemToUse;
-            if (health + food.getHealthRecovery() <= MAX_HEALTH && health + food.getHealthRecovery() >= 1) {
-                inventory.remove(food);
-                health += food.getHealthRecovery();
-                return ReturnMessage.CAN;
-            } else if (health + food.getHealthRecovery() >= MAX_HEALTH) {
-                inventory.remove(food);
-                health = MAX_HEALTH;
-                double overHeal = (health + food.getHealthRecovery()) - MAX_HEALTH;
-                return ReturnMessage.CAN;
-            } else {
-                return ReturnMessage.CANT;
-            }
+            return canEat(food);
         } else if (itemToUse.getClass() != Food.class){
             return ReturnMessage.CANT;
         } else {
-            return String.format("There is no such item in the inventory");
-        }
-    }*/
-
-    public String drink(String itemName) {
-        Item itemToUse = checkInventoryForItem(itemName);
-        if (itemToUse != null && itemToUse.getClass() == Liquid.class) {
-            Liquid liquid = (Liquid) itemToUse;
-            if (health + liquid.getHealthRecovery() <= MAX_HEALTH) {
-                inventory.remove(liquid);
-                health += liquid.getHealthRecovery();
-                return String.format("%s has been drunk and you have regained %s health", liquid,
-                        liquid.getHealthRecovery());
-            } else if (health + liquid.getHealthRecovery() >= MAX_HEALTH) {
-                inventory.remove(liquid);
-                health = MAX_HEALTH;
-                double overHeal = (health + liquid.getHealthRecovery()) - MAX_HEALTH;
-                return String.format("%s has been drunk, with %s over healing.", liquid, overHeal);
-            } else {
-                return "You can't drink anymore, your health is full and so is your stomach.";
-            }
-        } else if (itemToUse.getClass() != Liquid.class){
-            return String.format("%s is not a liquid, you can't drink it.", itemName);
-        } else {
-            return String.format("There is no such item in the inventory");
+            return ReturnMessage.NOT_FOUND;
         }
     }
 
-    public String equipItem(String itemName, String weaponOrArmor) {
+    public ReturnMessage canEat(Food food) {
+        if (health + food.getHealthRecovery() <= MAX_HEALTH && health + food.getHealthRecovery() >= 1) {
+            inventory.remove(food);
+            health += food.getHealthRecovery();
+            return ReturnMessage.CAN;
+        } else if (health + food.getHealthRecovery() >= MAX_HEALTH) {
+            inventory.remove(food);
+            health = MAX_HEALTH;
+            return ReturnMessage.CAN_MUCH;
+        } else {
+            health = 0;
+            isAlive();
+            return ReturnMessage.CAN_LITTLE;
+        }
+    }
+
+    public ReturnMessage drink(String itemName) {
+        Item itemToUse = checkInventoryForItem(itemName);
+        if (itemToUse != null && itemToUse.getClass() == Liquid.class) {
+            Liquid liquid = (Liquid) itemToUse;
+            return canDrink(liquid);
+        } else if (itemToUse.getClass() != Liquid.class){
+            return ReturnMessage.CANT;
+        } else {
+            return ReturnMessage.NOT_FOUND;
+        }
+    }
+
+    public ReturnMessage canDrink(Liquid liquid) {
+        if (health + liquid.getHealthRecovery() <= MAX_HEALTH) {
+            inventory.remove(liquid);
+            health += liquid.getHealthRecovery();
+            return ReturnMessage.CAN;
+        } else if (health + liquid.getHealthRecovery() >= MAX_HEALTH) {
+            inventory.remove(liquid);
+            health = MAX_HEALTH;
+            return ReturnMessage.CAN_MUCH;
+        } else {
+            health = 0;
+            isAlive();
+            return ReturnMessage.CAN_LITTLE;
+        }
+    }
+
+    public ReturnMessage equipItem(String itemName, String weaponOrArmor) {
         Item itemToEquip = checkInventoryForItem(itemName);
-        if (itemToEquip != null && itemToEquip.getClass() == Equipment.class) {
+        if (itemToEquip != null && itemToEquip.getClass().getSuperclass() == Equipment.class) {
             if ((weaponOrArmor.equals("w") || weaponOrArmor.equals("weapon"))
                     && itemToEquip.getClass() == Weapon.class) {
-                if (equippedWeapon != null) {
-                    stashItem(Weapon.class);
-                }
-                inventory.remove(itemToEquip);
-                equippedWeapon = (Weapon) itemToEquip;
-                return String.format("%s has been equipped.", itemToEquip.getName());
-            } else if ((weaponOrArmor.equals("w") || weaponOrArmor.equals("weapon"))
+                return equipWeapon((Weapon) itemToEquip);
+            } else if ((weaponOrArmor.equals("a") || weaponOrArmor.equals("armor"))
                     && itemToEquip.getClass() == Armor.class) {
-                if (equippedArmor != null) {
-                    stashItem(Armor.class);
-                }
-                inventory.remove(itemToEquip);
-                equippedArmor = (Armor) itemToEquip;
-                return String.format("%s has been equipped.", itemToEquip.getName());
+                return equipArmor((Armor) itemToEquip);
             } else {
-                return String.format("%s is not a weapon or armor piece.", itemName);
+                return ReturnMessage.CANT;
             }
         } else {
-            return String.format("There is no such item in the inventory");
+            return ReturnMessage.NOT_FOUND;
         }
+    }
+
+    public ReturnMessage equipWeapon(Weapon weapon) {
+        if (equippedWeapon != null) {
+            stashItem(Weapon.class);
+        }
+        inventory.remove(weapon);
+        equippedWeapon = weapon;
+        return ReturnMessage.CAN;
+    }
+
+    private ReturnMessage equipArmor(Armor armor) {
+        if (equippedArmor != null) {
+            stashItem(Armor.class);
+        }
+        inventory.remove(armor);
+        equippedArmor = armor;
+        return ReturnMessage.CAN;
     }
 
     public String stashItem(Class armorOrWeapon) {
@@ -294,43 +285,76 @@ public class Player {
 
     //booleans moving the player N,S,E,W If it is not null.
     public boolean moveNorth() {
-        if (currentRoom.getNorth() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited();
-            return true;
-        } else {
-            return false;
+        if (currentRoom.getNorth() != null) {
+            if (!currentRoom.getDark()) {
+                currentRoom.setLastRoom(currentRoom);
+                currentRoom.setVisited();
+                return true;
+            } else {
+                if (currentRoom.getNorth() == currentRoom.getLastRoom()) {
+                    currentRoom.setLastRoom(currentRoom);
+                    currentRoom.setVisited();
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
     public boolean moveEast() {
-        if (currentRoom.getEast() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited();
-            return true;
-        } else {
-            return false;
+        if (currentRoom.getEast() != null) {
+            if (!currentRoom.getDark()) {
+                currentRoom.setLastRoom(currentRoom);
+                currentRoom.setVisited();
+                return true;
+            } else {
+                if (currentRoom.getEast() == currentRoom.getLastRoom()) {
+                    currentRoom.setLastRoom(currentRoom);
+                    currentRoom.setVisited();
+                    return true;
+                }
+            }
         }
+        return false;
     }
 
     public boolean moveSouth() {
-        if (currentRoom.getSouth() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited();
-            return true;
-        } else
-            return false;
+        if (currentRoom.getSouth() != null) {
+            if (!currentRoom.getDark()) {
+                currentRoom.setLastRoom(currentRoom);
+                currentRoom.setVisited();
+                return true;
+            } else {
+                if (currentRoom.getSouth() == currentRoom.getLastRoom()) {
+                    currentRoom.setLastRoom(currentRoom);
+                    currentRoom.setVisited();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean moveWest() {
-        if (currentRoom.getWest() != null && !currentRoom.getDark()) {
-            currentRoom.setVisited();
-            return true;
-        } else
-            return false;
+        if (currentRoom.getWest() != null) {
+            if (!currentRoom.getDark()) {
+                currentRoom.setLastRoom(currentRoom);
+                currentRoom.setVisited();
+                return true;
+            } else {
+                if (currentRoom.getWest() == currentRoom.getLastRoom()) {
+                    currentRoom.setLastRoom(currentRoom);
+                    currentRoom.setVisited();
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //Attack methods.
     public double attackPlayer() {
-        health = (health - (currentEnemy().getDamage()*(
-                1-(equippedArmor.getArmorClass()/10))));
+        health = (health - (currentEnemy().getDamage() - equippedArmor.getArmorClass()));
         return currentEnemy().getDamage();
     }
 
@@ -339,35 +363,24 @@ public class Player {
         return equippedWeapon.getDamage();
     }
 
-    public String attack() {
-        StringBuilder combatInfo = new StringBuilder();
+    public ReturnMessage attack() {
         if (currentRoom.getHasEnemy() && equippedWeapon != null) {
             attackEnemy();
-            combatInfo.append(String.format("You have attacked %s and dealt %s damage. \n",
-                        currentRoom.getEnemy().getName(),
-                        equippedWeapon.getDamage()));
             if (currentRoom.getHasEnemy()) {
                 attackPlayer();
-                combatInfo.append(String.format("You have been attacked and have taken %s damage. \n",
-                        currentEnemy().getDamage()));
                 if (isAlive()) {
-                combatInfo.append(String.format("Player: %s/%s health\n", health, MAX_HEALTH));
-                combatInfo.append(String.format("%s: %s/%s health\n", currentRoom.getEnemy().getName(),
-                        currentRoom.getEnemy().getHealth(),
-                        currentRoom.getEnemy().getMAX_HEALTH()));
+                    return ReturnMessage.CAN;
                 } else {
-                    return String.format("You have died. Restarting....");
+                    return ReturnMessage.CAN_LITTLE;
                 }
             } else {
-                return String.format("%s, has been slain and you get %s", currentEnemy().getName(),
-                        currentEnemy().getLoot());
+                return ReturnMessage.CAN_MUCH;
             }
         } else if (!currentRoom.getHasEnemy()) {
-            combatInfo.append("There is no enemy enemy in this room.");
+            return ReturnMessage.NOT_FOUND;
         } else {
-            combatInfo.append("You have no weapon equipped.");
+            return ReturnMessage.CANT;
         }
-        return combatInfo.toString();
     }
 
     public boolean isAlive() {
@@ -384,14 +397,14 @@ public class Player {
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {
-                    stringBuilder.append(String.format("%s. %s", currentRoom.getDescription(), currentRoom.listItemsInRoom()));
+                    stringBuilder.append(String.format("%s. %s \n", currentRoom.getDescription(), currentRoom.listItemsInRoom())).append("\n");
                 } else {
-                    return String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription());
+                    stringBuilder.append(String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription())).append("\n");
                 }
                 stringBuilder.append(currentRoom.exits());
                 return stringBuilder.toString();
             } else {
-                return "The room is pitch black you see nothing but the entrance you came in from. ";
+                return "The room is pitch black you see nothing but the entrance you came in from. \n";
             }
         } else {
             System.exit(0);

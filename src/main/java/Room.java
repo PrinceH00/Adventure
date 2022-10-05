@@ -8,6 +8,7 @@ public class Room {
     private Room south;
     private Room west;
     private Enemy enemy;
+    private Room lastRoom;
 
     //Private attributes.
     private final String roomName;
@@ -31,6 +32,7 @@ public class Room {
     public Room getEast() { return east; }
     public Room getSouth() { return south; }
     public Room getWest() { return west; }
+    public Room getLastRoom() { return lastRoom; }
     public String getDescription() { return description; }
     public String getRoomName() { return roomName; }
     public boolean getDark() { return dark; }
@@ -85,6 +87,8 @@ public class Room {
         }
     }
 
+    public void setLastRoom(Room lastRoom) { this.lastRoom = lastRoom; }
+
     public void setVisited() { this.visited = true; }
 
     public void setDark(boolean dark) {
@@ -98,30 +102,29 @@ public class Room {
         int exits = 0;
         if (north != null && north.getVisited()) {
             exits++;
-            stringBuilder.append("North: " + north.getRoomName());
+            stringBuilder.append("North: " + north.getRoomName()).append("\n");
         } else {
-            stringBuilder.append("North: null");
+            stringBuilder.append("North: null").append("\n");
         }
         if (east != null && east.getVisited()) {
             exits++;
-            stringBuilder.append("East: " + north.getRoomName());
+            stringBuilder.append("East: " + east.getRoomName()).append("\n");
         } else {
-            stringBuilder.append("East: null");
+            stringBuilder.append("East: null").append("\n");
         }
         if (south != null && south.getVisited()) {
             exits++;
-            stringBuilder.append("South: " + north.getRoomName());
+            stringBuilder.append("South: " + south.getRoomName()).append("\n");
         } else {
-            stringBuilder.append("South: null");
+            stringBuilder.append("South: null").append("\n");
         }
         if (west != null && west.getVisited()) {
             exits++;
-            stringBuilder.append("West: " + west.getRoomName());
+            stringBuilder.append("West: " + west.getRoomName()).append("\n");
         } else {
-            stringBuilder.append("West: null");
+            stringBuilder.append("West: null").append("\n");
         }
-        stringBuilder.append(String.format("There are %s exits.\n%s\n%s\n%s\n%s", exits, north.getRoomName(), east.getRoomName(),
-                south.getRoomName(), west.getRoomName()));
+        stringBuilder.append(String.format("There are %s exits. \n", exits));
         return stringBuilder.toString();
     }
 
