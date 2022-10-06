@@ -13,4 +13,9 @@ public class Armor extends Equipment {
     public int getArmorClass() {
         return armorClass;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s: %s, %s armor", name, description, armorClass);
+    }
 }

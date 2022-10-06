@@ -1,7 +1,26 @@
 package Items;
 
 public class RangedWeapon extends Weapon {
-    public RangedWeapon(String name, String description, double weight, int damage) {
+    private final int MAXIMUM_USES;
+    private int remainingUses;
+
+    public RangedWeapon(String name, String description, double weight, int damage, int MAXIMUM_USES) {
         super(name, description, weight, damage);
+        this.MAXIMUM_USES = MAXIMUM_USES;
+        this.remainingUses = this.MAXIMUM_USES;
+    }
+
+    @Override
+    public int remainingUses() {
+        return remainingUses;
+    }
+
+    public void used() {
+        remainingUses--;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s: %s, %s damage, %s ammunition", name, description, damage, remainingUses());
     }
 }

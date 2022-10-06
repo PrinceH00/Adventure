@@ -20,7 +20,8 @@ public class Player {
         health = MAX_HEALTH;
         inventory = new ArrayList<Item>();
         inventory.add(new Food("apple", "tastes nice", 1, 2));
-        inventory.add(new Weapon("Battle Axe", "Smacks hard", 5, 10));
+        inventory.add(new MeleeWeapon("Battle Axe", "Smacks hard", 5, 10));
+        inventory.add(new RangedWeapon("Bow", "Shoots arrows", 5, 15, 5));
         inventory.add(new Armor("Leather Tunic", "Protects a little", 5, 5));
         inventory.add(new Food("pill","Glowing pill that whispers something",0.1,-1000));
         checkInventoryWeight();
@@ -47,8 +48,8 @@ public class Player {
                 health, MAX_HEALTH, healthDescription));
         stats.append(String.format("The player is carrying %s/%s kg.\n",
                 weight, MAX_WEIGHT));
-        stats.append(String.format("Items.Weapon: %s. %s damage\n", equippedWeapon, equippedWeapon.getDamage()));
-        stats.append(String.format("Items.Armor: %s. %s armor\n", equippedArmor, equippedArmor.getArmorClass()));
+        stats.append(String.format("Items.Weapon: %s.\n", equippedWeapon.toString()));
+        stats.append(String.format("Items.Armor: %s.\n", equippedArmor.toString()));
         return stats.toString();
     }
 
@@ -362,22 +363,28 @@ public class Player {
     }
 
     public double attackEnemy() {
+        equippedWeapon.setCanUse();
+        equippedWeapon.used();
         currentEnemy().setHealth(currentEnemy().getHealth() - equippedWeapon.getDamage());
         return equippedWeapon.getDamage();
     }
 
     public ReturnMessage attack() {
         if (currentRoom.getHasEnemy() && equippedWeapon != null) {
-            attackEnemy();
-            if (currentRoom.getHasEnemy()) {
-                attackPlayer();
-                if (isAlive()) {
-                    return ReturnMessage.CAN;
+            if (equippedWeapon.getCanUse()) {
+                attackEnemy();
+                if (currentRoom.getHasEnemy()) {
+                    attackPlayer();
+                    if (isAlive()) {
+                        return ReturnMessage.CAN;
+                    } else {
+                        return ReturnMessage.CAN_LITTLE;
+                    }
                 } else {
-                    return ReturnMessage.CAN_LITTLE;
+                    return ReturnMessage.CAN_MUCH;
                 }
             } else {
-                return ReturnMessage.CAN_MUCH;
+                return ReturnMessage.NO_USES;
             }
         } else if (!currentRoom.getHasEnemy()) {
             return ReturnMessage.NOT_FOUND;

@@ -21,8 +21,9 @@ public class Adventure {
     }
 
     //Get methode.
-    public Player getPlayer() { return player; }
-    public Map getMap() { return map; }
+    public Player getPlayer() {
+        return player;
+    }
 
     public String movePlayer(String direction) {
         Direction moveDirection = player.move(direction);
@@ -91,6 +92,7 @@ public class Adventure {
             }
         }
     }
+
     public String playerDrink(String itemToDrink) {
         Item item = player.checkInventoryForItem(itemToDrink);
         Liquid liquid = (Liquid) item;
@@ -118,7 +120,11 @@ public class Adventure {
             }
         }
     }
-    public String  playerLook() { return player.look(); }
+
+    public String playerLook() {
+        return player.look();
+    }
+
     public String equipWeapon(String itemToEquip, String weaponOrArmor) {
         StringBuilder combatInfo = new StringBuilder();
         Item equippedItem = player.checkInventoryForItem(itemToEquip);
@@ -138,12 +144,22 @@ public class Adventure {
             }
         }
     }
-    public String stashWeapon(Class weapon) { return player.stashItem(weapon); }
-    public String stats() { return player.playerStats(); }
+
+    public String stashWeapon(Class weapon) {
+        return player.stashItem(weapon);
+    }
+
+    public String stats() {
+        return player.playerStats();
+    }
+
     public String attack() {
         StringBuilder combatInfo = new StringBuilder();
         result = player.attack();
         switch (result) {
+            case NO_USES ->  {
+                combatInfo.append("Your Weapon is broken and can no longer be used to attack.");
+            }
             case CANT -> {
                 combatInfo.append("You have no weapon equipped.");
             }
@@ -171,13 +187,14 @@ public class Adventure {
                         combatInfo.append("You have died. Restarting....");
                     }
                     default -> {
-                       combatInfo.append("Something went wrong.");
+                        combatInfo.append("Something went wrong.");
                     }
                 }
             }
         }
         return combatInfo.toString();
     }
+
     public String takeItem(String itemToTake) {
         result = player.takeItem(itemToTake);
         switch (result) {
@@ -195,6 +212,7 @@ public class Adventure {
             }
         }
     }
+
     public String dropItem(String itemToDrop) {
         result = player.dropItem(itemToDrop);
         switch (result) {
@@ -209,12 +227,28 @@ public class Adventure {
             }
         }
     }
-    public String getInventory() { return player.inventoryToString(); }
 
-    public Room currentRoom() { return player.getCurrentRoom(); }
+    public String getInventory() {
+        return player.inventoryToString();
+    }
 
-    public boolean hasWon() { return hasWon; }
-    public void victory() { hasWon = true; }
-    public boolean hasLost() {return hasLost; }
-    public void lost() { hasLost = true; }
+    public Room currentRoom() {
+        return player.getCurrentRoom();
+    }
+
+    public boolean hasWon() {
+        return hasWon;
+    }
+
+    public void victory() {
+        hasWon = true;
+    }
+
+    public boolean hasLost() {
+        return hasLost;
+    }
+
+    public void lost() {
+        hasLost = true;
+    }
 }

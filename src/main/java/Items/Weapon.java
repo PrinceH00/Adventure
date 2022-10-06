@@ -1,16 +1,37 @@
 package Items;
 
-import Items.Equipment;
-
-public class Weapon extends Equipment {
-    private final int damage;
+public abstract class Weapon extends Equipment {
+    protected final int damage;
+    protected boolean canUse;
 
     public Weapon(String name, String description, double weight, int damage) {
         super(name, description, weight);
         this.damage = damage;
+        setCanUse();
     }
 
     public int getDamage() {
         return damage;
+    }
+
+    public abstract int remainingUses();
+    public abstract void used();
+
+    public void setCanUse() {
+        if (remainingUses() > 0) {
+            canUse = true;
+        } else {
+            canUse = false;
+        }
+    }
+
+    public boolean getCanUse() {
+        return canUse;
+    }
+
+
+    @Override
+    public String toString() {
+        return String.format("%s: %s, %s damage", name, description, damage);
     }
 }
