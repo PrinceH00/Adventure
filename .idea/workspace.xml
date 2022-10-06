@@ -4,25 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Moved String functionality to adventure and enum return values to player.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Direction.java" afterDir="false" />
+    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="extended items to consumables and made food a consumable and added liquid. extended items to equipments and added armor and updated the combat system to support it.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/MeleeWeapon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/RangedWeapon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Armor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Consumable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Consumable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Enemy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Equipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Food.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Item.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Liquid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Liquid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Map.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" afterDir="false" />
-    </list>
-    <list id="6957ed3e-080f-436d-9318-a16437305920" name="Changes by hamza" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Consumable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Consumable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Item.java" afterDir="false" />
     </list>
     <list id="bf8473e6-455c-48bb-9082-a52d1a782c5c" name="Changes by jeper" comment="Changes by jeper" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,32 +20,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/Adventure.java">
-      <ranges>
-        <range start1="0" end1="0" start2="0" end2="4" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
-        <range start1="10" end1="11" start2="14" end2="15" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
-        <range start1="17" end1="19" start2="21" end2="28" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="20" end1="23" start2="29" end2="70" changelist="17659fd0-c919-43dd-96f7-b5622ca9aa6c" />
-        <range start1="50" end1="50" start2="97" end2="98" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="77" end1="78" start2="125" end2="130" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="97" end1="99" start2="149" end2="158" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="130" end1="131" start2="189" end2="190" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="137" end1="137" start2="196" end2="197" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="154" end1="154" start2="214" end2="215" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="168" end1="169" start2="229" end2="241" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="170" end1="171" start2="242" end2="245" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-        <range start1="172" end1="176" start2="246" end2="253" changelist="6957ed3e-080f-436d-9318-a16437305920" />
-      </ranges>
-    </file>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -71,19 +39,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/jeper/Documents/Programming/Adventure",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeper/Documents/Programming/Adventure&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

@@ -3,7 +3,7 @@ package Items;
 import Items.Item;
 
 public class Consumable extends Item {
-    private final int healthRecovery;
+    protected final int healthRecovery;
 
     public Consumable(String name, String description, double weight, int healthRecovery) {
         super(name, description, weight);

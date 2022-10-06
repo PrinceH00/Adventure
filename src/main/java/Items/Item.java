@@ -1,9 +1,9 @@
 package Items;
 
 public class Item {
-    private String name;
-    private String description;
-    private double weight;
+    protected String name;
+    protected String description;
+    protected double weight;
 
     public Item(String name, String description, double weight) {
             this.name = name;
