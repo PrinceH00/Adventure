@@ -5,17 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Extended weapon with MeleeWeapon and RangedWeapon.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Ammunition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Arrow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Bow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Bullet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Gun.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/BodyArmor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/HeavyWeapon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/LightWeapon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Shield.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Food.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Food.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Items/MeleeWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/MeleeWeapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Bow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Bow.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Gun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Gun.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Items/RangedWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/RangedWeapon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
     </list>
@@ -160,16 +160,5 @@
     <MESSAGE value="Add and remove items" />
     <MESSAGE value="Moved String functionality to adventure and enum return values to player." />
     <option name="LAST_COMMIT_MESSAGE" value="Moved String functionality to adventure and enum return values to player." />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Adventure.java</url>
-          <line>131</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

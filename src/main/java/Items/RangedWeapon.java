@@ -1,8 +1,8 @@
 package Items;
 
 public class RangedWeapon extends Weapon {
-    private final int MAXIMUM_USES;
-    private int remainingUses;
+    protected final int MAXIMUM_USES;
+    protected int remainingUses;
 
     public RangedWeapon(String name, String description, double weight, int damage, int MAXIMUM_USES) {
         super(name, description, weight, damage);

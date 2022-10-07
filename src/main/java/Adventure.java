@@ -123,15 +123,18 @@ public class Adventure {
         return player.look();
     }
 
-    public String equipWeapon(String itemToEquip, String weaponOrArmor) {
-        Item equippedItem = player.checkInventoryForItem(itemToEquip);
-        result = player.equipItem(itemToEquip, weaponOrArmor);
+    public String equipWeapon(String itemToEquip, String weaponOrArmor, String mainOrOffHand) {
+        Item itemInInventory = player.checkInventoryForItem(itemToEquip);
+        result = player.equipItem(itemToEquip, weaponOrArmor, mainOrOffHand);
         switch (result) {
             case CAN -> {
-                return String.format("%s has been equipped.", equippedItem.getName());
+                return String.format("%s has been equipped.", itemInInventory.getName());
             }
             case CANT -> {
                 return String.format("%s is not a weapon or armor piece.", itemToEquip);
+            }
+            case CAN_LITTLE -> {
+                return String.format("%s, could not be equipped since it is a two-handed weapon", itemInInventory.getName());
             }
             case NOT_FOUND -> {
                 return String.format("There is no such item in the inventory");
@@ -142,14 +145,14 @@ public class Adventure {
         }
     }
 
-    public String stashWeapon(Class equipment) {
+    public String stashWeapon(Class equipment, String mainOrOffHand) {
         String formerEquipment = "";
-        if (equipment == Weapon.class && player.getEquippedWeapon() != null) {
-            formerEquipment = player.getEquippedWeapon().getName();
+        if (equipment == Weapon.class && player.getMainHandWeapon() != null) {
+            formerEquipment = player.getMainHandWeapon().getName();
         } else if (equipment == Armor.class && player.getEquippedArmor() != null) {
-            formerEquipment = player.getEquippedWeapon().getName();
+            formerEquipment = player.getMainHandWeapon().getName();
         }
-        result = player.stashItem(equipment);
+        result = player.stashItem(equipment, mainOrOffHand);
         switch (result) {
             case CAN -> {
                 return String.format("You have stashed %s", formerEquipment);
@@ -186,7 +189,7 @@ public class Adventure {
             default -> {
                 combatInfo.append(String.format("You have attacked %s and dealt %s damage. \n",
                         player.currentEnemy().getName(),
-                        player.getEquippedWeapon().getDamage()));
+                        player.getMainHandWeapon().getDamage()));
                 combatInfo.append(String.format("You have been attacked and have taken %s damage. \n",
                         player.currentEnemy().getDamage()));
                 switch (result) {

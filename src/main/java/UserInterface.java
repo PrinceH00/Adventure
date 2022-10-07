@@ -1,5 +1,9 @@
 import Items.Armor;
+import Items.BodyArmor;
+import Items.Shield;
 import Items.Weapon;
+
+import javax.xml.stream.events.Comment;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -20,7 +24,7 @@ public class UserInterface {
     public void userCommand() {
         while (!adventure.hasWon() && !adventure.hasLost()) {
             String input = scanner.nextLine().toLowerCase();
-            String[] commands = input.split(" ", 3);
+            String[] commands = input.split(" ", 4);
             switch (commands[0]) {
                 case "go" -> {
                     if (commands.length > 1) {
@@ -78,20 +82,25 @@ public class UserInterface {
                     System.out.println(adventure.getInventory());
                 }
                 case "equip" -> {
-                    if (commands.length > 2) {
-                        System.out.println(adventure.equipWeapon(commands[2], commands[1]));
+                    if (commands.length == 3) {
+                        System.out.println(adventure.equipWeapon(commands[2], commands[1], ""));
+                    } else if (commands.length == 4) {
+                        System.out.println(adventure.equipWeapon(commands[3], commands[1], commands[2]));
                     } else {
                         System.out.println("You can't do that, something was wrong.");
                     }
                 }
                 case "unequip", "stash" -> {
-                    if (commands.length > 1) {
+                    if (commands.length > 2) {
                         switch (commands[1]) {
                             case "w", "weapon" -> {
-                                System.out.println(adventure.stashWeapon(Weapon.class));
+                                System.out.println(adventure.stashWeapon(Weapon.class, commands[2]));
                             }
                             case "a", "armor" -> {
-                                System.out.println(adventure.stashWeapon(Armor.class));
+                                System.out.println(adventure.stashWeapon(BodyArmor.class, ""));
+                            }
+                            case "s", "shield" -> {
+                                System.out.println(adventure.stashWeapon(Shield.class, ""));
                             }
                         }
                     } else {
@@ -146,18 +155,21 @@ public class UserInterface {
 
     public String help() {
         StringBuilder helpInfo = new StringBuilder();
-        helpInfo.append("Go + a cardinal direction: attempts to go in the designated direction. \n");
-        helpInfo.append("Look: Gets the description on the room u are in. \n");
-        helpInfo.append("Pickup + item name: attempts to pick up the designated item. \n");
-        helpInfo.append("Turn + on/off: turns off the light if it is dark. \n");
-        helpInfo.append("Take + item name: picks up the item and adds it to the player's inventory, but only works when the light is on.\n");
-        helpInfo.append("Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room. \n");
-        helpInfo.append("Inventory/Inv/Bag: Shows the content of the player's inventory. \n");
-        helpInfo.append("Eat + item name: Eats the item, if it is eatable and if you are not on full health. \n");
-        helpInfo.append("Equip weapon/armor  + item name: Equips the item if it is possible. \n");
-        helpInfo.append("Stash + item name: Stashes your weapon into your inventory. \n");
-        helpInfo.append("Attack: attacks the enemy in the room, if there is any. \n");
-        helpInfo.append("Exit: exits the labyrinth. LIKE A COWARD!!! \n");
+        helpInfo.append("Go + a cardinal direction: attempts to go in the designated direction.").append("\n");
+        helpInfo.append("Look: Gets the description on the room u are in.").append("\n");
+        helpInfo.append("Pickup + item name: attempts to pick up the designated item.").append("\n");
+        helpInfo.append("Turn + on/off: turns off the light if it is dark.").append("\n");
+        helpInfo.append("Take + item name: picks up the item and adds it to the player's inventory, but only works when the light is on.").append("\n");
+        helpInfo.append("Drop + item name: Drops the item and removes it from the player's inventory and adds it to the room.").append("\n");
+        helpInfo.append("Inventory/Inv/Bag: Shows the content of the player's inventory.").append("\n");
+        helpInfo.append("Eat + item name: Eats the item, if it is eatable and if you are not on full health.").append("\n");
+        helpInfo.append("Equip armor + item name: Equips the item as armor if it is possible.").append("\n");
+        helpInfo.append("Equip weapon + main/off + item name: Equips the item as a weapon if it is possible.").append("\n");
+        helpInfo.append("Stash/unequip + armor: Stashes your armor into your inventory.").append("\n");
+        helpInfo.append("Stash/unequip + weapon + main/off: Stashes the corresponding weapon into your inventory.").append("\n");
+        helpInfo.append("Reload: attempts to reload your weapon if it uses ammo and you have the corresponding ammo in your inventory.").append("\n");
+        helpInfo.append("Attack: attacks the enemy in the room, if there is any.").append("\n");
+        helpInfo.append("Exit: exits the labyrinth. LIKE A COWARD!!!").append("\n");
         return helpInfo.toString();
     }
 }

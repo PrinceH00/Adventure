@@ -7,12 +7,14 @@ import java.util.ArrayList;
 public class Player {
     private final int MAX_HEALTH = 20;
     private final double MAX_WEIGHT = 30.0;
-    private ArrayList<Item> inventory;
+    private final ArrayList<Item> inventory;
     private int health;
     private double weight;
     private Room currentRoom;
-    private Weapon equippedWeapon;
-    private Armor equippedArmor;
+    private Weapon mainHandWeapon;
+    private Weapon offHandWeapon;
+    private BodyArmor equippedArmor;
+    private Shield equippedShield;
     private String healthDescription;
 
 
@@ -21,13 +23,17 @@ public class Player {
         health = MAX_HEALTH;
         inventory = new ArrayList<Item>();
         inventory.add(new Food("Apple", "tastes nice", 1, 2));
-        inventory.add(new MeleeWeapon("Battle Axe", "Smacks hard", 5, 10));
+        inventory.add(new HeavyWeapon("Battle Axe", "Smacks hard", 5, 8));
+        inventory.add(new LightWeapon("Sword", "Slashes through skin and bone", 5, 12));
+        inventory.add(new LightWeapon("Club", "Bashes the with heavy weight", 5, 6));
+        inventory.add(new LightWeapon("Hatchet", "it is rusty and used, but still sharp to the edge", 5, 9));
         inventory.add(new Bow("Recurve bow", "Shoots arrows", 5, 15, 5));
         inventory.add(new Armor("Leather Tunic", "Protects a little", 5, 5));
         inventory.add(new Food("Pill", "Glowing pill that whispers something", 0.1, -1000));
         inventory.add(new Arrow("Arrows", "Sharp flint tips that could pierce skin easily", 2, 10));
-        inventory.add(new Gun("P911", "a modern type handgun", 3, 25 ,7));
+        inventory.add(new Gun("P911", "a modern type handgun", 3, 25, 7));
         inventory.add(new Bullet("5mm Bullet", "Saml 5mm bullet for p911", 2, 20));
+        inventory.add(new Shield("Tower Shield", "Big shield covering from head to toe", 5, 10));
         checkInventory();
         setHealthDescription();
     }
@@ -37,8 +43,12 @@ public class Player {
         return currentRoom;
     }
 
-    public Weapon getEquippedWeapon() {
-        return equippedWeapon;
+    public Weapon getMainHandWeapon() {
+        return mainHandWeapon;
+    }
+
+    public Weapon getOffHandWeapon() {
+        return offHandWeapon;
     }
 
     public Armor getEquippedArmor() {
@@ -66,13 +76,26 @@ public class Player {
                 health, MAX_HEALTH, healthDescription)).append("\n");
         stats.append(String.format("The player is carrying %s/%s kg.",
                 weight, MAX_WEIGHT)).append("\n");
-        if (equippedWeapon != null) {
-            stats.append(String.format("Weapon: %s.", equippedWeapon.toString())).append("\n");
+        if (mainHandWeapon != null && mainHandWeapon.getDualWieldAble() && offHandWeapon == null) {
+            stats.append(String.format("Main-hand weapon: %s.", mainHandWeapon)).append("\n");
+            if (equippedShield != null) {
+                stats.append(String.format("Shield: %s.", equippedShield)).append("\n");
+            }
+        } else if (mainHandWeapon != null && mainHandWeapon.getDualWieldAble()) {
+            stats.append(String.format("Main-hand weapon: %s.", mainHandWeapon)).append("\n");
+            if (offHandWeapon != null) {
+                stats.append(String.format("Off-hand weapon: %s.", offHandWeapon)).append("\n");
+            } else {
+                stats.append("Off-hand weapon: none").append("\n");
+            }
+        } else if (mainHandWeapon != null && !mainHandWeapon.getDualWieldAble()) {
+            stats.append(String.format("Two-handed weapon: %s.", mainHandWeapon)).append("\n");
         } else {
-            stats.append("Weapon: none").append("\n");
+            stats.append("Main-hand weapon: none").append("\n");
+            stats.append("Off-hand: none").append("\n");
         }
         if (equippedArmor != null) {
-            stats.append(String.format("Armor: %s.", equippedArmor.toString())).append("\n");
+            stats.append(String.format("Armor: %s.", equippedArmor)).append("\n");
         } else {
             stats.append("Armor: none").append("\n");
         }
@@ -116,12 +139,12 @@ public class Player {
     }
 
     public ReturnMessage checkInventoryForAmmo() {
-        if (equippedWeapon != null) {
-            if (equippedWeapon instanceof RangedWeapon) {
+        if (mainHandWeapon != null) {
+            if (mainHandWeapon instanceof RangedWeapon) {
                 for (Item item : inventory) {
-                    if (item instanceof  Ammunition) {
-                        if (((Ammunition) item).getWeaponType() == equippedWeapon.getClass()) {
-                            equippedWeapon.addRemainingUses(((Ammunition) item).getAmount());
+                    if (item instanceof Ammunition) {
+                        if (((Ammunition) item).getWeaponType() == mainHandWeapon.getClass()) {
+                            mainHandWeapon.addRemainingUses(((Ammunition) item).getAmount());
                             inventory.remove(item);
                             return ReturnMessage.CAN;
                         }
@@ -224,17 +247,20 @@ public class Player {
         }
     }
 
-    public ReturnMessage equipItem(String itemName, String weaponOrArmor) {
+    public ReturnMessage equipItem(String itemName, String weaponOrArmor, String mainOrOffHand) {
         Item itemToEquip = checkInventoryForItem(itemName);
         if (itemToEquip != null) {
             boolean equipment = checkItemIsEquipment(itemToEquip);
             if (equipment) {
                 if ((weaponOrArmor.equals("w") || weaponOrArmor.equals("weapon"))
                         && itemToEquip instanceof Weapon) {
-                    return equipWeapon((Weapon) itemToEquip);
+                    return equipWeapon((Weapon) itemToEquip, mainOrOffHand);
                 } else if ((weaponOrArmor.equals("a") || weaponOrArmor.equals("armor"))
                         && itemToEquip instanceof Armor) {
-                    return equipArmor((Armor) itemToEquip);
+                    return equipArmor((BodyArmor) itemToEquip);
+                } else if ((weaponOrArmor.equals("s") || weaponOrArmor.equals("Shield"))
+                        && itemToEquip instanceof Armor) {
+                    return equipShield((Shield) itemToEquip);
                 } else {
                     return ReturnMessage.CANT;
                 }
@@ -254,47 +280,98 @@ public class Player {
         }
     }
 
-    public ReturnMessage equipWeapon(Equipment equipment) {
-        if (equippedWeapon != null) {
-            stashItem(Weapon.class);
+    public ReturnMessage equipWeapon(Weapon weapon, String mainOrOff) {
+        if (mainHandWeapon == null) {
+            inventory.remove(weapon);
+            mainHandWeapon = weapon;
+        } else {
+            if (offHandWeapon == null && mainHandWeapon.getDualWieldAble() && equippedShield == null) {
+                if (weapon.getDualWieldAble()) {
+                    inventory.remove(weapon);
+                    offHandWeapon = weapon;
+                } else {
+                    return ReturnMessage.CAN_LITTLE;
+                }
+            } else if (mainHandWeapon != null && mainHandWeapon.getDualWieldAble() &&
+                    offHandWeapon != null && equippedShield == null) {
+                switch (mainOrOff) {
+                    case "main", "m" -> {
+                        stashItem(Weapon.class, mainOrOff);
+                        inventory.remove(weapon);
+                        mainHandWeapon = weapon;
+                        return ReturnMessage.CAN;
+                    }
+                    case "off", "o" -> {
+                        inventory.remove(weapon);
+                        offHandWeapon = weapon;
+                        return ReturnMessage.CAN;
+                    }
+                }
+            } else if (!mainHandWeapon.getDualWieldAble()) {
+                stashItem(Weapon.class, mainOrOff);
+                inventory.remove(weapon);
+                mainHandWeapon = weapon;
+            }
         }
-        inventory.remove(equipment);
-        equippedWeapon = (Weapon) equipment;
-        checkInventoryWeight();
         return ReturnMessage.CAN;
     }
 
-    private ReturnMessage equipArmor(Armor armor) {
+    private ReturnMessage equipArmor(BodyArmor armor) {
         if (equippedArmor != null) {
-            stashItem(Armor.class);
+            stashItem(BodyArmor.class, "");
         }
         inventory.remove(armor);
         equippedArmor = armor;
-        checkInventoryWeight();
         return ReturnMessage.CAN;
     }
 
-    public ReturnMessage stashItem(Class armorOrWeapon) {
-        if (armorOrWeapon == Weapon.class) {
-            if (equippedWeapon != null) {
-                String formerWeapon = equippedWeapon.getName();
-                inventory.add(equippedWeapon);
-                equippedWeapon = null;
+    public ReturnMessage equipShield(Shield shield) {
+        if (offHandWeapon == null) {
+            if ((mainHandWeapon != null && mainHandWeapon.getDualWieldAble()) || mainHandWeapon == null) {
+                if (equippedShield != null) {
+                    stashItem(Shield.class, "");
+                }
+                inventory.remove(shield);
+                equippedShield = shield;
                 return ReturnMessage.CAN;
             } else {
                 return ReturnMessage.CANT;
             }
-        } else if (armorOrWeapon == Armor.class) {
+        } else {
+            return ReturnMessage.CANT;
+        }
+    }
+
+    public ReturnMessage stashItem(Class armorOrWeapon, String mainOrOffHand) {
+        if (armorOrWeapon.getClass().equals(Weapon.class)) {
+            if (mainHandWeapon != null && mainOrOffHand.equals("m") || mainOrOffHand.equals("main")) {
+                inventory.add(mainHandWeapon);
+                mainHandWeapon = null;
+            } else if (offHandWeapon != null && mainOrOffHand.equals("o") || mainOrOffHand.equals("off")) {
+                inventory.add(offHandWeapon);
+                offHandWeapon = null;
+            } else {
+                return ReturnMessage.CANT;
+            }
+        } else if (armorOrWeapon.getClass().equals(BodyArmor.class)) {
             if (equippedArmor != null) {
                 inventory.add(equippedArmor);
                 equippedArmor = null;
-                return ReturnMessage.CAN;
+            } else {
+                return ReturnMessage.CANT;
+            }
+        } else if (armorOrWeapon.getClass().equals(Shield.class)) {
+            if (equippedShield != null) {
+                inventory.add(equippedShield);
+                equippedShield = null;
             } else {
                 return ReturnMessage.CANT;
             }
         } else {
             return ReturnMessage.NOT_FOUND;
         }
+        checkInventory();
+        return ReturnMessage.CAN;
     }
 
     public String inventoryToString() {
@@ -439,20 +516,39 @@ public class Player {
 
     //Attack methods.
     public int attackPlayer() {
-        health = (health - (currentEnemy().getDamage() - equippedArmor.getArmorClass()));
+        health = (health - (currentEnemy().getDamage() - totalArmorClass()));
         return currentEnemy().getDamage();
     }
 
     public int attackEnemy() {
-        equippedWeapon.setCanUse();
-        equippedWeapon.used();
-        currentEnemy().setHealth(currentEnemy().getHealth() - equippedWeapon.getDamage());
-        return equippedWeapon.getDamage();
+        mainHandWeapon.setCanUse();
+        mainHandWeapon.used();
+        currentEnemy().setHealth(currentEnemy().getHealth() - totalWeaponDamage());
+        return mainHandWeapon.getDamage();
+    }
+
+    public int totalWeaponDamage() {
+        if (mainHandWeapon != null && offHandWeapon != null) {
+            return mainHandWeapon.getDamage() + offHandWeapon.getDamage();
+        } else {
+            return mainHandWeapon.getDamage();
+        }
+    }
+
+    public int totalArmorClass() {
+        int totalArmor = 0;
+        if (equippedArmor != null) {
+            totalArmor += equippedArmor.armorClass;
+        }
+        if (equippedShield != null) {
+            totalArmor += equippedShield.armorClass;
+        }
+        return totalArmor;
     }
 
     public ReturnMessage attack() {
-        if (currentRoom.getHasEnemy() && equippedWeapon != null) {
-            if (equippedWeapon.getCanUse()) {
+        if (currentRoom.getHasEnemy() && mainHandWeapon != null) {
+            if (mainHandWeapon.getCanUse()) {
                 attackEnemy();
                 if (currentRoom.getHasEnemy()) {
                     attackPlayer();
