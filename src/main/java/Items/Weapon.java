@@ -7,7 +7,7 @@ public abstract class Weapon extends Equipment {
     public Weapon(String name, String description, double weight, int damage) {
         super(name, description, weight);
         this.damage = damage;
-        setCanUse();
+        canUse = true;
     }
 
     public int getDamage() {
@@ -16,6 +16,7 @@ public abstract class Weapon extends Equipment {
 
     public abstract int remainingUses();
     public abstract void used();
+    public abstract void addRemainingUses(int ammo);
 
     public void setCanUse() {
         if (remainingUses() > 0) {

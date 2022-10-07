@@ -1,3 +1,4 @@
+import Items.Armor;
 import Items.Weapon;
 import java.util.Locale;
 import java.util.Scanner;
@@ -74,17 +75,27 @@ public class UserInterface {
                     System.out.println(help());
                 }
                 case "inventory", "bag", "invent", "inv" -> {
-
                     System.out.println(adventure.getInventory());
                 }
                 case "equip" -> {
-                    if (commands.length > 1) {
+                    if (commands.length > 2) {
                         System.out.println(adventure.equipWeapon(commands[2], commands[1]));
+                    } else {
+                        System.out.println("You can't do that, something was wrong.");
                     }
                 }
-                case "stash" -> {
+                case "unequip", "stash" -> {
                     if (commands.length > 1) {
-                        System.out.println(adventure.stashWeapon(Weapon.class));
+                        switch (commands[1]) {
+                            case "w", "weapon" -> {
+                                System.out.println(adventure.stashWeapon(Weapon.class));
+                            }
+                            case "a", "armor" -> {
+                                System.out.println(adventure.stashWeapon(Armor.class));
+                            }
+                        }
+                    } else {
+                        System.out.println("You can't do that, something was wrong.");
                     }
                 }
                 case "attack", "att" -> {
@@ -97,20 +108,23 @@ public class UserInterface {
                 case "exit", "quit" -> {
                     if (adventure.hasWon()) {
                         System.out.print("Congratulations you have beaten the game and may leave with ");
-                        System.out.print("what most likely is your first archivement");
+                        System.out.print("what most likely is your first achievement");
                         System.exit(0);
                     } else {
                         System.out.println("You have given up!");
                         System.exit(0);
                     }
                 }
+                case "reload" -> {
+                    System.out.println(adventure.reloadWeapon());
+                }
                 case "victory", "v", "end" -> {
                     System.out.print("Congratulations you have beaten the game and may leave with a penis");
-                    System.out.print("what most likely is your first archivement");
+                    System.out.print("what most likely is your first achievement");
                     adventure.victory();
                 }
-                case "status", "stat", "health" -> {
-                    System.out.println(adventure.stats());
+                case "status", "stat", "health", "stats" -> {
+                    System.out.print(adventure.stats());
                 }
                 default -> {
                     System.out.println("This was not a valid command, enter a new one.");

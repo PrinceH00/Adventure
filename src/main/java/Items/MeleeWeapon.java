@@ -7,9 +7,13 @@ public class MeleeWeapon extends Weapon {
 
     @Override
     public int remainingUses() {
-        return 9999;
+        return 99;
     }
 
     @Override
     public void used() {}
+
+    @Override
+    public void addRemainingUses(int ammo) {
+    }
 }

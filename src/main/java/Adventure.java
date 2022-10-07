@@ -1,8 +1,6 @@
 import Enums.Direction;
 import Enums.ReturnMessage;
-import Items.Food;
-import Items.Item;
-import Items.Liquid;
+import Items.*;
 
 public class Adventure {
     //Private objects of the player og item class
@@ -126,7 +124,6 @@ public class Adventure {
     }
 
     public String equipWeapon(String itemToEquip, String weaponOrArmor) {
-        StringBuilder combatInfo = new StringBuilder();
         Item equippedItem = player.checkInventoryForItem(itemToEquip);
         result = player.equipItem(itemToEquip, weaponOrArmor);
         switch (result) {
@@ -145,8 +142,28 @@ public class Adventure {
         }
     }
 
-    public String stashWeapon(Class weapon) {
-        return player.stashItem(weapon);
+    public String stashWeapon(Class equipment) {
+        String formerEquipment = "";
+        if (equipment == Weapon.class && player.getEquippedWeapon() != null) {
+            formerEquipment = player.getEquippedWeapon().getName();
+        } else if (equipment == Armor.class && player.getEquippedArmor() != null) {
+            formerEquipment = player.getEquippedWeapon().getName();
+        }
+        result = player.stashItem(equipment);
+        switch (result) {
+            case CAN -> {
+                return String.format("You have stashed %s", formerEquipment);
+            }
+            case CANT -> {
+                return "You don't have that item equipped.";
+            }
+            case NOT_FOUND -> {
+                return "You cannot unequip that.";
+            }
+            default -> {
+                return "Something went wrong.";
+            }
+        }
     }
 
     public String stats() {
@@ -230,6 +247,24 @@ public class Adventure {
 
     public String getInventory() {
         return player.inventoryToString();
+    }
+
+    public String reloadWeapon() {
+        result = player.checkInventoryForAmmo();
+        switch (result) {
+            case CAN -> {
+                return "You have successfully reloaded your weapon.";
+            }
+            case CANT -> {
+                return "You can't reload that weapon.";
+            }
+            case NOT_FOUND -> {
+                return "You have no weapon to reload.";
+            }
+            default -> {
+                return "Something went wrong.";
+            }
+        }
     }
 
     public Room currentRoom() {
