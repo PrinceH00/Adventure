@@ -1,4 +1,4 @@
-package Items.Equipment;
+package items.Equipment;
 
 public class MeleeWeapon extends Weapon {
     public MeleeWeapon(String name, String description, double weight, int damage) {

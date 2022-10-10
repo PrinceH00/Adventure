@@ -1,4 +1,4 @@
-package Items.Equipment;
+package items.Equipment;
 
 public class Armor extends Equipment {
     public int armorClass;

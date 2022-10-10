@@ -1,4 +1,4 @@
-package Items.Equipment;
+package items.Equipment;
 
 public class Spell_Book extends Weapon {
     private int manaCost;

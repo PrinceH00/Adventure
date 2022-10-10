@@ -1,6 +1,6 @@
-package Items.Equipment;
+package items.Equipment;
 
-import Items.Item;
+import items.Item;
 
 public class Equipment extends Item {
     public Equipment(String name, String description, double weight) {

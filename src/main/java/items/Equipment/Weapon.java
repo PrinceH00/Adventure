@@ -1,4 +1,4 @@
-package Items.Equipment;
+package items.Equipment;
 
 public abstract class Weapon extends Equipment {
     protected final int damage;

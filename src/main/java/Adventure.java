@@ -1,8 +1,10 @@
-import Enums.Direction;
-import Enums.ReturnMessage;
-import Items.*;
-import Items.Equipment.Armor;
-import Items.Equipment.Weapon;
+import characters.Player;
+import enums.Direction;
+import enums.ReturnMessage;
+import items.*;
+import items.Equipment.Armor;
+import items.Equipment.Weapon;
+import room.Room;
 
 public class Adventure {
     //Private objects of the player og item class
@@ -14,10 +16,8 @@ public class Adventure {
 
     //Constructor without parameters
     public Adventure() {
-        player = new Player();
         map = new Map();
-        player.setCurrentRoom(map.getEmptyRoom());
-        player.getCurrentRoom().setVisited();
+        player = new Player(20, map.getEmptyRoom());
     }
 
     //Get methode.
@@ -196,7 +196,7 @@ public class Adventure {
                         player.currentEnemy(enemy).getDamage()));
                 switch (result) {
                     case CAN -> {
-                        combatInfo.append(String.format("Player: %s/%s health\n", player.getHealth(), player.getMAX_HEALTH()));
+                        combatInfo.append(String.format("Characters.Characters.Characters.Player: %s/%s health\n", player.getHealth(), player.getMAX_HEALTH()));
                         combatInfo.append(String.format("%s: %s/%s health\n", player.currentEnemy(enemy).getName(),
                                 player.currentEnemy(enemy).getHealth(),
                                 player.currentEnemy(enemy).getMAX_HEALTH()));

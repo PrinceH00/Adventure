@@ -1,6 +1,6 @@
-package Items;
+package items;
 
-import Items.Equipment.RangedWeapon;
+import items.Equipment.RangedWeapon;
 
 public class Ammunition extends Item {
     protected int amount;

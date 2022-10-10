@@ -1,11 +1,14 @@
-import Enums.Direction;
-import Enums.ReturnMessage;
-import Items.*;
-import Items.Equipment.*;
+package characters;
+
+import enums.Direction;
+import enums.ReturnMessage;
+import items.*;
+import items.Equipment.*;
 
 import java.util.ArrayList;
+import room.Room;
 
-public class Player {
+public class Player extends Characters {
     private final int MAX_HEALTH = 20;
     private final int MAX_MANA = 20;
     private final double MAX_WEIGHT = 30.0;
@@ -22,10 +25,12 @@ public class Player {
 
 
     //Constructor with lives as parameters.
-    public Player() {
-        health = MAX_HEALTH;
+    public Player(int MAX_HEALTH, Room startRoom) {
+        super(MAX_HEALTH, startRoom);
+        currentRoom.setVisited();
+        health = this.MAX_HEALTH;
         mana = MAX_MANA;
-        inventory = new ArrayList<Item>();
+        this.inventory = new ArrayList<Item>();
         inventory.add(new Food("Apple", "tastes nice", 1, 2));
         inventory.add(new HeavyWeapon("Battle Axe", "Smacks hard", 5, 8));
         inventory.add(new LightWeapon("Sword", "Slashes through skin and bone", 5, 12));
@@ -616,7 +621,7 @@ public class Player {
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {
-                    stringBuilder.append(String.format("%s.\n%s \n", currentRoom.getDescription(), currentRoom.listItemsInRoom())).append("\n");
+                    stringBuilder.append(String.format("%s.\n%s\n", currentRoom.getDescription(), currentRoom.listItemsInRoom())).append("\n");
                 } else {
                     stringBuilder.append(String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription())).append("\n");
                 }

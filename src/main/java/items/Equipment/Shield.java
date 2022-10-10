@@ -1,4 +1,4 @@
-package Items.Equipment;
+package items.Equipment;
 
 public class Shield extends Armor {
     public Shield(String name, String description, double weight, int armorClass) {

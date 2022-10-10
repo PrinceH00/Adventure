@@ -1,4 +1,6 @@
-import Items.Item;
+import characters.Enemy;
+import items.Item;
+import room.Room;
 
 public class Map {
     private Room emptyRoom;
@@ -18,7 +20,7 @@ public class Map {
 
     //Methode creating and handling the map.
     public void createMap() {
-        //Creating objects of the Class Room with parameters.
+        //Creating objects of the Class room.Room with parameters.
         emptyRoom = new Room("The Empty room", "You find yourself in an empty room..", true);
         redForest = new Room("Red Forest", "Vegetation that should smell plants, and a bad smell of iron.", false);
         lab = new Room("Lab", "Blood? and is that parts of a ...., guess someone is experimenting here", false);
@@ -36,7 +38,7 @@ public class Map {
 
 
         //creating and adding enemy to rooms.
-        emptyRoom.addEnemy(new Enemy("Ogre", 24, 3));
+        new Enemy("Ogre", 24, 3, emptyRoom);
 
 
         //Adding exits to the Rooms.

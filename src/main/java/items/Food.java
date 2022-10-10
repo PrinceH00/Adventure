@@ -1,4 +1,4 @@
-package Items;
+package items;
 
 public class Food extends Consumable {
     public Food(String name, String description, double weight, int healthRecovery) {

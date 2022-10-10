@@ -1,6 +1,4 @@
-package Items.Equipment;
-
-import Items.Equipment.RangedWeapon;
+package items.Equipment;
 
 public class Gun extends RangedWeapon {
     public Gun(String name, String description, double weight, int damage, int MAXIMUM_USES) {

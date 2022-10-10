@@ -1,6 +1,6 @@
-package Items;
+package items.Equipment;
 
-import Items.Equipment.RangedWeapon;
+import items.Equipment.RangedWeapon;
 
 public class Bow extends RangedWeapon {
     public Bow(String name, String description, double weight, int damage, int MAXIMUM_USES) {

@@ -1,17 +1,15 @@
-import Items.Equipment.BodyArmor;
-import Items.Equipment.Shield;
-import Items.Equipment.Weapon;
-import Items.Item;
+package characters;
+
+import items.Item;
 
 import java.util.ArrayList;
+import room.Room;
 
 public class Characters {
-    private final int MAX_HEALTH;
-    private final ArrayList<Item> inventory;
-    private int health;
-    private Room currentRoom;
-    private Weapon mainHandWeapon;
-    private Weapon offHandWeapon;
+    protected final int MAX_HEALTH;
+    protected final ArrayList<Item> inventory;
+    protected int health;
+    protected Room currentRoom;
 
     public Characters(int MAX_HEALTH, Room currentRoom) {
         this.MAX_HEALTH = MAX_HEALTH;

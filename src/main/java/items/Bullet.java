@@ -1,6 +1,6 @@
-package Items;
+package items;
 
-import Items.Equipment.Gun;
+import items.Equipment.Gun;
 
 public class Bullet extends Ammunition {
     public Bullet(String name, String description, double weight, int amount) {

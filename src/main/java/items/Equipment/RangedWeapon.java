@@ -1,4 +1,4 @@
-package Items.Equipment;
+package items.Equipment;
 
 public class RangedWeapon extends Weapon {
     protected final int MAXIMUM_USES;

@@ -1,7 +1,6 @@
-import Enums.ReturnMessage;
-import Items.Equipment.BodyArmor;
-import Items.Equipment.Shield;
-import Items.Equipment.Weapon;
+import items.Equipment.BodyArmor;
+import items.Equipment.Shield;
+import items.Equipment.Weapon;
 
 import java.util.Locale;
 import java.util.Scanner;
@@ -146,7 +145,7 @@ public class UserInterface {
 
     public void printIntro() {
         StringBuilder intro = new StringBuilder();
-        intro.append("\nWelcome to the Escape Room KIDS!! ");
+        intro.append("\nWelcome to the Escape room.Room KIDS!! ");
         intro.append("\nYou are in ");
         intro.append(adventure.currentRoom()).append("\n");
         intro.append("Find your way out before... its..t o tt tooo lateeeeeeeeeeeee.").append("\n");

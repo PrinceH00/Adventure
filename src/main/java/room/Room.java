@@ -1,4 +1,7 @@
-import Items.Item;
+package room;
+
+import characters.Enemy;
+import items.Item;
 
 import java.util.ArrayList;
 
@@ -27,6 +30,7 @@ public class Room {
         this.canBeDark = canBeDark;
         dark = canBeDark;
         itemsInRoom = new ArrayList<Item>();
+        enemies = new ArrayList<Enemy>();
     }
 
     //Get methods
