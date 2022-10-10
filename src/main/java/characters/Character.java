@@ -5,13 +5,13 @@ import items.Item;
 import java.util.ArrayList;
 import room.Room;
 
-public class Characters {
+public class Character {
     protected final int MAX_HEALTH;
     protected final ArrayList<Item> inventory;
     protected int health;
     protected Room currentRoom;
 
-    public Characters(int MAX_HEALTH, Room currentRoom) {
+    public Character(int MAX_HEALTH, Room currentRoom) {
         this.MAX_HEALTH = MAX_HEALTH;
         health = MAX_HEALTH;
         this.currentRoom = currentRoom;

@@ -5,7 +5,7 @@ import items.Item;
 import java.util.ArrayList;
 import room.Room;
 
-public class Enemy extends Characters {
+public class Enemy extends Character {
     private String name;
     private int MAX_HEALTH;
     private int health;

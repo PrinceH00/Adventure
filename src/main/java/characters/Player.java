@@ -8,7 +8,7 @@ import items.Equipment.*;
 import java.util.ArrayList;
 import room.Room;
 
-public class Player extends Characters {
+public class Player extends Character {
     private final int MAX_HEALTH = 20;
     private final int MAX_MANA = 20;
     private final double MAX_WEIGHT = 30.0;
