@@ -1,4 +1,4 @@
-package Items;
+package Items.Equipment;
 
 public class BodyArmor extends Armor {
     public BodyArmor(String name, String description, double weight, int armorClass) {

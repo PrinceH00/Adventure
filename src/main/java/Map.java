@@ -36,7 +36,8 @@ public class Map {
 
 
         //creating and adding enemy to rooms.
-        emptyRoom.setEnemy(new Enemy("Ogre", 24, 3));
+        emptyRoom.addEnemy(new Enemy("Ogre", 24, 3));
+
 
         //Adding exits to the Rooms.
         createRoomLink(emptyRoom, redForest, "east");

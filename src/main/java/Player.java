@@ -1,14 +1,17 @@
 import Enums.Direction;
 import Enums.ReturnMessage;
 import Items.*;
+import Items.Equipment.*;
 
 import java.util.ArrayList;
 
 public class Player {
     private final int MAX_HEALTH = 20;
+    private final int MAX_MANA = 20;
     private final double MAX_WEIGHT = 30.0;
     private final ArrayList<Item> inventory;
     private int health;
+    private int mana;
     private double weight;
     private Room currentRoom;
     private Weapon mainHandWeapon;
@@ -21,6 +24,7 @@ public class Player {
     //Constructor with lives as parameters.
     public Player() {
         health = MAX_HEALTH;
+        mana = MAX_MANA;
         inventory = new ArrayList<Item>();
         inventory.add(new Food("Apple", "tastes nice", 1, 2));
         inventory.add(new HeavyWeapon("Battle Axe", "Smacks hard", 5, 8));
@@ -34,6 +38,8 @@ public class Player {
         inventory.add(new Gun("P911", "a modern type handgun", 3, 25, 7));
         inventory.add(new Bullet("5mm Bullet", "Saml 5mm bullet for p911", 2, 20));
         inventory.add(new Shield("Tower Shield", "Big shield covering from head to toe", 5, 10));
+        inventory.add(new Spell_Book("Firebolt",
+                "Shoots a firebolt in front of you setting whatever it hits ablaze", 1, 20, 5));
         checkInventory();
         setHealthDescription();
     }
@@ -47,10 +53,6 @@ public class Player {
         return mainHandWeapon;
     }
 
-    public Weapon getOffHandWeapon() {
-        return offHandWeapon;
-    }
-
     public Armor getEquippedArmor() {
         return equippedArmor;
     }
@@ -59,10 +61,17 @@ public class Player {
         return health;
     }
 
+    public int getMana() {
+        return mana;
+    }
+
     public int getMAX_HEALTH() {
         return MAX_HEALTH;
     }
 
+    public int getMAX_MANA() {
+        return MAX_MANA;
+    }
 
     //Set methods.
     public void setCurrentRoom(Room selectedRoom) {
@@ -72,14 +81,18 @@ public class Player {
     public String playerStats() {
         setHealthDescription();
         StringBuilder stats = new StringBuilder();
-        stats.append(String.format("The player has %s/%s health left.\n%s ",
+        stats.append(String.format("Health: %s/%s left.\n%s ",
                 health, MAX_HEALTH, healthDescription)).append("\n");
-        stats.append(String.format("The player is carrying %s/%s kg.",
+        stats.append(String.format("Mana: %s/%s left. ",
+                mana, MAX_MANA)).append("\n");
+        stats.append(String.format("Weight: %s/%s kg.",
                 weight, MAX_WEIGHT)).append("\n");
         if (mainHandWeapon != null && mainHandWeapon.getDualWieldAble() && offHandWeapon == null) {
             stats.append(String.format("Main-hand weapon: %s.", mainHandWeapon)).append("\n");
             if (equippedShield != null) {
                 stats.append(String.format("Shield: %s.", equippedShield)).append("\n");
+            } else {
+                stats.append("Off-hand: none").append("\n");
             }
         } else if (mainHandWeapon != null && mainHandWeapon.getDualWieldAble()) {
             stats.append(String.format("Main-hand weapon: %s.", mainHandWeapon)).append("\n");
@@ -120,8 +133,8 @@ public class Player {
         return currentRoom.getDark();
     }
 
-    public Enemy currentEnemy() {
-        return currentRoom.getEnemy();
+    public Enemy currentEnemy(String enemy) {
+        return currentRoom.checkForEnemy(enemy);
     }
 
     public Item checkInventoryForItem(String itemName) {
@@ -204,11 +217,11 @@ public class Player {
     }
 
     public ReturnMessage canEat(Food food) {
-        if (health + food.getHealthRecovery() <= MAX_HEALTH && health + food.getHealthRecovery() >= 1) {
+        if (health + food.getRecovery() <= MAX_HEALTH && health + food.getRecovery() >= 1) {
             inventory.remove(food);
-            health += food.getHealthRecovery();
+            health += food.getRecovery();
             return ReturnMessage.CAN;
-        } else if (health + food.getHealthRecovery() >= MAX_HEALTH) {
+        } else if (health + food.getRecovery() >= MAX_HEALTH) {
             inventory.remove(food);
             health = MAX_HEALTH;
             return ReturnMessage.CAN_MUCH;
@@ -232,17 +245,15 @@ public class Player {
     }
 
     public ReturnMessage canDrink(Liquid liquid) {
-        if (health + liquid.getHealthRecovery() <= MAX_HEALTH) {
+        if (mana + liquid.getRecovery() <= MAX_MANA) {
             inventory.remove(liquid);
-            health += liquid.getHealthRecovery();
+            mana += liquid.getRecovery();
             return ReturnMessage.CAN;
-        } else if (health + liquid.getHealthRecovery() >= MAX_HEALTH) {
+        } else if (health + liquid.getRecovery() >= MAX_MANA) {
             inventory.remove(liquid);
-            health = MAX_HEALTH;
+            mana = MAX_MANA;
             return ReturnMessage.CAN_MUCH;
         } else {
-            health = 0;
-            isAlive();
             return ReturnMessage.CAN_LITTLE;
         }
     }
@@ -515,16 +526,26 @@ public class Player {
     }
 
     //Attack methods.
-    public int attackPlayer() {
-        health = (health - (currentEnemy().getDamage() - totalArmorClass()));
-        return currentEnemy().getDamage();
+    public void getHit(Enemy enemy) {
+        health = (health - (enemy.getDamage() - totalArmorClass()));
     }
 
-    public int attackEnemy() {
+    public void hitEnemy(Enemy enemy) {
         mainHandWeapon.setCanUse();
         mainHandWeapon.used();
-        currentEnemy().setHealth(currentEnemy().getHealth() - totalWeaponDamage());
-        return mainHandWeapon.getDamage();
+        enemy.setHealth(enemy.getHealth() - totalWeaponDamage());
+    }
+
+    public ReturnMessage useSpell() {
+        if (mainHandWeapon instanceof Spell_Book) {
+            if ((mana - ((Spell_Book) mainHandWeapon).getManaCost()) >= 0) {
+                mana -= ((Spell_Book) mainHandWeapon).getManaCost();
+                return ReturnMessage.CAN;
+            } else {
+                return ReturnMessage.NO_USES;
+            }
+        }
+        return ReturnMessage.CANT;
     }
 
     public int totalWeaponDamage() {
@@ -546,25 +567,36 @@ public class Player {
         return totalArmor;
     }
 
-    public ReturnMessage attack() {
-        if (currentRoom.getHasEnemy() && mainHandWeapon != null) {
-            if (mainHandWeapon.getCanUse()) {
-                attackEnemy();
-                if (currentRoom.getHasEnemy()) {
-                    attackPlayer();
-                    if (isAlive()) {
-                        return ReturnMessage.CAN;
-                    } else {
-                        return ReturnMessage.CAN_LITTLE;
-                    }
+    public ReturnMessage canAttackEnemy(Enemy enemy) {
+        hitEnemy(enemy);
+        if (enemy.isAlive()) {
+            getHit(enemy);
+            if (isAlive()) {
+                return ReturnMessage.CAN;
+            } else {
+                return ReturnMessage.CAN_LITTLE;
+            }
+        } else {
+            currentRoom.removeEnemy(enemy);
+            return ReturnMessage.CAN_MUCH;
+        }
+    }
+
+    public ReturnMessage attack(String enemy) {
+        if (mainHandWeapon != null) {
+            Enemy currentEnemy = currentRoom.checkForEnemy(enemy);
+            if (currentEnemy != null && !currentEnemy.isAlive()) {
+                if (mainHandWeapon.getCanUse() && mainHandWeapon instanceof Spell_Book) {
+                    useSpell();
+                    return canAttackEnemy(currentEnemy);
+                } else if (mainHandWeapon.getCanUse()) {
+                    return canAttackEnemy(currentEnemy);
                 } else {
-                    return ReturnMessage.CAN_MUCH;
+                    return ReturnMessage.NO_USES;
                 }
             } else {
-                return ReturnMessage.NO_USES;
+                return ReturnMessage.NOT_FOUND;
             }
-        } else if (!currentRoom.getHasEnemy()) {
-            return ReturnMessage.NOT_FOUND;
         } else {
             return ReturnMessage.CANT;
         }

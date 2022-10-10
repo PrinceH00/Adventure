@@ -1,4 +1,4 @@
-package Items;
+package Items.Equipment;
 
 public abstract class Weapon extends Equipment {
     protected final int damage;
@@ -19,13 +19,8 @@ public abstract class Weapon extends Equipment {
     public abstract void used();
     public abstract void addRemainingUses(int ammo);
 
-    public void setCanUse() {
-        if (remainingUses() > 0) {
-            canUse = true;
-        } else {
-            canUse = false;
-        }
-    }
+    public abstract void setCanUse();
+
 
     public boolean getCanUse() {
         return canUse;

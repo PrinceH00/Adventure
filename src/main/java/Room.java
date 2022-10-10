@@ -9,7 +9,7 @@ public class Room {
     private Room east;
     private Room south;
     private Room west;
-    private Enemy enemy;
+    private ArrayList<Enemy> enemies;
     private Room lastRoom;
 
     //Private attributes.
@@ -40,25 +40,25 @@ public class Room {
     public boolean getDark() { return dark; }
     public boolean getCanBeDark() { return canBeDark; }
     public boolean getVisited() { return visited; }
-    public boolean getHasEnemy() {
-        if (enemy.isAlive()) {
+    public boolean getHasEnemy(ArrayList<Enemy> enemy) {
+        if (!enemy.isEmpty()) {
             return hasEnemy;
         } else {
             return hasEnemy = false;
         }
     }
 
-    public Enemy getEnemy() {
-        if (enemy != null) {
-            return enemy;
+    public ArrayList<Enemy> getEnemies() {
+        if (enemies != null) {
+            return enemies;
         } else {
             return null;
         }
     }
 
-    public void setEnemy(Enemy enemy) {
+    public void addEnemy(Enemy enemy) {
         hasEnemy = true;
-        this.enemy = enemy;
+        enemies.add(enemy);
     }
 
     //Set methods
@@ -148,6 +148,19 @@ public class Room {
         for (Item item : itemsInRoom) {
             if (item.getName().toLowerCase().contains(itemName)) {
                 return item;
+            }
+        }
+        return null;
+    }
+
+    public void removeEnemy(Enemy enemy) {
+        enemies.remove(enemy);
+    }
+
+    public Enemy checkForEnemy(String enemyName) {
+        for (Enemy enemy : enemies) {
+            if (enemy.getName().toLowerCase().contains(enemyName)) {
+                return enemy;
             }
         }
         return null;

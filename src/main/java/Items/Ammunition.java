@@ -1,10 +1,10 @@
 package Items;
 
-import org.w3c.dom.ranges.Range;
+import Items.Equipment.RangedWeapon;
 
 public class Ammunition extends Item {
     protected int amount;
-    protected Class<? extends Items.RangedWeapon> weaponType;
+    protected Class<? extends RangedWeapon> weaponType;
 
     public Ammunition(String name, String description, double weight, int amount) {
         super(name, description, weight);
@@ -15,7 +15,7 @@ public class Ammunition extends Item {
         return amount;
     }
 
-    public Class<? extends Items.RangedWeapon> getWeaponType() {
+    public Class<? extends RangedWeapon> getWeaponType() {
         return weaponType;
     }
 }

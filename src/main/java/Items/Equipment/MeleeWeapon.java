@@ -1,4 +1,4 @@
-package Items;
+package Items.Equipment;
 
 public class MeleeWeapon extends Weapon {
     public MeleeWeapon(String name, String description, double weight, int damage) {
@@ -14,6 +14,9 @@ public class MeleeWeapon extends Weapon {
     public void used() {}
 
     @Override
-    public void addRemainingUses(int ammo) {
+    public void addRemainingUses(int ammo) {}
+
+    public void setCanUse() {
+        canUse = true;
     }
 }

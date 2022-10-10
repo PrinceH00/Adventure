@@ -1,4 +1,4 @@
-package Items;
+package Items.Equipment;
 
 public class RangedWeapon extends Weapon {
     protected final int MAXIMUM_USES;
@@ -23,6 +23,14 @@ public class RangedWeapon extends Weapon {
     @Override
     public void addRemainingUses(int ammo) {
         remainingUses += ammo;
+    }
+
+    public void setCanUse() {
+        if (remainingUses() > 0) {
+            canUse = true;
+        } else {
+            canUse = false;
+        }
     }
 
     @Override

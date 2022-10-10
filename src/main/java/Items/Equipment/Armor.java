@@ -1,6 +1,4 @@
-package Items;
-
-import Items.Equipment;
+package Items.Equipment;
 
 public class Armor extends Equipment {
     public int armorClass;

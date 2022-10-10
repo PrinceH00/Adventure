@@ -1,9 +1,8 @@
-import Items.Armor;
-import Items.BodyArmor;
-import Items.Shield;
-import Items.Weapon;
+import Enums.ReturnMessage;
+import Items.Equipment.BodyArmor;
+import Items.Equipment.Shield;
+import Items.Equipment.Weapon;
 
-import javax.xml.stream.events.Comment;
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -108,10 +107,13 @@ public class UserInterface {
                     }
                 }
                 case "attack", "att" -> {
-                    if (!adventure.attack().equals("You have died. Restarting....")) {
-                        System.out.println(adventure.attack());
-                    } else {
-                        adventure.lost();
+                    if (commands.length > 1) {
+                        String attackResult = adventure.attack(commands[1]);
+                        if (!attackResult.equals("You have died. Restarting....")) {
+                            System.out.println(attackResult);
+                        } else {
+                            adventure.lost();
+                        }
                     }
                 }
                 case "exit", "quit" -> {

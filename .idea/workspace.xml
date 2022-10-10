@@ -4,19 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Extended weapon with MeleeWeapon and RangedWeapon.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/BodyArmor.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/HeavyWeapon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/LightWeapon.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Shield.java" afterDir="false" />
+    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Extended RangedWeapon with Bow and Gun as well as added Ammunition and subclasses. Reload was also added and works fine.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Characters.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/Spell_Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Ammunition.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Ammunition.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Armor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/Armor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/BodyArmor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/BodyArmor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Items/Bow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Bow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Gun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Gun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Items/RangedWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/RangedWeapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Consumable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Consumable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Equipment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/Equipment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Gun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/Gun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/HeavyWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/HeavyWeapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/LightWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/LightWeapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Liquid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Liquid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/MeleeWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/MeleeWeapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/RangedWeapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/RangedWeapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Shield.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/Shield.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Items/Equipment/Weapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
     </list>
     <list id="bf8473e6-455c-48bb-9082-a52d1a782c5c" name="Changes by jeper" comment="Changes by jeper" />

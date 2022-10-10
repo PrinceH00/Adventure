@@ -1,16 +1,14 @@
 package Items;
 
-import Items.Item;
-
 public class Consumable extends Item {
-    protected final int healthRecovery;
+    protected final int recovery;
 
     public Consumable(String name, String description, double weight, int healthRecovery) {
         super(name, description, weight);
-        this.healthRecovery = healthRecovery;
+        this.recovery = healthRecovery;
     }
 
-    public int getHealthRecovery() {
-        return healthRecovery;
+    public int getRecovery() {
+        return recovery;
     }
 }
