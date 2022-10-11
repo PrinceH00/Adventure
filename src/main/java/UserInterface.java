@@ -24,7 +24,7 @@ public class UserInterface {
             String input = scanner.nextLine().toLowerCase();
             String[] commands = input.split(" ", 4);
             switch (commands[0]) {
-                case "go" -> {
+                case "go", "move" -> {
                     if (commands.length > 1) {
                         System.out.println(adventure.movePlayer(commands[1]));
                     } else {
@@ -108,11 +108,8 @@ public class UserInterface {
                 case "attack", "att" -> {
                     if (commands.length > 1) {
                         String attackResult = adventure.attack(commands[1]);
-                        if (!attackResult.equals("You have died. Restarting....")) {
-                            System.out.println(attackResult);
-                        } else {
-                            adventure.lost();
-                        }
+                        adventure.hasLost();
+                        System.out.println(attackResult);
                     }
                 }
                 case "exit", "quit" -> {
@@ -140,6 +137,12 @@ public class UserInterface {
                     System.out.println("This was not a valid command, enter a new one.");
                 }
             }
+        }
+        if (adventure.hasLost()) {
+            System.out.println("You have died and the game will thus end.\nTerminating....\nGoodbye!");
+        }
+        if (adventure.hasWon()) {
+            System.out.println("CONGRATULATIONS, YOU HAVE WON THE GAME!");
         }
     }
 

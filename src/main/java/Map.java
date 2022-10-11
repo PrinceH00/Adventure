@@ -1,4 +1,6 @@
 import characters.Enemy;
+import items.Equipment.Weapon;
+import items.Food;
 import items.Item;
 import room.Room;
 
@@ -37,8 +39,11 @@ public class Map {
         redForest.addItem(new Item("red leaves", "Mashed red leaves can be smoked", 0.5));
 
 
-        //creating and adding enemy to rooms.
-        new Enemy("Ogre", 24, 3, emptyRoom);
+        //creating and adding enemy to rooms and adds loot.
+        new Enemy("Ogre", 24, 3, emptyRoom, true).addLoot(new Food("Banana cake", "Delicious cake to eat.", 0.5, 10));
+        new Enemy("Hydra", 24, 10, emptyRoom, true);
+        new Enemy("Mimic", 24, 3, emptyRoom, false);
+
 
 
         //Adding exits to the Rooms.

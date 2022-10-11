@@ -10,7 +10,7 @@ public class Spell_Book extends Weapon {
     }
 
     @Override
-    public int remainingUses() { return 1; }
+    public int remainingUses() { return 99; }
 
     @Override
     public void used() {}
@@ -18,7 +18,8 @@ public class Spell_Book extends Weapon {
     @Override
     public void addRemainingUses(int ammo) {}
 
-    public void setCanUse() { canUse = false; }
+    @Override
+    public void setCanUse() {}
 
     public int getManaCost() { return manaCost; }
 }

@@ -6,5 +6,7 @@ public enum ReturnMessage {
     CAN_MUCH,
     CAN_LITTLE,
     NOT_FOUND,
-    NO_USES
+    NO_USES,
+    MISSED,
+    DODGE
 }

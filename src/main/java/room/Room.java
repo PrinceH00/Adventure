@@ -170,5 +170,34 @@ public class Room {
         return null;
     }
 
+    public String enemiesToString() {
+        if (!enemies.isEmpty()) {
+            StringBuilder enemiesInRoom = new StringBuilder();
+            enemiesInRoom.append("Enemies in the room: ");
+            for (Enemy enemy : enemies) {
+                if (enemy == enemies.get(0)) {
+                    enemiesInRoom.append(String.format("%s",enemy.getName()));
+                } else {
+                    enemiesInRoom.append(String.format(", %s", enemy.getName()));
+                }
+            }
+            return enemiesInRoom.toString();
+        } else {
+            return "No enemies are visible.";
+        }
+    }
+
+    public ArrayList<Enemy> getAgressiveEnemies() {
+        ArrayList<Enemy> aggressiveEnemies = new ArrayList<>();
+        if (!enemies.isEmpty()) {
+            for (Enemy enemy : enemies) {
+                if (enemy.getAGGRESSIVE()) {
+                    aggressiveEnemies.add(enemy);
+                }
+            }
+        }
+        return aggressiveEnemies;
+    }
+
     public String toString() { return String.format("%s: %s", roomName, description); }
 }

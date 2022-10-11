@@ -5,18 +5,17 @@ import enums.ReturnMessage;
 import items.*;
 import items.Equipment.*;
 
-import java.util.ArrayList;
 import room.Room;
 
 public class Player extends Character {
-    private final int MAX_HEALTH = 20;
+    //private final int MAX_HEALTH = 20;
     private final int MAX_MANA = 20;
     private final double MAX_WEIGHT = 30.0;
-    private final ArrayList<Item> inventory;
-    private int health;
+    //private final ArrayList<Item> inventory;
+    //private int health;
     private int mana;
     private double weight;
-    private Room currentRoom;
+    //private Room currentRoom;
     private Weapon mainHandWeapon;
     private Weapon offHandWeapon;
     private BodyArmor equippedArmor;
@@ -30,8 +29,9 @@ public class Player extends Character {
         currentRoom.setVisited();
         health = this.MAX_HEALTH;
         mana = MAX_MANA;
-        this.inventory = new ArrayList<Item>();
+        //this.inventory = new ArrayList<Item>();
         inventory.add(new Food("Apple", "tastes nice", 1, 2));
+        inventory.add(new Liquid("Milk", "Refreshing taste", 1, 15));
         inventory.add(new HeavyWeapon("Battle Axe", "Smacks hard", 5, 8));
         inventory.add(new LightWeapon("Sword", "Slashes through skin and bone", 5, 12));
         inventory.add(new LightWeapon("Club", "Bashes the with heavy weight", 5, 6));
@@ -426,6 +426,7 @@ public class Player extends Character {
             case "north", "n" -> {
                 if (moveNorth()) {
                     setCurrentRoom(getCurrentRoom().getNorth());
+                    aggressiveEnemiesAttack();
                     return Direction.NORTH;
                 } else {
                     return Direction.NULL;
@@ -434,6 +435,7 @@ public class Player extends Character {
             case "east", "e" -> {
                 if (moveEast()) {
                     setCurrentRoom(getCurrentRoom().getEast());
+                    aggressiveEnemiesAttack();
                     return Direction.EAST;
                 } else {
                     return Direction.NULL;
@@ -442,6 +444,7 @@ public class Player extends Character {
             case "south", "s" -> {
                 if (moveSouth()) {
                     setCurrentRoom(getCurrentRoom().getSouth());
+                    aggressiveEnemiesAttack();
                     return Direction.SOUTH;
                 } else {
                     return Direction.NULL;
@@ -450,6 +453,7 @@ public class Player extends Character {
             case "west", "w" -> {
                 if (moveWest()) {
                     setCurrentRoom(getCurrentRoom().getWest());
+                    aggressiveEnemiesAttack();
                     return Direction.WEST;
                 } else {
                     return Direction.NULL;
@@ -461,96 +465,49 @@ public class Player extends Character {
         }
     }
 
-    //booleans moving the player N,S,E,W If it is not null.
-    public boolean moveNorth() {
-        if (currentRoom.getNorth() != null) {
-            if (!currentRoom.getDark()) {
-                currentRoom.setLastRoom(currentRoom);
-                currentRoom.setVisited();
-                return true;
-            } else {
-                if (currentRoom.getNorth() == currentRoom.getLastRoom()) {
-                    currentRoom.setLastRoom(currentRoom);
-                    currentRoom.setVisited();
-                    return true;
-                }
-            }
+    public boolean hitOrMiss() {
+        int chance = (int)(Math.random()*100);
+        if (chance > 10) {
+            System.out.println("Missed");
+            return true;
+        } else {
+            return false;
         }
-        return false;
-    }
-
-    public boolean moveEast() {
-        if (currentRoom.getEast() != null) {
-            if (!currentRoom.getDark()) {
-                currentRoom.setLastRoom(currentRoom);
-                currentRoom.setVisited();
-                return true;
-            } else {
-                if (currentRoom.getEast() == currentRoom.getLastRoom()) {
-                    currentRoom.setLastRoom(currentRoom);
-                    currentRoom.setVisited();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean moveSouth() {
-        if (currentRoom.getSouth() != null) {
-            if (!currentRoom.getDark()) {
-                currentRoom.setLastRoom(currentRoom);
-                currentRoom.setVisited();
-                return true;
-            } else {
-                if (currentRoom.getSouth() == currentRoom.getLastRoom()) {
-                    currentRoom.setLastRoom(currentRoom);
-                    currentRoom.setVisited();
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean moveWest() {
-        if (currentRoom.getWest() != null) {
-            if (!currentRoom.getDark()) {
-                currentRoom.setLastRoom(currentRoom);
-                currentRoom.setVisited();
-                return true;
-            } else {
-                if (currentRoom.getWest() == currentRoom.getLastRoom()) {
-                    currentRoom.setLastRoom(currentRoom);
-                    currentRoom.setVisited();
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     //Attack methods.
-    public void getHit(Enemy enemy) {
-        health = (health - (enemy.getDamage() - totalArmorClass()));
+    public int getHit(Enemy enemy) {
+        int damage = enemy.getDAMAGE() - totalArmorClass();
+        if (damage <= 1) {
+            damage = 1;
+        }
+        health -= damage;
+        return damage;
+    }
+
+    public int aggressiveEnemiesAttack() {
+        int totalDamage = 0;
+        if (!currentRoom.getDark()) {
+            for (Enemy enemy : currentRoom.getAgressiveEnemies()) {
+                totalDamage += getHit(enemy);
+                if (!isAlive()) {
+                    break;
+                }
+            }
+        }
+        return totalDamage;
     }
 
     public void hitEnemy(Enemy enemy) {
-        mainHandWeapon.setCanUse();
+        if (!(mainHandWeapon instanceof Spell_Book)) {
+            mainHandWeapon.setCanUse();
+        }
         mainHandWeapon.used();
         enemy.setHealth(enemy.getHealth() - totalWeaponDamage());
     }
 
-    public ReturnMessage useSpell() {
-        if (mainHandWeapon instanceof Spell_Book) {
-            if ((mana - ((Spell_Book) mainHandWeapon).getManaCost()) >= 0) {
-                mana -= ((Spell_Book) mainHandWeapon).getManaCost();
-                return ReturnMessage.CAN;
-            } else {
-                return ReturnMessage.NO_USES;
-            }
-        }
-        return ReturnMessage.CANT;
+    public void useSpell() {
+        mana -= ((Spell_Book) mainHandWeapon).getManaCost();
     }
 
     public int totalWeaponDamage() {
@@ -575,11 +532,15 @@ public class Player extends Character {
     public ReturnMessage canAttackEnemy(Enemy enemy) {
         hitEnemy(enemy);
         if (enemy.isAlive()) {
-            getHit(enemy);
-            if (isAlive()) {
-                return ReturnMessage.CAN;
+            if (!hitOrMiss()) {
+                return ReturnMessage.DODGE;
             } else {
-                return ReturnMessage.CAN_LITTLE;
+                getHit(enemy);
+                if (isAlive()) {
+                    return ReturnMessage.CAN;
+                } else {
+                    return ReturnMessage.CAN_LITTLE;
+                }
             }
         } else {
             currentRoom.removeEnemy(enemy);
@@ -587,14 +548,26 @@ public class Player extends Character {
         }
     }
 
+    public boolean checkMana() {
+        if (mainHandWeapon instanceof Spell_Book && mana >= ((Spell_Book) mainHandWeapon).getManaCost()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public ReturnMessage attack(String enemy) {
         if (mainHandWeapon != null) {
             Enemy currentEnemy = currentRoom.checkForEnemy(enemy);
-            if (currentEnemy != null && !currentEnemy.isAlive()) {
-                if (mainHandWeapon.getCanUse() && mainHandWeapon instanceof Spell_Book) {
-                    useSpell();
-                    return canAttackEnemy(currentEnemy);
-                } else if (mainHandWeapon.getCanUse()) {
+            if (currentEnemy != null && currentEnemy.isAlive()) {
+                if (mainHandWeapon.getCanUse() && mainHandWeapon instanceof Spell_Book ) {
+                    if (checkMana()) {
+                        useSpell();
+                        return canAttackEnemy(currentEnemy);
+                    } else {
+                        return ReturnMessage.NO_USES;
+                    }
+                } else if (mainHandWeapon.getCanUse() && !(mainHandWeapon instanceof Spell_Book)) {
                     return canAttackEnemy(currentEnemy);
                 } else {
                     return ReturnMessage.NO_USES;
@@ -621,9 +594,10 @@ public class Player extends Character {
         if (currentRoom != null) {
             if (!currentRoom.getDark()) {
                 if (currentRoom.getVisited()) {
-                    stringBuilder.append(String.format("%s.\n%s\n", currentRoom.getDescription(), currentRoom.listItemsInRoom())).append("\n");
+                    stringBuilder.append(String.format("%s.\n%s\n%s\n", currentRoom.getDescription(),
+                            currentRoom.listItemsInRoom(), currentRoom.enemiesToString())).append("\n");
                 } else {
-                    stringBuilder.append(String.format("You are in %s %s", currentRoom.getRoomName(), currentRoom.getDescription())).append("\n");
+                    stringBuilder.append(String.format("You are in %s %s", currentRoom, currentRoom.enemiesToString())).append("\n");
                 }
                 stringBuilder.append(currentRoom.exits());
                 return stringBuilder.toString();

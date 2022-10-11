@@ -1,3 +1,4 @@
+import characters.Enemy;
 import characters.Player;
 import enums.Direction;
 import enums.ReturnMessage;
@@ -27,6 +28,7 @@ public class Adventure {
 
     public String movePlayer(String direction) {
         Direction moveDirection = player.move(direction);
+        hasLost();
         switch (moveDirection) {
             case NORTH, EAST, SOUTH, WEST -> {
                 return player.getCurrentRoom().toString();
@@ -99,12 +101,12 @@ public class Adventure {
         result = player.drink(itemToDrink);
         switch (result) {
             case CAN -> {
-                return String.format("%s has been drunk and you have regained %s health", liquid.getName(),
+                return String.format("%s has been drunk and you have regained %s mana", liquid.getName(),
                         liquid.getRecovery());
             }
             case CAN_MUCH -> {
                 double overHeal = (player.getMana() + liquid.getRecovery()) - player.getMAX_MANA();
-                return String.format("%s has been drunk, with %s over healing.", liquid.getName(), overHeal);
+                return String.format("%s has been drunk, with %s mana to lost.", liquid.getName(), overHeal);
             }
             case CAN_LITTLE -> {
                 return String.format("%s has been drunk, and you have lost all your mana.", liquid.getName());
@@ -177,10 +179,11 @@ public class Adventure {
 
     public String attack(String enemy) {
         StringBuilder combatInfo = new StringBuilder();
+        Enemy currentEnemy = player.currentEnemy(enemy);
         result = player.attack(enemy);
         switch (result) {
-            case NO_USES ->  {
-                combatInfo.append("Your Weapon is broken and can no longer be used to attack.");
+            case NO_USES -> {
+                combatInfo.append("Your Weapon is no longer usable in battle.");
             }
             case CANT -> {
                 combatInfo.append("You have no weapon equipped.");
@@ -190,23 +193,33 @@ public class Adventure {
             }
             default -> {
                 combatInfo.append(String.format("You have attacked %s and dealt %s damage. \n",
-                        player.currentEnemy(enemy).getName(),
+                        currentEnemy.getName(),
                         player.getMainHandWeapon().getDamage()));
-                combatInfo.append(String.format("You have been attacked and have taken %s damage. \n",
-                        player.currentEnemy(enemy).getDamage()));
                 switch (result) {
-                    case CAN -> {
-                        combatInfo.append(String.format("Characters.Characters.Characters.Player: %s/%s health\n", player.getHealth(), player.getMAX_HEALTH()));
-                        combatInfo.append(String.format("%s: %s/%s health\n", player.currentEnemy(enemy).getName(),
-                                player.currentEnemy(enemy).getHealth(),
-                                player.currentEnemy(enemy).getMAX_HEALTH()));
+                    case DODGE -> {
+                        combatInfo.append(String.format("You dodged the attack and thus took no damage.")).append("\n");
+                        combatInfo.append(String.format("Player: %s/%s health\n", player.getHealth(), player.getMAX_HEALTH()));
+                        combatInfo.append(String.format("%s: %s/%s health\n", currentEnemy.getName(),
+                                currentEnemy.getHealth(),
+                                currentEnemy.getMAX_HEALTH()));
                     }
                     case CAN_MUCH -> {
-                        combatInfo.append(String.format("%s, has been slain and you get %s", player.currentEnemy(enemy).getName(),
-                                player.currentEnemy(enemy).getLoot()));
+                        combatInfo.append(String.format("Player: %s/%s health\n", player.getHealth(), player.getMAX_HEALTH()));
+                        combatInfo.append(String.format("%s, has been slain and dropped %s", currentEnemy.getName(),
+                                currentEnemy.getLoot()));
                     }
                     case CAN_LITTLE -> {
+                        combatInfo.append(String.format("You have been attacked and have taken %s damage. \n",
+                                currentEnemy.getDAMAGE()));
                         combatInfo.append("You have died. Restarting....");
+                    }
+                    case CAN -> {
+                        combatInfo.append(String.format("You have been attacked and have taken %s damage. \n",
+                                currentEnemy.getDAMAGE()));
+                        combatInfo.append(String.format("Player: %s/%s health\n", player.getHealth(), player.getMAX_HEALTH()));
+                        combatInfo.append(String.format("%s: %s/%s health\n", currentEnemy.getName(),
+                                currentEnemy.getHealth(),
+                                currentEnemy.getMAX_HEALTH()));
                     }
                     default -> {
                         combatInfo.append("Something went wrong.");
@@ -236,10 +249,11 @@ public class Adventure {
     }
 
     public String dropItem(String itemToDrop) {
+        Item itemDropped = player.checkInventoryForItem(itemToDrop);
         result = player.dropItem(itemToDrop);
         switch (result) {
             case CAN -> {
-                return String.format("%s has been dropped successfully.", itemToDrop);
+                return String.format("%s has been dropped successfully.", itemDropped.getName());
             }
             case NOT_FOUND -> {
                 return String.format("There is no such item in the inventory");
@@ -285,10 +299,12 @@ public class Adventure {
     }
 
     public boolean hasLost() {
+        if (player.isAlive()) {
+            hasLost = false;
+        } else {
+            hasLost = true;
+        }
         return hasLost;
     }
 
-    public void lost() {
-        hasLost = true;
-    }
 }

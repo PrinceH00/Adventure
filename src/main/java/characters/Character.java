@@ -11,10 +11,10 @@ public class Character {
     protected int health;
     protected Room currentRoom;
 
-    public Character(int MAX_HEALTH, Room currentRoom) {
+    public Character(int MAX_HEALTH, Room startRoom) {
         this.MAX_HEALTH = MAX_HEALTH;
         health = MAX_HEALTH;
-        this.currentRoom = currentRoom;
+        this.currentRoom = startRoom;
         inventory = new ArrayList<Item>();
     }
 
