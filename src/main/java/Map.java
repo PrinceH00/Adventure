@@ -1,5 +1,7 @@
 import characters.Enemy;
-import items.Equipment.Weapon;
+import items.Arrow;
+import items.Bullet;
+import items.Equipment.*;
 import items.Food;
 import items.Item;
 import room.Room;
@@ -22,7 +24,7 @@ public class Map {
 
     //Methode creating and handling the map.
     public void createMap() {
-        //Creating objects of the Class room.Room with parameters.
+        //Creating objects of the Class Room with parameters.
         emptyRoom = new Room("The Empty room", "You find yourself in an empty room..", true);
         redForest = new Room("Red Forest", "Vegetation that should smell plants, and a bad smell of iron.", false);
         lab = new Room("Lab", "Blood? and is that parts of a ...., guess someone is experimenting here", false);
@@ -38,11 +40,30 @@ public class Map {
         kitchen.addItem(new Item("foot", "Someones foot may come in handy", 4));
         redForest.addItem(new Item("red leaves", "Mashed red leaves can be smoked", 0.5));
 
+        emptyRoom.addItem(new HeavyWeapon("Battle Axe", "Smacks hard", 5, 8));
+        kitchen.addItem(new LightWeapon("Sword", "Slashes through skin and bone", 5, 12));
+        lab.addItem(new LightWeapon("Club", "Bashes the with heavy weight", 5, 6));
+        redForest.addItem(new LightWeapon("Hatchet", "it is rusty and used, but still sharp to the edge", 5, 9));
+        cry.addItem(new Bow("Recurve bow", "Shoots arrows", 5, 15, 5));
+        happyHand.addItem(new Armor("Leather Tunic", "Protects a little", 5, 5));
+        happyHand.addItem(new Food("Pill", "Glowing pill that whispers something", 0.1, -1000));
+        cry.addItem(new Arrow("Arrows", "Sharp flint tips that could pierce skin easily", 2, 10));
+        teleporter.addItem(new Gun("P911", "a modern type handgun", 3, 25, 7));
+        teleporter.addItem(new Bullet("5mm Bullet", "Saml 5mm bullet for p911", 2, 20));
+        cry.addItem(new Shield("Tower Shield", "Big shield covering from head to toe", 5, 10));
+        secretPassage.addItem(new Spell_Book("Firebolt",
+                "Shoots a firebolt in front of you setting whatever it hits ablaze", 1, 20, 5));
+
 
         //creating and adding enemy to rooms and adds loot.
         new Enemy("Ogre", 24, 3, emptyRoom, true).addLoot(new Food("Banana cake", "Delicious cake to eat.", 0.5, 10));
-        new Enemy("Hydra", 24, 10, emptyRoom, true);
         new Enemy("Mimic", 24, 3, emptyRoom, false);
+
+        new Enemy("Hydra", 24, 10, secretPassage, true);
+
+        new Enemy("Mom", 40, 1, kitchen, false);
+
+        new Enemy("Succubus", 15, 15, bedRoom, true);
 
 
 

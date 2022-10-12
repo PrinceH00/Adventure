@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Moved Enemy, Character and Player to package Characters and extended plater and enemy from character.">
+    <list default="true" id="17659fd0-c919-43dd-96f7-b5622ca9aa6c" name="Changes" comment="Made Class Diagram over Adventure.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Adventure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Adventure.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Map.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/UserInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/UserInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/characters/Character.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/characters/Character.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/characters/Enemy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/characters/Enemy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/characters/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/characters/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/enums/ReturnMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/enums/ReturnMessage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/items/Equipment/Spell_Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/items/Equipment/Spell_Book.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/room/Room.java" afterDir="false" />
     </list>
     <list id="bf8473e6-455c-48bb-9082-a52d1a782c5c" name="Changes by jeper" comment="Changes by jeper" />
@@ -50,7 +46,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeper/Documents/Programming/Adventure&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/jeper/Documents/Programming/Adventure/src/main/java&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
@@ -73,6 +69,7 @@
       <workItem from="1664460158872" duration="633000" />
       <workItem from="1664535889829" duration="4916000" />
       <workItem from="1665484453603" duration="10066000" />
+      <workItem from="1665563910512" duration="2047000" />
     </task>
     <task id="LOCAL-00001" summary="First Commit">
       <created>1664276073202</created>
@@ -151,7 +148,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665394895667</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Made Class Diagram over Adventure.">
+      <created>1665563868900</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1665563868900</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -180,6 +184,7 @@
     <MESSAGE value="Moved String functionality to adventure and enum return values to player." />
     <MESSAGE value="added fighting functionality and spell books as a weapon using mana." />
     <MESSAGE value="Moved Enemy, Character and Player to package Characters and extended plater and enemy from character." />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved Enemy, Character and Player to package Characters and extended plater and enemy from character." />
+    <MESSAGE value="Made Class Diagram over Adventure." />
+    <option name="LAST_COMMIT_MESSAGE" value="Made Class Diagram over Adventure." />
   </component>
 </project>

@@ -44,8 +44,8 @@ public class Room {
     public boolean getDark() { return dark; }
     public boolean getCanBeDark() { return canBeDark; }
     public boolean getVisited() { return visited; }
-    public boolean getHasEnemy(ArrayList<Enemy> enemy) {
-        if (!enemy.isEmpty()) {
+    public boolean getHasEnemy() {
+        if (!enemies.isEmpty()) {
             return hasEnemy;
         } else {
             return hasEnemy = false;

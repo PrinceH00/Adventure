@@ -109,26 +109,16 @@ public class UserInterface {
                     if (commands.length > 1) {
                         String attackResult = adventure.attack(commands[1]);
                         adventure.hasLost();
+                        adventure.hasWon();
                         System.out.println(attackResult);
                     }
                 }
                 case "exit", "quit" -> {
-                    if (adventure.hasWon()) {
-                        System.out.print("Congratulations you have beaten the game and may leave with ");
-                        System.out.print("what most likely is your first achievement");
-                        System.exit(0);
-                    } else {
-                        System.out.println("You have given up!");
-                        System.exit(0);
-                    }
+                    System.out.println("You have given up!");
+                    System.exit(0);
                 }
                 case "reload" -> {
                     System.out.println(adventure.reloadWeapon());
-                }
-                case "victory", "v", "end" -> {
-                    System.out.print("Congratulations you have beaten the game and may leave with a penis");
-                    System.out.print("what most likely is your first achievement");
-                    adventure.victory();
                 }
                 case "status", "stat", "health", "stats" -> {
                     System.out.print(adventure.stats());

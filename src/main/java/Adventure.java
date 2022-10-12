@@ -291,6 +291,11 @@ public class Adventure {
     }
 
     public boolean hasWon() {
+        if (map.getBedRoom().getHasEnemy()) {
+            hasWon = false;
+        } else {
+            hasWon = true;
+        }
         return hasWon;
     }
 
